@@ -8,7 +8,7 @@ modules:
 5. Nurse station
 6. Consultation waiting
 7. Consultation and prescribing
-
+8. Patient Portal for booking appointment from home
 Features:
  Custom Authentication
  Chat Sysytem
