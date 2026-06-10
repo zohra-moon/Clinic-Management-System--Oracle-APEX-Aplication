@@ -1,0 +1,499 @@
+page 48 (
+    name: user form 1
+    alias: USER-FORM-1
+    title: user form 1
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region buttons (
+        name: Buttons
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: dialogFooter
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region user-form (
+        name: user form 1
+        type: form
+        source {
+            location: localDatabase
+            tableName: GUSER
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    pageItem P48_ACTIVE_FLAG (
+        type: textField
+        label {
+            label: Active Flag
+            alignment: right
+        }
+        layout {
+            sequence: 50
+            region: @user-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 1
+        }
+        source {
+            formRegion: @user-form
+            column: ACTIVE_FLAG
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_COMPANY_ID (
+        type: hidden
+        layout {
+            sequence: 60
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: COMPANY_ID
+            dataType: number
+        }
+    )
+
+    pageItem P48_CREATE_BY (
+        type: hidden
+        layout {
+            sequence: 70
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: CREATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_CREATE_DATE (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: CREATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P48_EMP_ID (
+        type: selectList
+        label {
+            label: Emp Id
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT EMP_NAME,EMP_ID
+                FROM EMPLOYEES_INFO
+                WHERE STATUS = 'Y'
+                ORDER BY 1 DESC;
+                ```
+        }
+        layout {
+            sequence: 20
+            region: @user-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @user-form
+            column: EMP_ID
+            dataType: number
+        }
+    )
+
+    pageItem P48_FILENAME (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 130
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: FILENAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_MIMETYPE (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 120
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: MIMETYPE
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_PHOTO (
+        type: imageUpload
+        label {
+            label: Photo
+            alignment: left
+        }
+        storage {
+            mimeTypeColumn: MIMETYPE
+            filenameColumn: FILENAME
+        }
+        layout {
+            sequence: 110
+            region: @user-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @user-form
+            column: PHOTO
+            dataType: blob
+        }
+    )
+
+    pageItem P48_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 90
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 100
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P48_USER_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @user-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-form
+            column: USER_ID
+            dataType: varchar2
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    pageItem P48_USER_NAME (
+        type: textField
+        label {
+            label: User Name
+            alignment: right
+        }
+        layout {
+            sequence: 30
+            region: @user-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 25
+        }
+        source {
+            formRegion: @user-form
+            column: USER_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P48_USER_PASS (
+        type: textField
+        label {
+            label: User Pass
+            alignment: right
+        }
+        layout {
+            sequence: 40
+            region: @user-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 10
+        }
+        source {
+            formRegion: @user-form
+            column: USER_PASS
+            dataType: varchar2
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @buttons
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P48_USER_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @buttons
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+            requiresConfirmation: true
+        }
+        confirmation {
+            message: &APP_TEXT$DELETE_MSG!RAW.
+            style: danger
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P48_USER_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P48_USER_ID
+        }
+    )
+
+    dynamicAction cancel-dialog (
+        name: Cancel Dialog
+        execution {
+            sequence: 10
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @cancel
+        }
+
+        action native-dialog-cancel (
+            action: cancelDialog
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    process close-dialog (
+        name: Close Dialog
+        type: closeDialog
+        execution {
+            sequence: 30
+        }
+        advanced {
+            executionMappingIdentifier: 20534165318266326023
+        }
+        serverSideCondition {
+            type: requestIsContainedInValue
+            value: CREATE,SAVE,DELETE
+        }
+    )
+
+    process initialize-form-user-form (
+        name: Initialize form user form 1
+        type: formInitialization
+        formRegion: @user-form
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 20534164597530326022
+        }
+    )
+
+    process pk (
+        name: pk
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                SELECT NVL(MAX(USER_ID),999)+1
+                INTO :P48_USER_ID
+                FROM GUSER;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 20528609701185519918
+        }
+        serverSideCondition {
+            whenButtonPressed: @create
+        }
+    )
+
+    process process-form-user-form (
+        name: Process form user form 1
+        type: formAutoRowProcessing
+        formRegion: @user-form
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 20534164921737326023
+        }
+    )
+
+)
+

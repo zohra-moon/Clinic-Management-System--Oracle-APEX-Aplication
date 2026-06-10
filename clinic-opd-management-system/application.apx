@@ -1,0 +1,126 @@
+app CLINIC-OPD-MANAGEMENT-SYSTEM (
+    name: Clinic OPD Management System
+    logo {
+        type: imageAndText
+        imageUrl: #APP_IMAGES#logo.gif
+        text: Clinic OPD Management System
+    }
+    navigation {
+        homeUrl: {
+            page: 1
+        }
+        loginUrl: {
+            page: LOGIN
+        }
+    }
+    navigationMenu {
+        listTemplate: @/top-navigation-mega-menu
+        templateOptions: [
+            #DEFAULT#
+            js-addActions
+            js-menu-callout
+            t-MegaMenu--fullWidth
+        ]
+        list: @custom-menu
+    }
+    navigationBar {
+        list: @desktop-navigation-bar
+        listTemplate: @/navigation-bar
+        templateOptions: [
+            #DEFAULT#
+            js-menu-callout
+        ]
+    }
+    userInterface {
+        currentTheme: @universal-theme
+        globalPage: 0
+        addBuiltWithApexToFooter: false
+        autoDismissSuccessMessages: true
+    }
+    appFormatMasks {
+        date: DS
+        timestamp: DS
+        timestampTimeZone: DS
+    }
+    css {
+        fileUrls: #APP_IMAGES#app-icon.css?version=#APP_VERSION#
+    }
+    authentication {
+        scheme: @cust-auth
+        publicUser: APEX_PUBLIC_USER
+    }
+    security {
+        runtimeApiUsage: modifyThisApp
+    }
+    sessionStateProtection {
+        checksumSalt: B3B9A6D00FB552ACB3294837D281CE698EE733924832CDA584E89ED93FDCE5C4
+    }
+    sessionManagement {
+        sessionStateCommits: immediate
+    }
+    globalization {
+        documentDirection: leftToRight
+        autoTimeZone: true
+    }
+    progressiveWebApp {
+        installable: true
+        display: fullscreen
+        enablePushNotifications: true
+        pushNotificationsCredentials: @App_105180_Push_Notifications_Credentials
+    }
+    rowSearch {
+        tokenize: false
+    }
+    reportPrinting {
+        type: useInstanceSettings
+    }
+    runtime {
+        allowFeedback: true
+        compatibilityMode: 24.2
+        accessibleReadOnlyItems: false
+    }
+    advanced {
+        passEcid: false
+        modernizeApp: true
+    }
+    comments {
+        comments: Application created from create application wizard 2025.02.09.
+    }
+
+    substitution APP_NAME (
+        value {
+            staticValue: Clinic OPD Management System
+        }
+    )
+
+    appSetting ACCESS_CONTROL_SCOPE (
+        value {
+            staticValue: ACL_ONLY
+            onUpgradeKeepValue: true
+        }
+        validation {
+            validValues: ACL_ONLY, ALL_USERS
+        }
+        config {
+            buildOption: @feature-access-control
+        }
+        comments {
+            comments: The default access level given to authenticated users who are not in the access control list
+        }
+    )
+
+    appSetting FEEDBACK_ATTACHMENTS_YN (
+        value {
+            staticValue: Y
+            onUpgradeKeepValue: true
+        }
+        validation {
+            validValues: Y, N
+        }
+        config {
+            buildOption: @feature-feedback
+        }
+    )
+
+)
+

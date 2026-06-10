@@ -1,0 +1,482 @@
+breadcrumb breadcrumb (
+    name: Breadcrumb
+
+    entry administration (
+        name: Administration
+        pageNumber: 10000
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 10000
+            }
+        }
+    )
+
+    entry advice-list (
+        name: Advice List
+        pageNumber: 2
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 2
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry all-appointments (
+        name: All Appointments
+        pageNumber: 24
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 24
+            }
+        }
+    )
+
+    entry appointment-information (
+        name: Appointment Information
+        pageNumber: 31
+        execution {
+            sequence: 10
+        }
+        appearance {
+            longName: Appointment Information
+        }
+        link {
+            target: {
+                page: 31
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry appointment-management (
+        name: Appointment Management
+        pageNumber: 69
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 69
+            }
+        }
+    )
+
+    entry appointments (
+        name: Appointments
+        pageNumber: 20
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 20
+            }
+        }
+    )
+
+    entry billing (
+        name: Billing
+        pageNumber: 34
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 34
+            }
+        }
+    )
+
+    entry book-an-appointment (
+        name: Book an Appointment
+        pageNumber: 22
+        execution {
+            sequence: 10
+        }
+        appearance {
+            parentEntry: @appointments
+        }
+        link {
+            target: {
+                page: 22
+            }
+        }
+    )
+
+    entry call-for-chat (
+        name: call for chat
+        pageNumber: 63
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 63
+            }
+        }
+    )
+
+    entry chat (
+        name: Chat
+        pageNumber: 64
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 64
+            }
+        }
+    )
+
+    entry chayan (
+        name: chayan
+        pageNumber: 61
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 61
+            }
+        }
+    )
+
+    entry clinic-information (
+        name: Clinic Information
+        pageNumber: 16
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 16
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry consultation (
+        name: Consultation
+        pageNumber: 32
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 32
+            }
+        }
+    )
+
+    entry consultation-patient-list (
+        name: consultation Patient List
+        pageNumber: 33
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 33
+            }
+        }
+    )
+
+    entry department-list (
+        name: Department List
+        pageNumber: 18
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 18
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry doctor-information (
+        name: Doctor Information
+        pageNumber: 27
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 27
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry generic (
+        name: Generic
+        pageNumber: 11
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 11
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry home (
+        name: Home
+        pageNumber: 1
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 1
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry investigation-list (
+        name: Investigation List
+        pageNumber: 5
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 5
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry list-of-employees (
+        name: List of Employees
+        pageNumber: 6
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 6
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry list-of-patients (
+        name: List of Patients
+        pageNumber: 25
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 25
+            }
+        }
+    )
+
+    entry list-of-patients-2 (
+        name: List of Patients
+        pageNumber: 26
+        execution {
+            sequence: 10
+        }
+        appearance {
+            parentEntry: @list-of-patients
+        }
+        link {
+            target: {
+                page: 26
+            }
+        }
+    )
+
+    entry list-of-services (
+        name: List of Services
+        pageNumber: 14
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 14
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry list-of-users (
+        name: List of Users
+        pageNumber: 7
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 7
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry matrix (
+        name: MATRIX
+        pageNumber: 56
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 56
+            }
+        }
+    )
+
+    entry medicine-setup (
+        name: Medicine Setup 2
+        pageNumber: 8
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 8
+            }
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    entry menu (
+        name: Menu
+        pageNumber: 43
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 43
+            }
+        }
+    )
+
+    entry nurse-station (
+        name: Nurse Station
+        pageNumber: 36
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 36
+            }
+        }
+    )
+
+    entry reports (
+        name: Reports
+        pageNumber: 41
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 41
+            }
+        }
+    )
+
+    entry reset-password (
+        name: Reset Password
+        pageNumber: 68
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 68
+            }
+        }
+    )
+
+    entry test (
+        name: test
+        pageNumber: 62
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 62
+            }
+        }
+    )
+
+    entry user (
+        name: USER
+        pageNumber: 46
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 46
+            }
+        }
+    )
+
+    entry user-information (
+        name: User Information
+        pageNumber: 12
+        execution {
+            sequence: 10
+        }
+        appearance {
+            parentEntry: @list-of-users
+        }
+        link {
+            target: {
+                page: 12
+            }
+        }
+    )
+
+)
+

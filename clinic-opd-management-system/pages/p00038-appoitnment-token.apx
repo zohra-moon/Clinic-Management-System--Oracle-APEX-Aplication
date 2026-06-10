@@ -1,0 +1,137 @@
+page 38 (
+    name: Appoitnment Token
+    alias: APPOITNMENT-TOKEN
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    dialog {
+        width: 370px
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region token (
+        name: token
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                 DECLARE
+                 V_CLOB CLOB;
+                
+                 
+                CURSOR CLINIC_INFO IS
+                select clinic_name, address
+                from clinic_info;
+                 CREC CLINIC_INFO%ROWTYPE;
+                
+                
+                 CURSOR APP_INFO IS
+                  SELECT 'A'  ||A.APP_ID APPID,to_char(A.APP_DATE_TIME,'DD-MON-RRRR') app_date,P.P_NAME,p.mobile_no, D.DOC_NAME,dd. dept_name, A.PATIENT_TYPE,A. APP_SERIAL_NO,to_char(A.INSERT_DATE,'DD-MON-RRRR,HH:MI AM') as print_date,A.insert_by, CASE WHEN p.Gender ='F' THEN 'Female'
+                    When p.Gender ='M' THEN 'Male'
+                    else 'Other' end as Gender, get_age(P.DATE_OF_BIRTH) AGE
+                        FROM APPOINTMENT_INFO A JOIN PATIENTS_REG_INFO P
+                        ON(A.P_REG_ID = P.P_REG_ID)
+                        JOIN DOCTORS_INFO D
+                        ON(A.DOC_ID = D.DOC_ID)
+                
+                        join departments_info dd
+                        on(d.dept_id = dd.dept_id)
+                        WHERE A.APP_ID= :P38_APP_ID;
+                AREC APP_INFO%ROWTYPE;
+                BEGIN
+                    OPEN CLINIC_INFO;
+                    FETCH CLINIC_INFO INTO CREC;
+                 
+                    OPEN APP_INFO;
+                    FETCH APP_INFO INTO AREC;
+                
+                 V_CLOB := '
+                      
+                      <style>
+                            .no-top-border {
+                                        border-top: none;
+                                    }
+                              * {
+                            font-family: Epson, monospace;
+                           /* font-size: 16px;  You can adjust the font size */
+                            line-height: 1.5; /* Optional: Adjusts the line height for better readability */
+                        }
+                      </style>
+                      
+                      
+                      
+                      
+                      <table width=100% border=0 style="border-collapse: collapse; padding:0; table-layout: auto;">
+                         <tr>
+                           <td colspan=4 style="font-size: 20px;font-weight: bold; text-align: center;" class="no-top-border">'||CREC.CLINIC_NAME||'</td></tr>
+                           <tr>
+                           <td colspan=4 style="text-align: center; font-weight: bold; text-align: center;">Appointment Token<hr></td></tr><tr>
+                           <td colspan=4 style="text-align: center; font-weight: bold; text-align: center;"> ID: '||AREC.APPID||'</td>
+                         </tr>
+                
+                           <tr>
+                           <td style="font-size: 12px;"><b>Patient Name</b></td><td>:</td><td style="font-size: 12px;">  '||AREC.P_NAME||'</td>
+                                        <td rowspan=5 align= center><b style="display: inline-block; 
+                            border: 2px dashed black;
+                            padding: 20px;font-size: 30px;" >'||AREC.APP_SERIAL_NO||'</b></td>
+                         </tr>
+                       
+                            <tr>
+                           <td style="font-size: 12px;"><b>Mobile</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;">  '||AREC.mobile_no||'</td>
+                         </tr>
+                              <tr>
+                           <td style="font-size: 12px;"><b>Type</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;"> '||AREC.PATIENT_TYPE||'</td>
+                         </tr>
+                          <tr>
+                           <td style="font-size: 12px;"><b>Department</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;">  '||AREC.dept_name||'</td>
+                         </tr>
+                          <tr>
+                           <td style="font-size: 12px;"><b>Doctor</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;">  '||AREC.doc_name||'</td>
+                         </tr>
+                     
+                         <tr>
+                    
+                           <td style="font-size: 12px;" colspan= 4 align= center><b>Appointment Date  :</b> '||AREC.APP_DATE||'</td>
+                         </tr>
+                           <tr>
+                    
+                           <td style="font-size: 10px;"  colspan= 4 align= center ><b>Print Date & Time</b> '||AREC.print_DATE||'</td>
+                         </tr>
+                
+                      </table>
+                 ';
+                 
+                
+                  RETURN V_CLOB;
+                END;
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P38_APP_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+    )
+
+)
+

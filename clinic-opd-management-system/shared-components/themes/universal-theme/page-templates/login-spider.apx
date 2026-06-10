@@ -1,0 +1,333 @@
+pageTemplate login-spider (
+    name: login_spider
+    templateClass: login
+    page {
+        header:
+            ```html
+            <!DOCTYPE html>
+            <html class="no-js #RTL_CLASS# page-&APP_PAGE_ID. app-&APP_ALIAS." lang="&BROWSER_LANGUAGE." #TEXT_DIRECTION#>
+            <head>
+              <meta http-equiv="x-ua-compatible" content="IE=edge" />
+              <meta charset="utf-8">
+              <title>#TITLE#</title>
+              #APEX_CSS#
+              #THEME_CSS#
+              #TEMPLATE_CSS#
+              #THEME_STYLE_CSS#
+              #APPLICATION_CSS#
+              #PAGE_CSS#
+              #FAVICONS#
+              #HEAD#
+              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            </head>
+            <body class="t-PageBody--login no-anim #PAGE_CSS_CLASSES#" #TEXT_DIRECTION# #ONLOAD#>
+            #FORM_OPEN#
+            ```
+        body:
+            ```html
+            <div class="t-Body">
+            <!-- particles.js container -->
+            <div id="particles-js"></div>     
+              #REGION_POSITION_01#
+              #SUCCESS_MESSAGE##NOTIFICATION_MESSAGE##GLOBAL_NOTIFICATION#
+              <div class="t-Body-wrap">
+                <div class="t-Body-col t-Body-col--main">
+                  <div class="t-Login-container">
+                  #BODY#
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--
+             https://vincentgarreau.com/particles.js/#default
+            -->
+            <script src="#APP_IMAGES#particles.js"></script>
+            <script src="#APP_IMAGES#app.js"></script>
+            ```
+        footer:
+            ```html
+            #FORM_CLOSE#
+            #DEVELOPER_TOOLBAR#
+            #APEX_JAVASCRIPT#
+            #GENERATED_CSS#
+            #THEME_JAVASCRIPT#
+            #TEMPLATE_JAVASCRIPT#
+            #APPLICATION_JAVASCRIPT#
+            #PAGE_JAVASCRIPT#  
+            #GENERATED_JAVASCRIPT#
+            </body>
+            </html>
+            ```
+    }
+    javaScript {
+        executeWhenPageLoads: apex.theme42.initializePage.appLogin();
+    }
+    css {
+        inline:
+            ```css
+            body {
+              margin: 0;
+            }
+            
+            .t-Button {
+                   border-radius: 10px !important;
+            }
+            
+            input.password,input[type=text] {
+            border-radius: 10px  !important;
+            border-color: #404040  !important;
+            }
+            
+            .t-Login-region {
+                border-radius: 25px;
+            }
+            
+            .t-Login-header {
+                 padding: 0px 0;
+            }
+            
+            #APEX_ERROR_MESSAGE {
+               z-index: 900;
+            }
+            
+            .t-Login-region {
+                background-color: rgba(255, 255, 255, 0.23) !important;
+            }
+            
+            h1.t-Login-title {
+                font-size: 3rem;
+                color: #ffffff;
+                text-shadow: 2px 1px 4px #a8a9b3, 0 0 25px rgb(53, 54, 64), 0 0 5px #1b1815;
+            }
+            
+            .t-Form-inputContainer input[type="text"]:visited, .t-Form-inputContainer input.text_field:visited, .t-Form-inputContainer input.password:visited, .t-Form-inputContainer textarea.textarea:visited, .t-Form-inputContainer input.datepicker:visited, .t-Form-inputContainer span.display_only:visited, .t-Form-inputContainer input.popup_lov:visited, .t-Form-inputContainer select:visited
+            {
+                background-color: #eb602d !important;
+                color: rgb(0, 0, 0) !important;
+            }
+            
+            .t-Button--closeAlert, .a-Button--notification {
+                color: initial !important;
+            }    
+            
+            /*--------------------------------------particles css------------------------------*/
+            canvas{
+              display:block;
+              vertical-align:bottom;
+            }
+            
+            /* ---- stats.js ---- */
+            .count-particles{
+              background: #000022;
+              position: absolute;
+              top: 48px;
+              left: 0;
+              width: 80px;
+              color: #13E8E9;
+              font-size: .8em;
+              text-align: left;
+              text-indent: 4px;
+              line-height: 14px;
+              padding-bottom: 2px;
+              font-family: Helvetica, Arial, sans-serif;
+              font-weight: bold;
+            }
+            
+            .js-count-particles{
+              font-size: 1.1em;
+            }
+            
+            #stats,
+            .count-particles{
+              -webkit-user-select: none;
+              margin-top: 5px;
+              margin-left: 5px;
+            }
+            
+            #stats{
+              border-radius: 3px 3px 0 0;
+              overflow: hidden;
+            }
+            
+            .count-particles{
+              border-radius: 0 0 3px 3px;
+            }
+            
+            /* ---- particles.js container ---- */
+            #particles-js {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(#b61924,#fcfcfc) !important;/*you could change backgroud color*/
+              background-image: url("");
+              background-repeat: no-repeat;
+              background-size: cover;
+              background-position: 50% 50%;
+            }
+            
+            ```
+    }
+    subtemplate {
+        successMessage:
+            ```html
+            <div class="t-Body-alert">
+              <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success">
+                <div class="t-Alert-wrap">
+                  <div class="t-Alert-icon">
+                    <span class="t-Icon"></span>
+                  </div>
+                  <div class="t-Alert-content">
+                    <div class="t-Alert-header">
+                      <h2 class="t-Alert-title" role="alert">#SUCCESS_MESSAGE#</h2>
+                    </div>
+                  </div>
+                  <div class="t-Alert-buttons">
+                    <button class="t-Button t-Button--noUI t-Button--icon t-Button--closeAlert" onclick="apex.jQuery('#t_Alert_Success').remove();" type="button" title="#CLOSE_NOTIFICATION#"><span class="t-Icon icon-close"></span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ```
+        notification:
+            ```html
+            <div class="t-Body-alert">
+              <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">
+                <div class="t-Alert-wrap">
+                  <div class="t-Alert-icon">
+                    <span class="t-Icon"></span>
+                  </div>
+                  <div class="t-Alert-content">
+                    <div class="t-Alert-body">#MESSAGE#</div>
+                  </div>
+                  <div class="t-Alert-buttons">
+                    <button class="t-Button t-Button--noUI t-Button--icon t-Button--closeAlert" onclick="apex.jQuery('#t_Alert_Notification').remove();" type="button" title="#CLOSE_NOTIFICATION#"><span class="t-Icon icon-close"></span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ```
+    }
+    layout {
+        maxColumns: 12
+        alwaysUseMaxColumns: true
+        alwaysRenderLayout: false
+        defaultLabelColumnSpan: 2
+        firstColumnAttributes: alpha
+        lastColumnAttributes: omega
+        containerTemplate:
+            ```html
+            <div class="container">
+            #ROWS#
+            </div>
+            ```
+        rowTemplate:
+            ```html
+            <div class="row #CSS_CLASSES#">
+            #COLUMNS#
+            </div>
+            ```
+        columnTemplate: <div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES# #FIRST_LAST_COLUMN_ATTRIBUTES#" #ATTRIBUTES#>#CONTENT#</div>
+    }
+    positions {
+        breadcrumbPosition: bodyHeader
+    }
+    errorPage {
+        template:
+            ```html
+            <div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">
+              <div class="t-Alert-wrap">
+                <div class="t-Alert-icon">
+                  <span class="t-Icon"></span>
+                </div>
+                <div class="t-Alert-content">
+                  <div class="t-Alert-body">
+                    <h1 class="t-Alert-errorTitle">#MESSAGE#</h1>
+                    <p>#ADDITIONAL_INFO#</p>
+                    <div class="t-Alert-inset">#TECHNICAL_INFO#</div>
+                  </div>
+                </div>
+                <div class="t-Alert-buttons">
+                  <button onclick="#BACK_LINK#" class="t-Button t-Button--hot w50p t-Button--large" type="button">#OK#</button>
+                </div>
+              </div>
+            </div>
+            ```
+    }
+    advanced {
+        identifier: LOGIN_SPIDER
+    }
+
+    templateOption page-background-1 (
+        name: Background 1
+        sequence: 10
+        appearance {
+            cssClasses: t-LoginPage--bg1
+        }
+        advanced {
+            identifier: PAGE_BACKGROUND_1
+        }
+    )
+
+    templateOption page-background-2 (
+        name: Background 2
+        sequence: 20
+        appearance {
+            cssClasses: t-LoginPage--bg2
+        }
+        advanced {
+            identifier: PAGE_BACKGROUND_2
+        }
+    )
+
+    templateOption page-background-3 (
+        name: Background 3
+        sequence: 30
+        appearance {
+            cssClasses: t-LoginPage--bg3
+        }
+        advanced {
+            identifier: PAGE_BACKGROUND_3
+        }
+    )
+
+    templateOption page-layout-split (
+        name: Split
+        sequence: 1
+        appearance {
+            cssClasses: t-LoginPage--split
+        }
+        advanced {
+            identifier: PAGE_LAYOUT_SPLIT
+        }
+    )
+
+    slot bodyFooter (
+        name: Body Footer
+        staticId: REGION_POSITION_02
+        gridLayout {
+            gridSupport: false
+        }
+    )
+
+    slot bodyHeader (
+        name: Body Header
+        staticId: REGION_POSITION_01
+        gridLayout {
+            gridSupport: false
+        }
+    )
+
+    slot contentBody (
+        name: Content Body
+        staticId: BODY
+        supports {
+            items: true
+            buttons: true
+        }
+        gridLayout {
+            maxFixedColumns: 12
+        }
+    )
+
+)
+

@@ -1,0 +1,480 @@
+page 53 (
+    name: Group Menu
+    alias: GROUP-MENU1
+    title: Group Menu
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/drawer
+        templateOptions: [
+            #DEFAULT#
+            js-dialog-class-t-Drawer--pullOutEnd
+        ]
+    }
+    dialog {
+        chained: false
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region buttons (
+        name: Buttons
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: dialogFooter
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region group-menu (
+        name: Group Menu
+        type: form
+        source {
+            location: localDatabase
+            tableName: GROUP_MENU
+            includeRowidColumn: true
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    pageItem P53_APEX_PAGE_NO (
+        type: hidden
+        layout {
+            sequence: 60
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: APEX_PAGE_NO
+            dataType: varchar2
+        }
+    )
+
+    pageItem P53_COMPANY_ID (
+        type: hidden
+        layout {
+            sequence: 110
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: COMPANY_ID
+            dataType: number
+        }
+    )
+
+    pageItem P53_CREATE_BY (
+        type: hidden
+        layout {
+            sequence: 120
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: CREATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P53_CREATE_DATE (
+        type: hidden
+        layout {
+            sequence: 130
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: CREATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P53_GROUP_ID (
+        type: hidden
+        layout {
+            sequence: 20
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: GROUP_ID
+            dataType: number
+        }
+    )
+
+    pageItem P53_GROUP_MENU_ID (
+        type: hidden
+        layout {
+            sequence: 30
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: GROUP_MENU_ID
+            dataType: number
+        }
+    )
+
+    pageItem P53_IS_DELETE (
+        type: hidden
+        layout {
+            sequence: 100
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: IS_DELETE
+            dataType: number
+        }
+    )
+
+    pageItem P53_IS_SELECT (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: IS_SELECT
+            dataType: number
+        }
+    )
+
+    pageItem P53_IS_STATUS (
+        type: hidden
+        layout {
+            sequence: 70
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: IS_STATUS
+            dataType: number
+        }
+    )
+
+    pageItem P53_IS_UPDATE (
+        type: hidden
+        layout {
+            sequence: 90
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: IS_UPDATE
+            dataType: number
+        }
+    )
+
+    pageItem P53_MENU_CODE (
+        type: selectList
+        label {
+            label: New
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT MENU_NAME,MENU_CODE
+                FROM MENU;
+                ```
+        }
+        layout {
+            sequence: 40
+            region: @group-menu
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @group-menu
+            column: MENU_CODE
+            dataType: varchar2
+        }
+    )
+
+    pageItem P53_MENU_NAME (
+        type: hidden
+        layout {
+            sequence: 50
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: MENU_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P53_ROWID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: ROWID
+            dataType: varchar2
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    pageItem P53_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 140
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P53_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 150
+            region: @group-menu
+            slot: regionBody
+        }
+        source {
+            formRegion: @group-menu
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @buttons
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P53_ROWID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @buttons
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: [
+                #DEFAULT#
+                t-Button--danger
+                t-Button--simple
+            ]
+        }
+        behavior {
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+            requiresConfirmation: true
+        }
+        confirmation {
+            message: &APP_TEXT$DELETE_MSG!RAW.
+            style: danger
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P53_ROWID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P53_ROWID
+        }
+    )
+
+    dynamicAction cancel-dialog (
+        name: Cancel Dialog
+        execution {
+            sequence: 10
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @cancel
+        }
+
+        action native-dialog-cancel (
+            action: cancelDialog
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    process close-dialog (
+        name: Close Dialog
+        type: closeDialog
+        settings {
+            itemsToReturn: [
+                P53_ROWID
+                REQUEST
+            ]
+        }
+        execution {
+            sequence: 30
+        }
+        advanced {
+            executionMappingIdentifier: 21271108444324770452
+        }
+        serverSideCondition {
+            type: requestIsContainedInValue
+            value: CREATE,SAVE,DELETE
+        }
+    )
+
+    process initialize-form-group-menu (
+        name: Initialize form Group Menu
+        type: formInitialization
+        formRegion: @group-menu
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 21271107687606770451
+        }
+    )
+
+    process new (
+        name: New
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max(GROUP_MENU_ID),999)+1
+                into :P53_GROUP_MENU_ID
+                from Group_Menu;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 20685671860329729139
+        }
+    )
+
+    process process-form-group-menu (
+        name: Process form Group Menu
+        type: formAutoRowProcessing
+        formRegion: @group-menu
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 21271108086658770451
+        }
+    )
+
+)
+

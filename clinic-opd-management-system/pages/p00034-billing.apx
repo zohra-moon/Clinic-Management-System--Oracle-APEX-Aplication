@@ -1,0 +1,2124 @@
+page 34 (
+    name: Billing
+    alias: BILLING
+    title: Billing
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #0f0d0d;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #030202;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #222121;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region bill-entry (
+        name: Bill Entry
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: body
+            startNewRow: false
+            column: 9
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--accent2
+                t-Region--hiddenOverflow
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region bills (
+        name: bills
+        type: regionDisplaySelector
+        layout {
+            sequence: 10
+            slot: body
+            columnSpan: 8
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        settings {
+            displayRegionIcons: true
+            includeShowAll: false
+        }
+    )
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region completed-bills (
+        name: Completed bills
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select BILL_ID,
+                       BILL_DATE,
+                       SERVICE_ID,
+                       QUANTIY,
+                       DISCOUNT_PCT,
+                       NET_AMOUNT,
+                       APP_ID, app_id Appoint_ID,
+                       NURSE_ST_ID,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE,
+                       DOC_ID,
+                       TOTAL,
+                       DISC_AMT,
+                       RECEIVED_AMT,
+                       DUE_RETURN_AMT, 'Invoice' invoice
+                  from BILLING
+                 where DUE_RETURN_AMT<=0
+                    order by 1 desc;
+                ```
+        }
+        layout {
+            sequence: 40
+            parentRegion: @bills
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column APPOINT_ID (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 80
+            }
+        )
+
+        column APP_ID (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Patient
+                alignment: center
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select p.p_name, a.app_id
+                     from  patients_reg_info p join appointment_info a
+                     on(p.p_reg_id= a.p_reg_id);
+                    ```
+            }
+            layout {
+                sequence: 50
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column BILL_DATE (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Bill Date
+                alignment: center
+            }
+            layout {
+                sequence: 20
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column BILL_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Invoice ID
+                alignment: center
+            }
+            layout {
+                sequence: 10
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DISCOUNT_PCT (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 70
+            }
+        )
+
+        column DISC_AMT (
+            reportColumnQueryId: 17
+            derivedColumn: N
+            heading {
+                heading: Discount Amt.
+                alignment: center
+            }
+            layout {
+                sequence: 170
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DOC_ID (
+            reportColumnQueryId: 15
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Doctor
+                alignment: center
+            }
+            lov {
+                type: sharedComponent
+                lov: @doctors-info-doc-name
+            }
+            layout {
+                sequence: 60
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DUE_RETURN_AMT (
+            reportColumnQueryId: 19
+            derivedColumn: N
+            heading {
+                heading: Due/Return
+                alignment: end
+            }
+            layout {
+                sequence: 200
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 130
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 140
+            }
+        )
+
+        column INVOICE (
+            reportColumnQueryId: 20
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Invoice
+                alignment: center
+            }
+            layout {
+                sequence: 210
+                columnAlignment: center
+            }
+            link {
+                target: {
+                    page: 39
+                    items: {
+                        P39_BILL_ID: #BILL_ID#
+                    }
+                }
+                linkText: <span class="fa fa-print" aria-hidden="true"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column NET_AMOUNT (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Net Amount
+                alignment: center
+            }
+            layout {
+                sequence: 100
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column NURSE_ST_ID (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 110
+            }
+        )
+
+        column QUANTIY (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 40
+            }
+        )
+
+        column RECEIVED_AMT (
+            reportColumnQueryId: 18
+            derivedColumn: N
+            heading {
+                heading: Received Amt.
+                alignment: end
+            }
+            layout {
+                sequence: 190
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SERVICE_ID (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 30
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 120
+            }
+        )
+
+        column TOTAL (
+            reportColumnQueryId: 16
+            derivedColumn: N
+            heading {
+                heading: Total
+                alignment: center
+            }
+            layout {
+                sequence: 180
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 150
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 160
+            }
+        )
+
+    )
+
+    region due-bills (
+        name: Due bills
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select BILL_ID,
+                       BILL_DATE,
+                       SERVICE_ID,
+                       QUANTIY,
+                       DISCOUNT_PCT,
+                       NET_AMOUNT,
+                       APP_ID APPID, app_id Appoint_ID,
+                       NURSE_ST_ID,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE,
+                       DOC_ID,
+                       TOTAL,
+                       DISC_AMT,
+                       RECEIVED_AMT,
+                       DUE_RETURN_AMT, 'pay' pay
+                  from BILLING
+                 where DUE_RETURN_AMT>0
+                    order by 1 desc;
+                ```
+        }
+        layout {
+            sequence: 30
+            parentRegion: @bills
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        serverSideCondition {
+            type: never
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column APPID (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Appid
+                alignment: end
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select p.p_name, a.app_id
+                     from  patients_reg_info p join appointment_info a
+                     on(p.p_reg_id= a.p_reg_id);
+                    ```
+            }
+            layout {
+                sequence: 60
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APPOINT_ID (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 80
+            }
+        )
+
+        column BILL_DATE (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Bill Date
+                alignment: center
+            }
+            layout {
+                sequence: 20
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column BILL_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Invoice ID
+                alignment: center
+            }
+            layout {
+                sequence: 10
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DISCOUNT_PCT (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 70
+            }
+        )
+
+        column DISC_AMT (
+            reportColumnQueryId: 17
+            derivedColumn: N
+            heading {
+                heading: Discount Amt.
+                alignment: center
+            }
+            layout {
+                sequence: 160
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DOC_ID (
+            reportColumnQueryId: 15
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Doctor
+                alignment: center
+            }
+            lov {
+                type: sharedComponent
+                lov: @doctors-info-doc-name
+            }
+            layout {
+                sequence: 50
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DUE_RETURN_AMT (
+            reportColumnQueryId: 19
+            derivedColumn: N
+            heading {
+                heading: Due/Return
+                alignment: end
+            }
+            layout {
+                sequence: 190
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 120
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 130
+            }
+        )
+
+        column NET_AMOUNT (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Net Amount
+                alignment: center
+            }
+            layout {
+                sequence: 90
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column NURSE_ST_ID (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 100
+            }
+        )
+
+        column PAY (
+            reportColumnQueryId: 20
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Pay
+            }
+            layout {
+                sequence: 200
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s('P34_DOC_ID','#DOC_ID#') ; javascript:$s('P34_APPID','#APPID#');  javascript:$s('P34_DISCOUNT_PCT','#DISCOUNT_PCT#') ; javascript:$s('P34_RECEIVED_AMT','#RECEIVED_AMT#');
+                }
+                linkText: #PAY#
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column QUANTIY (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 40
+            }
+        )
+
+        column RECEIVED_AMT (
+            reportColumnQueryId: 18
+            derivedColumn: N
+            heading {
+                heading: Received Amt.
+                alignment: end
+            }
+            layout {
+                sequence: 180
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SERVICE_ID (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 30
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 110
+            }
+        )
+
+        column TOTAL (
+            reportColumnQueryId: 16
+            derivedColumn: N
+            heading {
+                heading: Total
+                alignment: center
+            }
+            layout {
+                sequence: 170
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 140
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 150
+            }
+        )
+
+    )
+
+    region payment (
+        name: Payment
+        type: staticContent
+        layout {
+            sequence: 10
+            parentRegion: @bill-entry
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--accent1
+                t-Region--stacked
+                t-Region--hiddenOverflow
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region pending-bills (
+        name: Pending Bills
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select ROW_NUMBER() OVER(ORDER BY app_id desc) SL,
+                 APP_SERIAL_NO,
+                       APP_MOBILE_NO,
+                       P_NAME,
+                       DOC_NAME,
+                       SHIFT_NAME,
+                       APP_ID appID,
+                       START_TIME,
+                       END_TIME,
+                       X,
+                       DOC_ID,
+                       PATIENT_TYPE,
+                       NURSE_ST_ID,
+                       'pay' pay
+                
+                  from BILLINGVIEW
+                order by appid desc
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @bills
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column APPID (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: Appoint ID
+                alignment: end
+            }
+            layout {
+                sequence: 40
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_MOBILE_NO (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Mobile No
+                alignment: center
+            }
+            layout {
+                sequence: 30
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_SERIAL_NO (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Serial No
+                alignment: center
+            }
+            layout {
+                sequence: 70
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DOC_ID (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 110
+            }
+        )
+
+        column DOC_NAME (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Doctor
+                alignment: center
+            }
+            layout {
+                sequence: 50
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column END_TIME (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 100
+            }
+        )
+
+        column NURSE_ST_ID (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 130
+            }
+        )
+
+        column PATIENT_TYPE (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            heading {
+                heading: Patient Type
+                alignment: center
+            }
+            layout {
+                sequence: 120
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column PAY (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Proceed to Pay
+                alignment: center
+            }
+            layout {
+                sequence: 150
+                columnAlignment: center
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s('P34_PAT_TYPE','#PATIENT_TYPE#'); javascript:$s('P34_DOC_ID','#DOC_ID#') ;  javascript:$s('P34_APPID','#APPID#') ;  javascript:$s('P34_NURSE_ST_ID','#NURSE_ST_ID#') ;
+                }
+                linkText: <span aria-hidden="true" class="fa fa-money-check-pen"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column P_NAME (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Patient
+                alignment: center
+            }
+            layout {
+                sequence: 20
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SHIFT_NAME (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 80
+            }
+        )
+
+        column SL (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Sl
+                alignment: center
+            }
+            layout {
+                sequence: 10
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column START_TIME (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 90
+            }
+        )
+
+        column X (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 160
+            }
+        )
+
+    )
+
+    pageItem P34_APPID (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 40
+            region: @bill-entry
+            slot: regionBody
+        }
+    )
+
+    pageItem P34_BILL_DATE (
+        type: datePicker
+        label {
+            label: Bill Date
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @bill-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        default {
+            type: sqlQuerySingleValue
+            sqlQuerySingleValue: select sysdate from dual;
+        }
+    )
+
+    pageItem P34_DISCOUNT_PCT (
+        type: numberField
+        label {
+            label: Discount(%)
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 30
+            region: @payment
+            slot: regionBody
+            alignment: left
+            column: 4
+            columnSpan: 5
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_DISC_AMT (
+        type: numberField
+        label {
+            label: Discount Amount
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 40
+            region: @payment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            column: 9
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_DOC_ID (
+        type: selectList
+        label {
+            label: Doctor
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select doc_name, doc_id
+                from doctors_info
+                ```
+        }
+        layout {
+            sequence: 30
+            region: @bill-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+    )
+
+    pageItem P34_DUE_AMT (
+        type: numberField
+        label {
+            label: Due(+)/Return(-)
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 70
+            region: @payment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            column: 9
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_NET_AMOUNT (
+        type: numberField
+        label {
+            label: Net Amount
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 10
+            region: @payment
+            slot: regionBody
+            alignment: left
+            column: 9
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_NEW (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @bill-entry
+            slot: regionBody
+        }
+    )
+
+    pageItem P34_NURSE_ST_ID (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 70
+            region: @bill-entry
+            slot: regionBody
+        }
+    )
+
+    pageItem P34_PATIENT (
+        type: textField
+        label {
+            label: Patient
+            alignment: left
+        }
+        layout {
+            sequence: 50
+            region: @bill-entry
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_PAT_TYPE (
+        type: textField
+        label {
+            label: Patient Type
+            alignment: left
+        }
+        layout {
+            sequence: 60
+            region: @bill-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_RECEIVED_AMT (
+        type: numberField
+        label {
+            label: Received Amount
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 60
+            region: @payment
+            slot: regionBody
+            alignment: left
+            column: 4
+            columnSpan: 5
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P34_TOTAL (
+        type: numberField
+        label {
+            label: Total Amount
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+        }
+        layout {
+            sequence: 50
+            region: @payment
+            slot: regionBody
+            alignment: left
+            column: 9
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    button bill-summary (
+        buttonName: Bill_Summary
+        label: Bill Summary
+        layout {
+            sequence: 10
+            region: @breadcrumb
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--large
+                t-Button--hoverIconSpin
+            ]
+            icon: fa-bar-chart
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 37
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button submit (
+        buttonName: Submit
+        label: Submit
+        layout {
+            sequence: 20
+            region: @bill-entry
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            requiresConfirmation: true
+        }
+        confirmation {
+            message: Confirm the payment?
+            style: success
+        }
+    )
+
+    dynamicAction fetch-doc-rate (
+        name: fetch doc rate
+        execution {
+            sequence: 20
+        }
+        when {
+            selectionType: items
+            items: P34_DOC_ID
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                     :P34_DISC_AMT := (NVL(:P34_NET_AMOUNT,0) * NVL(:P34_DISCOUNT_PCT,0))/100;
+                    
+                     :P34_TOTAL := NVL(:P34_NET_AMOUNT,0) - NVL(:P34_DISC_AMT,0);
+                    
+                      :P34_DUE_AMT := NVL(:P34_TOTAL,0) - NVL(:P34_DISC_AMT,0) - NVL(:P34_RECEIVED_AMT,0);
+                    ```
+                itemsToSubmit: [
+                    P34_NET_AMOUNT
+                    P34_DISCOUNT_PCT
+                    P34_DISC_AMT
+                    P34_TOTAL
+                    P34_RECEIVED_AMT
+                ]
+                itemsToReturn: [
+                    P34_DISC_AMT
+                    P34_TOTAL
+                    P34_DUE_AMT
+                ]
+                showProcessing: true
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    var value1 = parseFloat($v("P34_NET_AMOUNT")) || 0;
+                    var value2 = parseFloat($v("P34_DISCOUNT_PCT")) || 0;
+                    var value3 = parseFloat($v("P34_RECEIVED_AMT")) || 0;
+                    var DISC = (value1 * value2)/100;
+                    var total= (value1 - DISC);
+                    var due=(total- value3 )
+                    $s("P34_DISC_AMT", DISC);
+                    $s("P34_TOTAL", total);
+                    $s("P34_DUE_AMT", due);
+                    ```
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select RATE
+                    from 
+                    DOC_SERVICES
+                    where doc_id = :P34_DOC_ID
+                    and Patient_type= :P34_PAT_TYPE;
+                    ```
+                itemsToSubmit: [
+                    P34_DOC_ID
+                    P34_PAT_TYPE
+                ]
+            }
+            affectedElements {
+                selectionType: items
+                items: P34_NET_AMOUNT
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction fetch-patient (
+        name: fetch patient
+        execution {
+            sequence: 10
+        }
+        when {
+            selectionType: items
+            items: P34_APPID
+        }
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select p.p_name 
+                    from appointment_info a join patients_reg_info p
+                    on (p.p_reg_id = a.p_reg_id)
+                    where a.app_id= :P34_APPID
+                    ```
+                itemsToSubmit: P34_APPID
+            }
+            affectedElements {
+                selectionType: items
+                items: P34_PATIENT
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction fetch-patient-name (
+        name: fetch Patient name
+        execution {
+            sequence: 10
+        }
+        when {
+            selectionType: items
+            items: P34_APP_ID
+        }
+        serverSideCondition {
+            type: never
+        }
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select p.p_name 
+                    from appointment_info a join patients_reg_info p
+                    on (p.p_reg_id = a.p_reg_id)
+                    where a.app_id= :P34_APP_ID;
+                    ```
+                itemsToSubmit: P34_APP_ID
+                escapeSpecialChars: false
+            }
+            affectedElements {
+                selectionType: items
+                items: P34_PATIENT
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction get-return-or-due (
+        name: get return or due
+        execution {
+            sequence: 40
+        }
+        when {
+            event: keyup
+            selectionType: items
+            items: P34_RECEIVED_AMT
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode: :P34_DUE_AMT := NVL(:P34_TOTAL,0) - NVL(:P34_RECEIVED_AMT,0);
+                itemsToSubmit: [
+                    P34_TOTAL
+                    P34_RECEIVED_AMT
+                ]
+                itemsToReturn: P34_DUE_AMT
+                showProcessing: true
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+        action native-execute-plsql-code-2 (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                     :P34_DISC_AMT := (NVL(:P34_NET_AMOUNT,0) * NVL(:P34_DISCOUNT_PCT,0))/100;
+                    
+                     :P34_TOTAL := NVL(:P34_NET_AMOUNT,0) - NVL(:P34_DISC_AMT,0);
+                    
+                      :P34_DUE_AMT := NVL(:P34_TOTAL,0) - NVL(:P34_DISC_AMT,0) - NVL(:P34_RECEIVED_AMT,0);
+                    ```
+                itemsToSubmit: [
+                    P34_NET_AMOUNT
+                    P34_DISCOUNT_PCT
+                    P34_DISC_AMT
+                    P34_RECEIVED_AMT
+                    P34_TOTAL
+                ]
+                itemsToReturn: [
+                    P34_DISC_AMT
+                    P34_TOTAL
+                    P34_DUE_AMT
+                ]
+                showProcessing: true
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    var value1 = parseFloat($v("P34_NET_AMOUNT")) || 0;
+                    var value2 = parseFloat($v("P34_DISCOUNT_PCT")) || 0;
+                    var value3 = parseFloat($v("P34_RECEIVED_AMT")) || 0;
+                    var DISC = (value1 * value2)/100;
+                    var total= (value1 - DISC);
+                    var due=(total- value3 )
+                    $s("P34_DISC_AMT", DISC);
+                    $s("P34_TOTAL", total);
+                    $s("P34_DUE_AMT", due);
+                    ```
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction hide-billing (
+        name: hide billing
+        execution {
+            sequence: 50
+        }
+        when {
+            event: apexbeforepagesubmit
+        }
+        serverSideCondition {
+            type: never
+        }
+
+        action native-hide (
+            action: hide
+            affectedElements {
+                selectionType: region
+                region: @bill-entry
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction new (
+        name: New
+        execution {
+            sequence: 60
+        }
+        when {
+            selectionType: items
+            items: P34_APPID
+        }
+        clientSideCondition {
+            type: itemIsNotNull
+            item: P34_APPID
+        }
+        serverSideCondition {
+            type: never
+        }
+
+        action native-show (
+            action: show
+            affectedElements {
+                selectionType: region
+                region: @bill-entry
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new-2 (
+        name: New_1
+        execution {
+            sequence: 80
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: jsExpression
+            javaScriptExpression: window;
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P34_NET_AMOUNT
+                    P34_NEW
+                    P34_DISCOUNT_PCT
+                    P34_DOC_ID
+                    P34_DISC_AMT
+                    P34_APPID
+                    P34_TOTAL
+                    P34_PATIENT
+                    P34_RECEIVED_AMT
+                    P34_PAT_TYPE
+                    P34_DUE_AMT
+                    P34_NURSE_ST_ID
+                ]
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @pending-bills
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-2 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @completed-bills
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new-clear (
+        name: New_clear
+        execution {
+            sequence: 70
+        }
+        when {
+            event: ready
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P34_PAT_TYPE
+                    P34_PATIENT
+                    P34_TOTAL
+                    P34_APPID
+                    P34_DISCOUNT_PCT
+                    P34_NET_AMOUNT
+                    P34_DOC_ID
+                    P34_RECEIVED_AMT
+                    P34_DUE_AMT
+                    P34_NEW
+                    P34_NURSE_ST_ID
+                ]
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction set-disc-amt-and-ttl (
+        name: set DISC amt and ttl
+        execution {
+            sequence: 30
+        }
+        when {
+            event: keyup
+            selectionType: items
+            items: P34_DISCOUNT_PCT
+        }
+
+        action js-calc (
+            name: JS CALC
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    var value1 = parseFloat($v("P34_NET_AMOUNT")) || 0;
+                    var value2 = parseFloat($v("P34_DISCOUNT_PCT")) || 0;
+                    var value3 = parseFloat($v("P34_RECEIVED_AMT")) || 0;
+                    var DISC = (value1 * value2)/100;
+                    var total= (value1 - DISC);
+                    var due=(total- value3 )
+                    $s("P34_DISC_AMT", DISC);
+                    $s("P34_TOTAL", total);
+                    $s("P34_DUE_AMT", due);
+                    
+                    
+                    ```
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                     :P34_DISC_AMT := (NVL(:P34_NET_AMOUNT,0) * NVL(:P34_DISCOUNT_PCT,0))/100;
+                    
+                     :P34_TOTAL := NVL(:P34_NET_AMOUNT,0) - NVL(:P34_DISC_AMT,0);
+                    
+                      :P34_DUE_AMT := NVL(:P34_TOTAL,0) - NVL(:P34_DISC_AMT,0) - NVL(:P34_RECEIVED_AMT,0);
+                    ```
+                itemsToSubmit: [
+                    P34_NET_AMOUNT
+                    P34_DISCOUNT_PCT
+                    P34_DISC_AMT
+                    P34_DUE_AMT
+                    P34_RECEIVED_AMT
+                    P34_TOTAL
+                ]
+                itemsToReturn: [
+                    P34_DISC_AMT
+                    P34_TOTAL
+                    P34_DUE_AMT
+                ]
+                showProcessing: true
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+    )
+
+    validation new (
+        name: New
+        execution {
+            sequence: 10
+        }
+        validation {
+            type: functionBody
+            plsqlFunctionBody:
+                ```plsql
+                if :P34_DUE_AMT >0 then
+                
+                   RETURN 'Payment is Due!';
+                END IF;
+                ```
+            alwaysExecute: true
+        }
+        error {
+            associatedItem: @P34_DUE_AMT
+        }
+        serverSideCondition {
+            whenButtonPressed: @submit
+        }
+    )
+
+    process dml-on-billing (
+        name: dml on billing
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                declare 
+                 v_pk number;
+                
+                begin
+                  select nvl(max(BILL_ID),9999)+1 into v_pk
+                  from BILLING;
+                  
+                
+                :G_INVOICE_ID:= V_PK;
+                   ----------------CHECK IF THE RECORD IS EXIST IN DB------------------------------
+                
+                
+                insert into billing(
+                        BILL_ID,
+                       BILL_DATE,
+                       DISCOUNT_PCT,
+                       NET_AMOUNT,
+                       APP_ID,
+                       NURSE_ST_ID,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                     
+                      DOC_ID,
+                       TOTAL,
+                   
+                       DISC_AMT,
+                       RECEIVED_AMT,
+                       DUE_RETURN_AMT
+                
+                )
+                 values (
+                        v_pk,
+                        :P34_BILL_DATE,
+                       :P34_DISCOUNT_PCT,
+                       :P34_NET_AMOUNT,
+                       :P34_APPID,
+                       :P34_NURSE_ST_ID,
+                       'Y',
+                         v('APP_USER'),
+                         sysdate,
+                         :P34_DOC_ID,
+                         :P34_TOTAL,
+                        
+                          :P34_DISC_AMT,
+                         :P34_RECEIVED_AMT,
+                         :P34_DUE_AMT
+                        
+                        
+                 );
+                
+                update NURSE_STATION
+                set BILLING_FLAG ='P'
+                where app_id= :P34_APPID ;
+                
+                
+                end;
+                
+                
+                ```
+        }
+        execution {
+            sequence: 5
+            point: afterSubmit
+        }
+        advanced {
+            executionMappingIdentifier: 5861011674941317916
+        }
+    )
+
+    process new (
+        name: New_2
+        type: clearSessionState
+        clear {
+            type: items
+            items: [
+                P34_RECEIVED_AMT
+                P34_DISCOUNT_PCT
+                P34_NET_AMOUNT
+                P34_DOC_ID
+                P34_PATIENT
+                P34_PAT_TYPE
+            ]
+        }
+        execution {
+            sequence: 15
+            point: afterSubmit
+        }
+        advanced {
+            executionMappingIdentifier: 13921479331972085339
+        }
+    )
+
+    branch (
+        execution {
+            sequence: 10
+        }
+        behavior {
+            target: {
+                page: 57
+            }
+        }
+    )
+
+)
+

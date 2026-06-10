@@ -1,0 +1,437 @@
+page 14 (
+    name: List of Services
+    alias: LIST-OF-SERVICES
+    title: List of Services
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #000000;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        formAutoComplete: false
+    }
+
+    region list-of-services (
+        name: List of Services
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useRegionTitle
+            ]
+            icon: fa-suitcase
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region report (
+        name: Report 1
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select SERVICE_ID,
+                       SERVICE_NAME,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE, 'edit' edit
+                  from SERVICES
+                  order by 1;
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--removeHeader js-removeLandmark
+                t-Region--noUI
+                t-Region--scrollBody
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: no data found
+        }
+        componentAdvanced {
+            stripHtml: true
+        }
+        download {
+            csvExportEnabled: true
+        }
+
+        column EDIT (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: link
+            heading {
+                alignment: center
+            }
+            layout {
+                sequence: 80
+                columnAlignment: center
+            }
+            link {
+                target: {
+                    page: 15
+                    items: {
+                        P15_SERVICE_ID: #SERVICE_ID#
+                    }
+                    clearCache: 15
+                }
+                linkText: <span class="fa fa-edit" aria-hidden="true"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 40
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 50
+            }
+        )
+
+        column SERVICE_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: ID
+                alignment: center
+            }
+            layout {
+                sequence: 10
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SERVICE_NAME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Service Name
+                alignment: center
+            }
+            layout {
+                sequence: 20
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Status
+                alignment: center
+            }
+            lov {
+                type: sharedComponent
+                lov: @status
+            }
+            layout {
+                sequence: 30
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 60
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 70
+            }
+        )
+
+    )
+
+    button add-new (
+        buttonName: Add_new
+        label: Add New
+        layout {
+            sequence: 10
+            region: @list-of-services
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--success
+                t-Button--iconLeft
+                t-Button--hoverIconPush
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 15
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction auto-refresh (
+        name: auto refresh
+        execution {
+            sequence: 10
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: jsExpression
+            javaScriptExpression: Window
+        }
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @report
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+)
+

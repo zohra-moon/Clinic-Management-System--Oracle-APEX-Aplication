@@ -1,0 +1,124 @@
+page 21 (
+    name: Employee Information View
+    alias: EMPLOYEE-INFORMATION-VIEW
+    title: Employee Details
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    dialog {
+        resizable: false
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        formAutoComplete: false
+    }
+
+    region employee-details (
+        name: Employee Details
+        type: plSqlDynamicContent
+        source {
+            plsqlCode:
+                ```plsql
+                DECLARE 
+                V_OP CLOB;
+                      
+                CURSOR emp_INFO_CUR IS 
+                     SELECT '['||e.emp_id||' ]'||e.emp_NAME	emp_NAME,	e.nid_NO,	e.mobile_NO,e.email,e.emp_hire_date,  d.DEPT_name,
+                       e.SALARY,
+                      e.address || ', ' || u.union_name || ', ' || ps.ps_upazila_name || ', ' || dist.dist_name || ', ' || div.div_name
+                    as emp_address
+                    
+                    FROM 
+                       employees_INFO e, unions u, ps_upazilas ps,districts dist,divisions div, departments_info d
+                  where e.union_no = u.union_no
+                    and e.ps_upazila_no = ps.ps_upazila_no
+                    and e.dist_no = dist.dist_no
+                   and e.div_no = div.div_no
+                   and e.dept_id = d.dept_id
+                       
+                       and emp_id = :P21_emp_id;
+                
+                REC emp_INFO_CUR%ROWTYPE;
+                
+                BEGIN
+                 OPEN emp_INFO_CUR;
+                 FETCH emp_INFO_CUR INTO REC;
+                
+                 htp.p('
+                <table border=0 style="border-collapse: collapse;" width=100%>
+                  <tr>
+                      <td>Employee Name</td><td style="text-align: center;">:</td><td>'||REC.emp_NAME||'</td>
+                  </tr>
+                    <tr>
+                      <td>NID</td><td style="text-align: center;">:</td><td>'||REC.nid_no||'</td>
+                  </tr>
+                  <tr>
+                      <td>Phone</td><td style="text-align: center;">:</td><td>'||REC.mobile_no||'</td>
+                  </tr>
+                  <tr>
+                      <td>Email</td><td style="text-align: center;">:</td><td>'||REC.Email||'</td>
+                  </tr>
+                  <tr>
+                      <td>Department</td><td style="text-align: center;">:</td><td>'||REC.dept_name||'</td>
+                  </tr>
+                   <tr>
+                      <td>Address</td><td style="text-align: center;">:</td><td>'||REC.emp_address||'</td>
+                  </tr>
+                <table>
+                 ');
+                END;
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @new
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region new (
+        name: New
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+    )
+
+    pageItem P21_EMP_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @new
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+)
+

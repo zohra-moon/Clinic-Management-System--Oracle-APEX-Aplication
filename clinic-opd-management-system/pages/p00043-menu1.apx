@@ -1,0 +1,621 @@
+page 43 (
+    name: Menu
+    alias: MENU1
+    title: Menu
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region menu (
+        name: Menu
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select MENU_CODE,
+                       MENU_NAME,
+                       FORM_NAME,
+                       DISPLAY_NAME,
+                       PARENT_MENU,
+                       APEX_PAGE_NO,
+                       SUB_APEX_PAGE_NO,
+                       SUB_FORM_NAME,
+                       COMPANY_ID,
+                       CREATE_BY,
+                       CREATE_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE, 'edit' edit
+                  from MENU
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        reportLayout {
+            numberOfRows: 50
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--staticRowColors
+                t-Report--rowHighlight
+                t-Report--inline
+                t-Report--hideNoPagination
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: no data found
+        }
+
+        column APEX_PAGE_NO (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Apex Page No
+            }
+            layout {
+                sequence: 6
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column COMPANY_ID (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 9
+            }
+        )
+
+        column CREATE_BY (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 10
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column CREATE_DATE (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 11
+            }
+        )
+
+        column DISPLAY_NAME (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 4
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column EDIT (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Edit
+            }
+            layout {
+                sequence: 23
+            }
+            link {
+                target: {
+                    page: 45
+                    items: {
+                        P45_MENU_CODE: #MENU_CODE#
+                    }
+                }
+                linkText: #EDIT#
+            }
+        )
+
+        column FORM_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 3
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column MENU_CODE (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 0
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column MENU_NAME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Menu Name
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column PARENT_MENU (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Parent Menu
+            }
+            layout {
+                sequence: 5
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column SUB_APEX_PAGE_NO (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 7
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column SUB_FORM_NAME (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 8
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 12
+            }
+            sorting {
+                defaultSequence: 1
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 13
+            }
+        )
+
+    )
+
+    region menu-form (
+        name: "Menu form "
+        type: form
+        source {
+            location: localDatabase
+            tableName: MENU
+        }
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/inline-dialog
+            templateOptions: [
+                #DEFAULT#
+                js-dialog-size600x400
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    pageItem P43_APEX_PAGE_NO (
+        type: selectList
+        label {
+            label: Apex Page No
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT PAGE_NAME || ' (P-' || PAGE_ID || ')' AS d, PAGE_ID AS r
+                FROM apex_application_pages
+                WHERE application_id = :APP_ID;
+                ```
+        }
+        layout {
+            sequence: 60
+            region: @menu-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @menu-form
+            column: APEX_PAGE_NO
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_COMPANY_ID (
+        type: hidden
+        layout {
+            sequence: 90
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: COMPANY_ID
+            dataType: number
+        }
+    )
+
+    pageItem P43_CREATE_BY (
+        type: hidden
+        layout {
+            sequence: 100
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: CREATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_CREATE_DATE (
+        type: hidden
+        layout {
+            sequence: 110
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: CREATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P43_DISPLAY_NAME (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 40
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: DISPLAY_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_FORM_NAME (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 30
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: FORM_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_MENU_CODE (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: MENU_CODE
+            dataType: varchar2
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    pageItem P43_MENU_NAME (
+        type: textField
+        label {
+            label: Menu Name
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @menu-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @menu-form
+            column: MENU_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_PARENT_MENU (
+        type: selectList
+        label {
+            label: Parent Menu
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT LPAD(' ', 3 * (LEVEL - 1), '-') || menu_name AS R, 
+                       menu_code
+                FROM menu
+                START WITH parent_menu IS NULL
+                CONNECT BY PRIOR menu_code = parent_menu
+                ORDER SIBLINGS BY menu_name;
+                ```
+            displayExtraValues: false
+            nullDisplayValue: --Select--
+        }
+        layout {
+            sequence: 50
+            region: @menu-form
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @menu-form
+            column: PARENT_MENU
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_SUB_APEX_PAGE_NO (
+        type: hidden
+        layout {
+            sequence: 70
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: SUB_APEX_PAGE_NO
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_SUB_FORM_NAME (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: SUB_FORM_NAME
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 120
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P43_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 130
+            region: @menu-form
+            slot: regionBody
+        }
+        source {
+            formRegion: @menu-form
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    button add-menu (
+        buttonName: Add_menu
+        label: Add Menu
+        layout {
+            sequence: 10
+            region: @menu
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 45
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button save (
+        buttonName: Save
+        label: Save
+        layout {
+            sequence: 140
+            region: @menu-form
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    process initialize-form-menu (
+        name: Initialize form Menu
+        type: formInitialization
+        formRegion: @menu-form
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 20487253427148376206
+        }
+    )
+
+    process pk (
+        name: pk
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max( MENU_CODE ),999)+1
+                into :P43_MENU_CODE
+                from MENU
+                order by 1 desc;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 20487255754486376229
+        }
+    )
+
+)
+

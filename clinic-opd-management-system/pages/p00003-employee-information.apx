@@ -1,0 +1,1193 @@
+page 3 (
+    name: Employee Information
+    alias: EMPLOYEE-INFORMATION
+    title: Employee Information
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: [
+            #DEFAULT#
+            t-Dialog--noPadding
+        ]
+    }
+    dialog {
+        resizable: false
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    }
+    css {
+        inline:
+            ```css
+            /* ===== ¿ General Page Styling ===== */
+            .t-Body-mainContent {
+                flex-grow: 1;
+                background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            }
+               .t-Region-title {
+                color: white !important;
+            }
+            .t-IRR-table, 
+            .a-IG-table {
+                background: rgba(255, 255, 255, 0.15); /* Light Transparent White */
+                border-radius: 12px;
+                padding: 14px;
+                box-shadow: 0 5px 20px rgba(0, 247, 255, 0.3);
+            }
+            
+            /* ===== ¿ Table Cell Borders & Styling ===== */
+            .t-Report-report td, 
+            .a-IRR-table td, 
+            .a-IG-table td {
+                border: 1px solid rgba(0, 247, 255, 0.4);
+                padding: 12px;
+                font-size: 15px;
+                color: #e0ffff; /* Light Cyan */
+            }
+            
+            /* ===== ¿ Report Headers (Bold & Transparent) ===== */
+            .a-IRR-header, 
+            .a-IRR-header:hover, 
+            .t-Report-colHead {
+                font-weight: bold;
+                color: #001f3f;
+                background: rgba(0, 247, 255, 0.8); /* Cyan with Transparency */
+                height: 36px;
+                border-radius: 6px;
+                text-transform: uppercase;
+            }
+            
+            /* ===== ¿ Buttons Styling ===== */
+            #save, #btn_submit, #update {
+                background: linear-gradient(310deg, #00f7ff, #009688);
+                color: white;
+                border-radius: 8px;
+                font-weight: bold;
+                padding: 12px 16px;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 247, 255, 0.4);
+                transition: 0.3s ease;
+            }
+            
+            #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(310deg, #009688, #0055cc);
+            }
+            
+            /* ===== ¿ Close/Cancel Buttons ===== */
+            #close, #btn_cancel {
+                background: linear-gradient(310deg, #ff0033, #661111);
+                transition: 0.3s ease;
+            }
+            
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(310deg, #cc0022, #550000);
+            }
+            
+            /* ===== ¿ Input Container to Hold Label & Input ===== */
+            .input-container {
+                position: relative;
+                width: 100%;
+                margin-bottom: 20px; /* Adds space below inputs */
+            }
+            
+            /* ===== ¿ Floating Label Style ===== */
+            .input-container label {
+                position: absolute;
+                top: 50%;
+                left: 14px;
+                transform: translateY(-50%);
+                font-size: 16px;
+               font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+                transition: all 0.3s ease;
+                pointer-events: none; /* Prevents clicking the label */
+            }
+            
+            /* ===== ¿ Input Field with Floating Label ===== */
+            .input-container input, 
+            .input-container select {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(6px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 8px;
+                padding: 14px 14px 10px; /* Extra padding at the bottom */
+                font-size: 16px;
+                color: white;
+                transition: all 0.3s ease;
+            }
+            
+            /* ===== ¿ When Input is Focused or Has Text, Move Label Up ===== */
+            .input-container input:focus + label,
+            .input-container input:not(:placeholder-shown) + label,
+            .input-container select:focus + label,
+            .input-container select:not([value=""]) + label {
+                top: 10px;
+                font-size: 12px;
+                color: #00f7ff;
+            }
+            
+            /* ===== ¿ Date Picker Styling ===== */
+            .ui-datepicker {
+                background: rgba(255, 255, 255, 0.9);
+                border: 2px solid #009688;
+                border-radius: 10px;
+                padding: 6px;
+            }
+            
+            .a-Icon.icon-calendar {
+                color: white;
+            }
+            
+            /* ===== ¿ Navigation Bar Styling ===== */
+            .t-NavigationBar {
+                border: 2px solid white;
+                background: rgba(0, 0, 0, 0.5);
+                box-shadow: 0 -6px 10px -5px #00f7ff, 0 6px 10px -5px #00f7ff;
+                border-radius: 20px;
+            }
+            
+            /* ===== ¿ Interactive Report Toolbar ===== */
+            .a-IRR-toolbar {
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(0, 247, 255, 0.2);
+            }
+            
+            /* ===== ¿ Modal/Dialog Boxes ===== */
+            .ui-dialog {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 255, 0.3);
+            }
+            
+            /* ===== ¿ Hover Effects ===== */
+            .t-Button:hover {
+                transform: scale(1.05);
+            }
+            
+            
+            .t-Report-report tr:hover td {
+                color: #003366 !important; /* Dark Blue */
+                transition: color 0.3s ease-in-out;
+            }
+            
+            .a-IRR-table tr:hover td {
+                color: #003366 !important; /* Dark Blue */
+                transition: color 0.3s ease-in-out;
+            }
+            
+            .t-Report-report tr:hover, .a-IRR-table tr:hover {
+                background: rgba(0, 247, 255, 0.1);
+                transition: 0.3s ease;
+            }
+            
+            /* ===== ¿ Scrollbar Customization (Modern Look) ===== */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: #00f7ff;
+                border-radius: 10px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: #009688;
+            }
+            
+            
+            /* ===== ¿ Stylish Buttons ===== */
+            .t-Button {
+                background: linear-gradient(310deg, #0078ff, #00e1ff);
+                color: white;
+                font-weight: bold;
+                border-radius: 6px;
+                padding: 10px 14px;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .t-Button:hover {
+                transform: scale(1.05);
+                background: linear-gradient(310deg, #0050c8, #00a6c7);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #0078ff, #00e1ff);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                padding: 8px;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                padding: 10px 14px;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #00bcd4;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            /* ===== ¿ Interactive Effects ===== */
+            .t-Button:hover, .t-Report-report tr:hover, .a-IRR-table tr:hover {
+                transition: all 0.3s ease;
+            }
+            
+            /* ===== ¿ Dialog Boxes (Popups) ===== */
+            .ui-dialog {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            }
+            
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region buttons (
+        name: Buttons
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: dialogFooter
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region employee-information (
+        name: Employee Information
+        type: form
+        source {
+            location: localDatabase
+            tableName: EMPLOYEES_INFO
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--noUI
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            htmlDomId: bg_one
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    pageItem P3_ADDRESS (
+        type: textField
+        label {
+            label: House/Road
+            alignment: left
+        }
+        layout {
+            sequence: 250
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            newColumn: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 500
+        }
+        source {
+            formRegion: @employee-information
+            column: ADDRESS
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_DEPT_ID (
+        type: selectList
+        label {
+            label: Department
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @departments
+        }
+        layout {
+            sequence: 130
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: DEPT_ID
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_DG_ID (
+        type: hidden
+        layout {
+            sequence: 140
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: DG_ID
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_DIST_NO (
+        type: selectList
+        label {
+            label: District
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select dist_name d, dist_no R
+                from districts
+                where div_no= :P3_DIV_NO
+                order by 1;
+                ```
+        }
+        cascadingLov {
+            parentItems: P3_DIV_NO
+            itemsToSubmit: P3_DIV_NO
+        }
+        layout {
+            sequence: 220
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: DIST_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_DIV_NO (
+        type: selectList
+        label {
+            label: Division
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @devisions
+        }
+        layout {
+            sequence: 210
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: DIV_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_EMAIL (
+        type: textField
+        label {
+            label: Email
+            alignment: left
+        }
+        layout {
+            sequence: 60
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @employee-information
+            column: EMAIL
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_EMP_HIRE_DATE (
+        type: datePicker
+        label {
+            label: Hire Date
+            alignment: left
+        }
+        layout {
+            sequence: 70
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            formatMask: DD-MON-YYYY
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        source {
+            formRegion: @employee-information
+            column: EMP_HIRE_DATE
+            dataType: date
+        }
+        default {
+            type: sqlQuerySingleValue
+            sqlQuerySingleValue: select sysdate from dual;
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_EMP_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: EMP_ID
+            dataType: number
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_EMP_IMAGE (
+        type: fileUpload
+        label {
+            label: Image
+            alignment: left
+        }
+        layout {
+            sequence: 90
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 255
+        }
+        source {
+            formRegion: @employee-information
+            column: EMP_IMAGE
+            dataType: blob
+        }
+    )
+
+    pageItem P3_EMP_NAME (
+        type: textField
+        label {
+            label: Emp Name
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            valueRequired: true
+            maxLength: 200
+        }
+        source {
+            formRegion: @employee-information
+            column: EMP_NAME
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_FILENAME (
+        type: hidden
+        layout {
+            sequence: 110
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: FILENAME
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_IMAGE_LAST_UPDATE (
+        type: hidden
+        layout {
+            sequence: 120
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: IMAGE_LAST_UPDATE
+            dataType: timestampWithLocalTimeZone
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_INSERT_BY (
+        type: hidden
+        layout {
+            sequence: 170
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: INSERT_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_INSERT_DATE (
+        type: hidden
+        layout {
+            sequence: 180
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: INSERT_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_MIMETYPE (
+        type: hidden
+        layout {
+            sequence: 100
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: MIMETYPE
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_MOBILE_NO (
+        type: textField
+        label {
+            label: Mobile No
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 50
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            valueRequired: true
+            maxLength: 15
+        }
+        source {
+            formRegion: @employee-information
+            column: MOBILE_NO
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_NID_NO (
+        type: textField
+        label {
+            label: Nid No
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 40
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            valueRequired: true
+            maxLength: 20
+        }
+        source {
+            formRegion: @employee-information
+            column: NID_NO
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_PS_UPAZILA_NO (
+        type: selectList
+        label {
+            label: "PS/Upazila "
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select ps_upazila_name d, ps_upazila_no R
+                from ps_upazilas
+                where dist_no = :P3_DIST_NO
+                order by 1;
+                ```
+        }
+        cascadingLov {
+            parentItems: P3_DIST_NO
+            itemsToSubmit: P3_DIST_NO
+        }
+        layout {
+            sequence: 230
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: PS_UPAZILA_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_RESIGN_DATE (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: RESIGN_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_SALARY (
+        type: numberField
+        label {
+            label: Salary
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+            virtualKeyboard: text
+        }
+        layout {
+            sequence: 150
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        source {
+            formRegion: @employee-information
+            column: SALARY
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_STATUS (
+        type: selectList
+        label {
+            label: Status
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @status
+        }
+        layout {
+            sequence: 160
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: STATUS
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_UNION_NO (
+        type: selectList
+        label {
+            label: Union
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select union_name d, union_no R
+                from unions
+                where ps_upazila_no= :P3_PS_UPAZILA_NO
+                order by 1;
+                ```
+        }
+        cascadingLov {
+            parentItems: P3_PS_UPAZILA_NO
+            itemsToSubmit: P3_PS_UPAZILA_NO
+        }
+        layout {
+            sequence: 240
+            region: @employee-information
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @employee-information
+            column: UNION_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 190
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P3_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 200
+            region: @employee-information
+            slot: regionBody
+        }
+        source {
+            formRegion: @employee-information
+            column: UPDATE_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @buttons
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: [
+                #DEFAULT#
+                t-Button--warning
+            ]
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--success
+            ]
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P3_EMP_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @buttons
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: [
+                #DEFAULT#
+                t-Button--danger
+            ]
+        }
+        behavior {
+            action: redirectUrl
+            targetUrl: javascript:apex.confirm(htmldb_delete_message,'DELETE');
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P3_EMP_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--success
+            ]
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P3_EMP_ID
+        }
+    )
+
+    dynamicAction cancel-dialog (
+        name: Cancel Dialog
+        execution {
+            sequence: 10
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @cancel
+        }
+
+        action native-dialog-cancel (
+            action: cancelDialog
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    validation p3-image-last-update-must-be-timestamp (
+        name: P3_IMAGE_LAST_UPDATE must be timestamp
+        execution {
+            sequence: 110
+        }
+        validation {
+            type: itemIsAValidTimestamp
+            item: P3_IMAGE_LAST_UPDATE
+        }
+        error {
+            errorMessage: #LABEL# must be a valid timestamp.
+            associatedItem: @P3_IMAGE_LAST_UPDATE
+        }
+    )
+
+    process close-dialog (
+        name: Close Dialog
+        type: closeDialog
+        settings {
+            showSuccessMessages: false
+        }
+        execution {
+            sequence: 30
+        }
+        advanced {
+            executionMappingIdentifier: 12964095058485249594
+        }
+        serverSideCondition {
+            type: requestIsContainedInValue
+            value: CREATE,SAVE,DELETE
+        }
+    )
+
+    process initialize-form-employee-information (
+        name: "Initialize form Employee Information [2]"
+        type: formInitialization
+        formRegion: @employee-information
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 12964094257887249593
+        }
+    )
+
+    process new (
+        name: New
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max(emp_id),999)+1 into :P3_EMP_ID
+                from employees_info;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 12964030638619671472
+        }
+        serverSideCondition {
+            whenButtonPressed: @create
+        }
+    )
+
+    process process-form-employee-information (
+        name: "Process form Employee Information [2]"
+        type: formAutoRowProcessing
+        formRegion: @employee-information
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 12964094640059249593
+        }
+    )
+
+)
+

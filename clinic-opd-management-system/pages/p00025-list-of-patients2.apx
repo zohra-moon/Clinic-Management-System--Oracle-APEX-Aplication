@@ -1,0 +1,615 @@
+page 25 (
+    name: List of Patients
+    alias: LIST-OF-PATIENTS2
+    title: List of Patients
+    appearance {
+        pageTemplate: @/left-side-column
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #010101;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region filter-and-search (
+        name: Filter and search
+        type: facetedSearch
+        source {
+            filteredRegion: @report
+        }
+        layout {
+            sequence: 10
+            slot: leftColumn
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        settings {
+            compactNosThreshold: 10000
+            displayChartForTopNValues: 10
+        }
+
+        facet P25_NEW (
+            type: checkboxGroup
+            label {
+                label: GENDER
+            }
+            lov {
+                type: sharedComponent
+                lov: @gender
+            }
+            layout {
+                sequence: 10
+            }
+            listEntries {
+                maxDisplayedEntries: 5
+            }
+            actionsMenu {
+                filter: false
+                chart: false
+            }
+            source {
+                databaseColumn: GENDER
+            }
+            security {
+                encryptSessionState: false
+            }
+        )
+
+        facet P25_NEW_1 (
+            type: search
+            label {
+                label: search
+            }
+            layout {
+                sequence: 20
+            }
+            appearance {
+                valuePlaceholder: Search Patient Mobile
+            }
+            source {
+                dbColumns: MOBILE_NO
+            }
+            security {
+                encryptSessionState: false
+            }
+        )
+
+    )
+
+    region list-of-patients (
+        name: List of Patients
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+            icon: fa-users
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region report (
+        name: Report 1
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select P_REG_ID,
+                       P_NAME,
+                       MOBILE_NO,
+                       DATE_OF_BIRTH,
+                       GENDER,
+                       BLOOD_GROUP,
+                       EMAIL,
+                       EMERGENCY_CONTACT_NAME,
+                       EMERGENCY_CONTACT_RELATION,
+                       EMERGENCY_CONTACT_NO,
+                       ADDRESS,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE,
+                       UNION_NO,
+                       DIV_NO,
+                       DIST_NO,
+                       PS_UPAZILA_NO
+                  from PATIENTS_REG_INFO
+                  order by P_REG_ID desc;
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        download {
+            csvExportEnabled: true
+        }
+
+        column ADDRESS (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 111
+            }
+        )
+
+        column BLOOD_GROUP (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Blood Group
+            }
+            layout {
+                sequence: 61
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DATE_OF_BIRTH (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Date Of Birth
+                alignment: center
+            }
+            layout {
+                sequence: 41
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DERIVED$01 (
+            reportColumnQueryId: 21
+            derivedColumn: Y
+            type: link
+            heading {
+                heading: &nbsp;
+                alignment: center
+            }
+            layout {
+                sequence: 211
+            }
+            link {
+                target: {
+                    page: 26
+                    items: {
+                        P26_P_REG_ID: #P_REG_ID#
+                    }
+                }
+                linkText: <span class="fa fa-edit" aria-hidden="true"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DIST_NO (
+            reportColumnQueryId: 19
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 191
+            }
+        )
+
+        column DIV_NO (
+            reportColumnQueryId: 18
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 181
+            }
+        )
+
+        column EMAIL (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: Email
+            }
+            layout {
+                sequence: 71
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column EMERGENCY_CONTACT_NAME (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 81
+            }
+        )
+
+        column EMERGENCY_CONTACT_NO (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 101
+            }
+        )
+
+        column EMERGENCY_CONTACT_RELATION (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 91
+            }
+        )
+
+        column GENDER (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Gender
+            }
+            lov {
+                type: sharedComponent
+                lov: @gender
+            }
+            layout {
+                sequence: 51
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 131
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 141
+            }
+        )
+
+        column MOBILE_NO (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Mobile No
+            }
+            layout {
+                sequence: 31
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column PS_UPAZILA_NO (
+            reportColumnQueryId: 20
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 201
+            }
+        )
+
+        column P_NAME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Patient Name
+            }
+            layout {
+                sequence: 21
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column P_REG_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: ID
+                alignment: center
+            }
+            layout {
+                sequence: 1
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 121
+            }
+        )
+
+        column UNION_NO (
+            reportColumnQueryId: 17
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 171
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 15
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 151
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 16
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 161
+            }
+        )
+
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 30
+            region: @list-of-patients
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 26
+                clearCache: 26
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+)
+

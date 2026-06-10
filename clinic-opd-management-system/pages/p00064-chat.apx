@@ -1,0 +1,856 @@
+page 64 (
+    name: Chat
+    alias: CHAT
+    title: Chat
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration:
+            ```javascript-browser
+            (function () {
+            
+              function refreshChat() {
+            
+                var r1 = apex.region("CHAT_MESSAGES");
+                var r2 = apex.region("CHAT");
+            
+                if (r1) {
+                  r1.refresh();
+                }
+            
+                if (r2) {
+                  r2.refresh();
+                }
+              }
+            
+              apex.jQuery(function () {
+                setInterval(refreshChat, 5000);
+              });
+              apex.jQuery(function () {
+              setTimeout(scrollChatToBottom, 300);
+            });
+            
+            })();
+            
+            
+            
+            
+            function scrollChatToBottom() {
+            
+              var region = apex.region("CHAT");
+            
+              if (!region) {
+                return;
+              }
+            
+              var container = region.element
+                .find(".t-Report-report, .t-Region-body")
+                .get(0);
+            
+              if (container) {
+                container.scrollTop = container.scrollHeight;
+              }
+            }
+            ```
+        executeWhenPageLoads:
+            ```javascript-browser
+            
+            
+            /* initial load */
+            apex.jQuery(function () {
+              setTimeout(scrollChatToBottom, 300);
+            });
+            
+            /* after report refresh */
+            /*apex.jQuery(document).on("apexafterrefresh", "#CHAT", function () {
+              setTimeout(scrollChatToBottom, 100);
+            });
+            */
+            
+            ```
+    }
+    css {
+        inline:
+            ```css
+            .chat-row {
+              display: flex;
+              margin: 5px;
+            }
+            .chat-row.me {
+              justify-content: flex-end;
+            }
+            .chat-bubble {
+              padding: 10px;
+              border-radius: 14px;
+              max-width: 65%;
+            }
+            .chat-row.me .chat-bubble{
+              background-color: #0084ff;
+              color: white;
+            }
+            .chat-row.other .chat-bubble {
+              background-color: #f1f1f1;
+            }
+            .chat-time {
+              font-size: 10px;
+              opacity: 0.6;
+            }
+            
+            #CHAT thead th {
+              position: sticky;
+              top: 0;
+              z-index: 2;
+              color: white;
+             background: linear-gradient(90deg, #1d7cd4  0%, hsla(187, 100%, 89%, 1) 100%);}
+            
+            
+            .u-Processing {
+                display: none !important;
+            }
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region chat (
+        name: Chat
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT
+                    CASE
+                      WHEN sender = :APP_USER THEN 'me'
+                      ELSE 'other'
+                    END AS msg_class,
+                    apex_escape.html(message) AS message,
+                    TO_CHAR(sent_at, 'HH:MI AM') sent_time,
+                    '' text
+                FROM chat_messages
+                WHERE conv_id = TO_NUMBER(:P64_CONV_ID)
+                ORDER BY sent_at;
+                
+                ```
+        }
+        layout {
+            sequence: 40
+            slot: body
+            startNewRow: false
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                i-h320
+                t-Region--removeHeader js-removeLandmark
+                t-Region--scrollBody
+                t-Form--slimPadding
+                t-Region-orderBy--end
+            ]
+        }
+        advanced {
+            htmlDomId: CHAT
+        }
+        reportLayout {
+            numberOfRows: 10000
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--staticRowColors
+                t-Report--rowHighlightOff
+                t-Report--noBorders
+                t-Report--hideNoPagination
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        messages {
+            whenNoDataFound:
+                ```
+                <div style="
+                  display:flex;
+                  flex-direction:column;
+                  align-items:center;
+                  justify-content:center;
+                  height:100%;
+                  min-height:260px;
+                  text-align:center;
+                  color:#6b7280;
+                ">
+                
+                  <span aria-hidden="true"
+                        class="fa fa-comment"
+                        style="
+                          font-size:4.5rem;
+                          margin-bottom:1rem;
+                          opacity:0.65;
+                        ">
+                  </span>
+                
+                  <div style="
+                        font-size:1.25rem;
+                        font-weight:600;
+                        margin-bottom:0.25rem;
+                      ">
+                    No chat selected
+                  </div>
+                
+                  <div style="
+                        font-size:0.95rem;
+                        opacity:0.85;
+                      ">
+                    Select a conversation to continue
+                  </div>
+                
+                </div>
+                
+                ```
+        }
+
+        column MESSAGE (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 20
+            }
+            security {
+                escapeSpecialChars: false
+            }
+        )
+
+        column MSG_CLASS (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SENT_TIME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 30
+            }
+        )
+
+        column TEXT (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: &P64_SENDER.
+            }
+            layout {
+                sequence: 40
+            }
+            columnFormatting {
+                htmlExpression:
+                    ```html
+                    <div class="chat-row #MSG_CLASS#">
+                      <div class="chat-bubble">
+                       #MESSAGE#
+                        <div class="chat-time">#SENT_TIME#</div>
+                      </div>
+                    </div>
+                    
+                    ```
+            }
+            sorting {
+                sortable: false
+            }
+            security {
+                escapeSpecialChars: false
+            }
+        )
+
+    )
+
+    region chat-input (
+        name: Chat Input
+        type: staticContent
+        layout {
+            sequence: 70
+            slot: body
+            startNewRow: false
+            newColumn: false
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region conversations (
+        name: Conversations
+        type: cards
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT
+                       c.conv_id,
+                       p_me.username     AS me,
+                       p_other.username  AS other,
+                        u.photo ,
+                        u.MIMETYPE,
+                        u.FILENAME,
+                       (
+                           SELECT  CASE WHEN m.sender = :APP_USER THEN 'you'
+                      ELSE m.sender
+                    END ||' : '||m.message
+                           FROM chat_messages m
+                           WHERE m.conv_id = c.conv_id
+                           ORDER BY m.sent_at DESC
+                           FETCH FIRST 1 ROW ONLY
+                       ) AS last_message
+                FROM chat_conversations c
+                JOIN chat_participants p_me
+                     ON p_me.conv_id = c.conv_id
+                JOIN chat_participants p_other
+                
+                    ON p_other.conv_id = c.conv_id
+                left JOIN GUSER u ON trim(upper(u.USER_NAME)) = trim(uppeR(p_OTHER.username))
+                WHERE p_me.username    = :APP_USER
+                AND   p_other.username <> :APP_USER
+                ORDER BY c.conv_id DESC;
+                
+                ```
+        }
+        layout {
+            sequence: 30
+            slot: body
+            columnSpan: 4
+        }
+        appearance {
+            template: @/cards-container
+            templateOptions: [
+                #DEFAULT#
+                t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        advanced {
+            htmlDomId: CHAT_MESSAGES
+        }
+        componentAppearance {
+            layout: horizontal
+        }
+        card {
+            primaryKeyColumn1: CONV_ID
+        }
+        title {
+            column: OTHER
+        }
+        subtitle {
+            column: LAST_MESSAGE
+        }
+        iconAndBadge {
+            iconSource: imageBlobColumn
+            imageColumn: PHOTO
+        }
+        blobAttributes {
+            mimeTypeColumn: MIMETYPE
+        }
+
+        action action (
+            type: fullCard
+            layout {
+                sequence: 10
+            }
+            behavior {
+                target: {
+                    page: 64
+                    items: {
+                        P64_CONV_ID: &CONV_ID.
+                    }
+                }
+            }
+        )
+
+    )
+
+    pageItem P64_CONV_ID (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 50
+            slot: body
+        }
+    )
+
+    pageItem P64_MESSAGE (
+        type: textField
+        label {
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @chat-input
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            newColumn: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+            valuePlaceholder: Type here...
+        }
+        advanced {
+            cssClasses: chat-input
+        }
+    )
+
+    pageItem P64_SEARCH (
+        type: popupLov
+        label {
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select USER_NAME d, USER_NAME r
+                from GUSER
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: body
+            alignment: left
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+            valuePlaceholder: Search..
+        }
+    )
+
+    pageItem P64_SENDER (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 60
+            slot: body
+        }
+    )
+
+    button btn-send (
+        buttonName: BTN_SEND
+        label: Btn Send
+        layout {
+            sequence: 20
+            region: @chat-input
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/icon
+            hot: true
+            templateOptions: #DEFAULT#
+            icon: fa-paper-plane
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    dynamicAction button (
+        name: button
+        execution {
+            sequence: 40
+        }
+        when {
+            event: ready
+        }
+
+        action plugin-apex-items-with-buttons (
+            action: plugin/apexItemsWithApexButton
+            settings {
+                itemWhereTheButtonIsAdded: P64_MESSAGE
+            }
+            affectedElements {
+                selectionType: button
+                button: @btn-send
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction da-start-chat (
+        name: DA START CHAT
+        execution {
+            sequence: 50
+        }
+        when {
+            selectionType: items
+            items: P64_SEARCH
+        }
+        clientSideCondition {
+            type: itemIsNotNull
+            item: P64_SEARCH
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P64_SEARCH
+                    P64_MESSAGE
+                ]
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE
+                        l_conv_id NUMBER;
+                    BEGIN
+                        -- Try to find existing buyer-admin conversation
+                        SELECT c.conv_id
+                        INTO l_conv_id
+                        FROM chat_conversations c
+                        WHERE EXISTS (
+                            SELECT 1
+                            FROM chat_participants p
+                            WHERE p.conv_id = c.conv_id
+                            AND p.username = :APP_USER
+                        )
+                      AND EXISTS (
+                          SELECT 1
+                          FROM chat_participants p
+                          WHERE p.conv_id = c.conv_id
+                          AND p.username = :P64_SEARCH
+                       )
+                        fetch first row only;
+                    
+                        -- Reuse conversation
+                        :P64_CONV_ID := l_conv_id;
+                    
+                    EXCEPTION
+                        WHEN NO_DATA_FOUND THEN
+                            -- Create new conversation
+                            INSERT INTO chat_conversations (CREATED_ON)
+                            VALUES (sysdate)
+                            RETURNING conv_id INTO l_conv_id;
+                    
+                            INSERT INTO chat_participants (conv_id, username)
+                            VALUES (l_conv_id, :APP_USER);
+                    
+                            INSERT INTO chat_participants (conv_id, username)
+                            VALUES (l_conv_id, :P64_SEARCH);
+                    
+                        --    COMMIT;
+                    
+                            :P64_CONV_ID := l_conv_id;
+                    END;
+                    
+                    ```
+                itemsToSubmit: P64_SEARCH
+                itemsToReturn: P64_CONV_ID
+                showProcessing: true
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @chat
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-2 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @conversations
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction focus-button (
+        name: focus button
+        execution {
+            sequence: 20
+        }
+        when {
+            selectionType: items
+            items: P64_MESSAGE
+        }
+        clientSideCondition {
+            type: itemIsNotNull
+            item: P64_MESSAGE
+        }
+
+        action native-set-focus (
+            action: setFocus
+            affectedElements {
+                selectionType: button
+                button: @btn-send
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction read-receipt (
+        name: read receipt
+        execution {
+            sequence: 10
+        }
+        when {
+            event: apexafterrefresh
+            selectionType: region
+            region: @chat
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    UPDATE chat_messages
+                    SET is_read = 'Y'
+                    WHERE conv_id = :P64_CONV_ID
+                    AND sender != :APP_USER;
+                    
+                    ```
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction send-msg (
+        name: send msg
+        execution {
+            sequence: 30
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @btn-send
+        }
+        clientSideCondition {
+            type: itemIsNotNull
+            item: P64_CONV_ID
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: P64_MESSAGE
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE
+                        l_cnt NUMBER;
+                    BEGIN
+                      /*  SELECT COUNT(*)
+                        INTO l_cnt
+                        FROM chat_participants
+                        WHERE conv_id  = :P54_CONV_ID
+                        AND username = :APP_USER;
+                    
+                        IF l_cnt = 0 THEN
+                            raise_application_error(-20001, 'Unauthorized access to conversation');
+                        END IF;
+                    */
+                        INSERT INTO chat_messages (conv_id, sender, message)
+                        VALUES (:P64_CONV_ID, :APP_USER, :P64_MESSAGE);
+                    
+                        COMMIT;
+                    END;
+                    
+                    ```
+                itemsToSubmit: [
+                    P64_MESSAGE
+                    P64_CONV_ID
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    
+                    
+                    
+                    apex.jQuery(function () {
+                      setTimeout(scrollChatToBottom, 300);
+                    });
+                    
+                    ```
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @chat
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-set-focus (
+            action: setFocus
+            affectedElements {
+                selectionType: items
+                items: P64_MESSAGE
+            }
+            execution {
+                sequence: 50
+            }
+        )
+
+    )
+
+    process clear (
+        name: CLEAR
+        type: clearSessionState
+        clear {
+            type: items
+            items: [
+                P64_MESSAGE
+                P64_SEARCH
+            ]
+        }
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 124337332513410597821
+        }
+    )
+
+    process set-sender-name (
+        name: SET SENDER NAME
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select username
+                into :P64_SENDER
+                from CHAT_PARTICIPANTS
+                where conv_id = :P64_CONV_ID
+                and username <>:app_user
+                fetch first row only;
+                exception
+                when others then
+                :P64_SENDER:=null;
+                ```
+        }
+        execution {
+            sequence: 20
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 124337332643274597822
+        }
+    )
+
+)
+

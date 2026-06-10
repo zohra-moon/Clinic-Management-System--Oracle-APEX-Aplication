@@ -1,0 +1,257 @@
+page 40 (
+    name: EMR
+    alias: EMR
+    title: EMR
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    dialog {
+        width: 70%
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region prescreption (
+        name: Prescreption
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE
+                V_CLOB CLOB DEFAULT '';
+                 
+                 CURSOR PRE_CON IS
+                 select c.consultation_id,'C'||c.consultation_id, c.doc_id,c.follow_UP_DAYS,v.visit_date,'PR'||v.p_reg_id, v.p_name, V.DETAILS, V.DEPT_NAME, V.DOC_NAME,
+                CASE WHEN v.Gender ='F' THEN 'Female'
+                    When v.Gender ='M' THEN 'Male'
+                    else 'Other' end as Gender
+                , v.age,v.blood_group,
+                v.bp, v.rr,v.h_rate,v.temp,v.Height,v.Weight, v.chief_complains
+                from consultation c join pre_consult_info v
+                on(c.app_id = v.app_id)
+                where c.consultation_id=:P40_CONS_ID;
+                VREC PRE_CON%ROWTYPE;
+                
+                CURSOR CLINIC_INFO IS
+                select clinic_name, address, 'Hotline: '||PHONE_NO||', E-mail: '||email||', Web: '||website as contact
+                from clinic_info;
+                 CREC CLINIC_INFO%ROWTYPE;
+                
+                    CURSOR EMR_INFO IS
+                    SELECT CONSULTATION_ID, FOLLOW_UP_DAYS,NOTE,INSERT_BY, INSERT_DATE
+                    FROM CONSULTATION
+                    WHERE CONSULTATION_ID= :P40_CONS_ID;
+                    EREC EMR_INFO%ROWTYPE;
+                
+                    CURSOR INV_DTL IS 
+                    SELECT 
+                           SL_NO, EMR_PKG.GET_INV(INV_ID) INV_NAME
+                    FROM CONSULT_INV_DETAILS
+                    WHERE CONSULTATION_ID = :P40_CONS_ID
+                    ORDER BY SL_NO;
+                    
+                
+                    CURSOR ADV_DTL IS
+                    SELECT  SL_NO, EMR_PKG.GET_ADV(ADV_ID) ADV_NAME
+                    FROM CONS_ADVICE_DETAILS
+                    WHERE CONSULTATION_ID = :P40_CONS_ID
+                    ORDER BY SL_NO;
+                    AREC ADV_DTL%ROWTYPE;
+                
+                
+                    CURSOR MED_DTL IS
+                    SELECT 
+                       SL_NO,EMR_PKG.GET_MED(MED_ID) MED_NAME, FREQUENCY,TIME,INTAKE_DAYS
+                    FROM CONSULT_MEDICINE_DETAILS
+                    WHERE CONSULTATION_ID = :P40_CONS_ID
+                    ORDER BY SL_NO;
+                    MREC MED_DTL%ROWTYPE;
+                
+                
+                BEGIN
+                 OPEN PRE_CON;
+                    FETCH PRE_CON INTO VREC;
+                    V_CLOB := ('
+                    <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                    <style>
+                        @media print {
+                            size: A4;
+                            margin: 2cm;
+                        }
+                        .doctor-details h3 {
+                            margin:0;
+                            text-align: left;
+                        }
+                        .doctor-details h4 {
+                            margin:0;
+                        }
+                        .body {
+                            font-family:Arial;
+                        }
+                        hr {
+                            box-sizing: content-box;
+                            height: 2px;
+                            border: 0;
+                            overflow: visible;
+                            background: gray;
+                        }
+                        table tr td .rx-section {
+                            min-height: 200px;
+                        }
+                        table tr td,th {
+                            padding : 10px;
+                        }
+                    </style>
+                </head>
+                <body>
+                ');
+                V_CLOB :=  ('
+                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width:100%">
+                        <thead>
+                            <tr>
+                                <td width =60% colspan="4">
+                                    <div class="doctor-details" align= left>
+                                        <h4 style="color:#27567c;">
+                                           '||VREC.DOC_NAME||'
+                                        </h4>
+                                        <h5 style="color: rgb(184, 78, 78); font-weight: bolder;">'||VREC.DETAILS||'</h5>
+                                    </div>
+                                </td>
+                        
+                                  
+                            </tr>
+                        </thead>
+                    </table><hr>');
+                    V_CLOB := V_CLOB || ('
+                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width:100%">
+                        <tr style="border-bottom: 1px solid black;">
+                            <td colspan="2" >
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span><b>Patient Name: </b>'||VREC.P_NAME||' </span>
+                                    <span><b>Age: </b>'||VREC.AGE||'</span>
+                                    <span><b>Gender: </b>'||VREC.GENDER||'   </span>
+                                    <span><b>Date: </b>'||VREC.VISIT_DATE||' </span>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>'
+                    );
+                
+                  V_CLOB:= V_CLOB||'
+                   <table width=100% border=0 style="border-collapse: collapse;">
+                        <TR> 
+                               <td width="30%" style=" padding:15px; border-right: 1px solid black; vertical-align: top;" rowspan=2 >
+                  
+                                     <div> <STRONG style="font-size:16px;  padding-top: 20px;">Chief Complain</strong><br>
+                
+                                        <span  style="padding-left: 15px;">'||vrec.chief_complains||'</span><br><br>
+                
+                                      <STRONG style="font-size:16px;">Clinical Findings</strong><br>
+                
+                                         <b  style="padding-left: 15px;">  Blood Group:</b> '||vrec.blood_group||'<br>
+                                         <b style="padding-left: 15px;">  Weight:</b> '||vrec.weight||'<br>
+                                          <b style="padding-left: 15px;">  Height:</b> '||vrec.height||'<br>
+                                           <b style="padding-left: 15px;">  Resp. Rate:</b> '||vrec.rr||'<br>
+                                            <b style="padding-left: 15px;">  Heart Rate:</b> '||vrec.h_rate||'<br>
+                                             <b style="padding-left: 15px;">  Blood Pressure:</b> '||vrec.bp||'<br>
+                                              <b style="padding-left: 15px;">  Temperature:</b> '||vrec.temp||'<br>
+                                        ';
+                                      
+                                      v_clob:= v_clob||'<br>
+                                     </div>
+                  
+                  
+                  
+                  
+                  
+                                  <div> <STRONG style="font-size:16px;">Investigations</strong><br>
+                                  <ul>';
+                                  for inv in INV_DTL loop
+                                  V_CLOB:= V_CLOB||
+                                     '<li>'||inv.inv_name||'</li>';
+                                  end loop;
+                                  
+                                  v_clob:= v_clob||'</ul><br>
+                                  </div>
+                                  
+                                  <div>
+                                  <STRONG style="font-size:16px;">Advice</strong><br>';
+                                  for adv in ADV_DTL loop
+                                    V_CLOB:= V_CLOB||
+                                  ' <span  style="padding-left: 15px;">'||ADV.sl_no||'. '||ADV.ADV_name||'</span><br>';
+                                  end loop;
+                                  
+                                  v_clob:= v_clob||'<br>
+                                  </div>
+                                  
+                  
+                            </td>
+                            <td width="70%" style="vertical-align: top; padding:30px;">
+                                 <div> <STRONG style="font-size:22px;">R<sub>x</sub></strong><br>';
+                                  for MED in MED_DTL looP
+                                    V_CLOB:= V_CLOB||
+                                '<span  style="padding-left: 15px;">'||  MED.sl_no||'. '||MED.MED_name||'-'||MED.FREQUENCY||'('||MED.TIME||')- For '||med.intakE_days||' days</span><br><br>';
+                                  end loop;
+                                  
+                                  v_clob:= v_clob||'<br>
+                                  </div>
+                                  <div><STRONG style="font-size:16px;">Follow Up</strong><br>
+                                  <p> after '||VREC.follow_UP_DAYS||'</p>
+                            </td>
+                          </tr>
+                          <tr>
+                               <td align= right>
+                                  <div>
+                                                       
+                                    <hr align=right style="width: 150px;">
+                                     '||VREC.DOC_NAME||'
+                
+                
+                                  </div>
+                            </td>
+                        </tr>
+                
+                
+                      
+                    </table>
+                </body>
+                </html>
+                    ';
+                
+                
+                    RETURN (V_CLOB);
+                END;
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P40_CONS_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+    )
+
+)
+

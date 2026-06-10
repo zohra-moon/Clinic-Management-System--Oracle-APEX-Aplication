@@ -1,0 +1,183 @@
+customAttribute attribute_01 (
+    apexlangName: refreshToken
+    attribute: 1
+    name: Refresh Token
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 10
+    }
+)
+
+customAttribute attribute_02 (
+    apexlangName: clientId
+    attribute: 2
+    name: Client ID
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 20
+    }
+)
+
+customAttribute attribute_03 (
+    apexlangName: clientSecret
+    attribute: 3
+    name: Client Secret
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 30
+    }
+)
+
+customAttribute attribute_04 (
+    apexlangName: apiKey
+    attribute: 4
+    name: API Key
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 40
+    }
+)
+
+customAttribute attribute_05 (
+    apexlangName: permissionRole
+    attribute: 5
+    name: Permission Role
+    type: selectList
+    appearance {
+        sequence: 50
+    }
+    default {
+        value: reader
+    }
+
+    entry commenter (
+        sequence: 20
+        display: commenter
+        return: commenter
+    )
+
+    entry reader (
+        sequence: 30
+        display: reader
+        return: reader
+    )
+
+    entry writer (
+        sequence: 10
+        display: writer
+        return: writer
+    )
+
+)
+
+customAttribute attribute_06 (
+    apexlangName: permissionType
+    attribute: 6
+    name: Permission Type
+    type: selectList
+    appearance {
+        sequence: 60
+    }
+    default {
+        value: anyone
+    }
+
+    entry anyone (
+        sequence: 40
+        display: anyone
+        return: anyone
+        help {
+            helpText: anyone with access to the link
+        }
+    )
+
+    entry domain (
+        sequence: 30
+        display: domain
+        return: domain
+        help {
+            helpText: specific domain
+        }
+    )
+
+    entry group (
+        sequence: 20
+        display: group
+        return: group
+        help {
+            helpText: group email addresses
+        }
+    )
+
+    entry user (
+        sequence: 10
+        display: user
+        return: user
+        help {
+            helpText: specific email address with persmission
+        }
+    )
+
+)
+
+customAttribute attribute_07 (
+    apexlangName: emailAddress
+    attribute: 7
+    name: Email Address
+    appearance {
+        sequence: 70
+    }
+    help {
+        helpText: to enter if group or user permission roles have been chosen
+    }
+)
+
+customAttribute attribute_08 (
+    apexlangName: domain
+    attribute: 8
+    name: Domain
+    appearance {
+        sequence: 80
+    }
+    help {
+        helpText: enter if domain permission type has been chosen
+    }
+)
+
+customAttribute attribute_09 (
+    apexlangName: fileBrowseItem
+    attribute: 9
+    name: File Browse Item
+    type: pageItem
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 90
+    }
+    help {
+        helpText: Specify File Browse Item for uploads. Ensure APEX_APPLICATION_TEMP_FILES table storage is specified.
+    }
+)
+
+customAttribute attribute_10 (
+    apexlangName: generateFileLinksDisplayItemName
+    attribute: 10
+    name: Generate file links display item name
+    type: pageItem
+    appearance {
+        sequence: 100
+    }
+    help {
+        helpText: Optional Text area or rich text editor to display links of uploaded file(s)
+    }
+)
+

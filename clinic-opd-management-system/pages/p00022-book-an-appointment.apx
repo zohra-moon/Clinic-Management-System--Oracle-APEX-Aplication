@@ -1,0 +1,852 @@
+page 22 (
+    name: Book an Appointment
+    alias: BOOK-AN-APPOINTMENT
+    title: Book an Appointment
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    }
+    css {
+        inline:
+            ```css
+            /* ===== ¿ General Page Styling ===== */
+            
+            .t-IRR-table, 
+            .a-IG-table {
+                background: rgba(255, 255, 255, 0.15); /* Light Transparent White */
+                border-radius: 12px;
+                padding: 14px;
+                box-shadow: 0 5px 20px rgba(0, 247, 255, 0.3);
+            }
+            
+            /* ===== ¿ Table Cell Borders & Styling ===== */
+            .t-Report-report td, 
+            .a-IRR-table td, 
+            .a-IG-table td {
+                border: 1px solid rgba(0, 247, 255, 0.4);
+                padding: 12px;
+                font-size: 15px;
+                color: #e0ffff; /* Light Cyan */
+            }
+            
+            /* ===== ¿ Report Headers (Bold & Transparent) ===== */
+            .a-IRR-header, 
+            .a-IRR-header:hover, 
+            .t-Report-colHead {
+                font-weight: bold;
+                color: #001f3f;
+                background: rgba(0, 247, 255, 0.8); /* Cyan with Transparency */
+                height: 36px;
+                border-radius: 6px;
+                text-transform: uppercase;
+            }
+            
+            /* ===== ¿ Buttons Styling ===== */
+            #save, #btn_submit, #update {
+                background: linear-gradient(310deg, #00f7ff, #009688);
+                color: white;
+                border-radius: 8px;
+                font-weight: bold;
+                padding: 12px 16px;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 247, 255, 0.4);
+                transition: 0.3s ease;
+            }
+            
+            #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(310deg, #009688, #0055cc);
+            }
+            
+            /* ===== ¿ Close/Cancel Buttons ===== */
+            #close, #btn_cancel {
+                background: linear-gradient(310deg, #ff0033, #661111);
+                transition: 0.3s ease;
+            }
+            
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(310deg, #cc0022, #550000);
+            }
+            
+            /* ===== ¿ Input Container to Hold Label & Input ===== */
+            .input-container {
+                position: relative;
+                width: 100%;
+                margin-bottom: 20px; /* Adds space below inputs */
+            }
+            
+            /* ===== ¿ Floating Label Style ===== */
+            .input-container label {
+                position: absolute;
+                top: 50%;
+                left: 14px;
+                transform: translateY(-50%);
+                font-size: 16px;
+               font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+                transition: all 0.3s ease;
+                pointer-events: none; /* Prevents clicking the label */
+            }
+            
+            /* ===== ¿ Input Field with Floating Label ===== */
+            .input-container input, 
+            .input-container select {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(6px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 8px;
+                padding: 14px 14px 10px; /* Extra padding at the bottom */
+                font-size: 16px;
+                color: white;
+                transition: all 0.3s ease;
+            }
+            
+            /* ===== ¿ When Input is Focused or Has Text, Move Label Up ===== */
+            .input-container input:focus + label,
+            .input-container input:not(:placeholder-shown) + label,
+            .input-container select:focus + label,
+            .input-container select:not([value=""]) + label {
+                top: 10px;
+                font-size: 12px;
+                color: #00f7ff;
+            }
+            
+            /* ===== ¿ Date Picker Styling ===== */
+            .ui-datepicker {
+                background: rgba(255, 255, 255, 0.9);
+                border: 2px solid #009688;
+                border-radius: 10px;
+                padding: 6px;
+            }
+            
+            .a-Icon.icon-calendar {
+                color: white;
+            }
+            
+            /* ===== ¿ Navigation Bar Styling ===== */
+            .t-NavigationBar {
+                border: 2px solid white;
+                background: rgba(0, 0, 0, 0.5);
+                box-shadow: 0 -6px 10px -5px #00f7ff, 0 6px 10px -5px #00f7ff;
+                border-radius: 20px;
+            }
+            
+            /* ===== ¿ Interactive Report Toolbar ===== */
+            .a-IRR-toolbar {
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(0, 247, 255, 0.2);
+            }
+            
+            /* ===== ¿ Modal/Dialog Boxes ===== */
+            .ui-dialog {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 255, 0.3);
+            }
+            
+            /* ===== ¿ Hover Effects ===== */
+            .t-Button:hover {
+                transform: scale(1.05);
+            }
+            
+            
+            .t-Report-report tr:hover td {
+                color: #003366 !important; /* Dark Blue */
+                transition: color 0.3s ease-in-out;
+            }
+            
+            .a-IRR-table tr:hover td {
+                color: #003366 !important; /* Dark Blue */
+                transition: color 0.3s ease-in-out;
+            }
+            
+            .t-Report-report tr:hover, .a-IRR-table tr:hover {
+                background: rgba(0, 247, 255, 0.1);
+                transition: 0.3s ease;
+            }
+            
+            /* ===== ¿ Scrollbar Customization (Modern Look) ===== */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: #00f7ff;
+                border-radius: 10px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: #009688;
+            }
+            
+            
+            /* ===== ¿ Stylish Buttons ===== */
+            .t-Button {
+                background: linear-gradient(310deg, #0078ff, #00e1ff);
+                color: white;
+                font-weight: bold;
+                border-radius: 6px;
+                padding: 10px 14px;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .t-Button:hover {
+                transform: scale(1.05);
+                background: linear-gradient(310deg, #0050c8, #00a6c7);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #0078ff, #00e1ff);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                padding: 8px;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                padding: 10px 14px;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #00bcd4;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            /* ===== ¿ Interactive Effects ===== */
+            .t-Button:hover, .t-Report-report tr:hover, .a-IRR-table tr:hover {
+                transition: all 0.3s ease;
+            }
+            
+            /* ===== ¿ Dialog Boxes (Popups) ===== */
+            .ui-dialog {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            }
+            
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region book-an-appointment (
+        name: Book an Appointment
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noUI
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P22_APP_DATE_TIME (
+        type: datePicker
+        label {
+            label: App Date Time
+            alignment: left
+        }
+        layout {
+            sequence: 100
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_APP_ID (
+        type: textField
+        label {
+            label: New
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_APP_MOBILE_NO (
+        type: textField
+        label {
+            label: Mobile No
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 40
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 15
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_APP_SERIAL_NO (
+        type: numberField
+        label {
+            label: App Serial No
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+            virtualKeyboard: text
+        }
+        layout {
+            sequence: 110
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_DEPT_ID (
+        type: selectList
+        label {
+            label: Department
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @departments
+            displayExtraValues: false
+            nullDisplayValue: --select--
+        }
+        layout {
+            sequence: 70
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_DOC_ID (
+        type: selectList
+        label {
+            label: Doctor
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select doc_name||' -'||details d, doc_id r from doctors_info
+                where dept_id= :P22_DEPT_ID;
+                ```
+            displayExtraValues: false
+            nullDisplayValue: --select--
+        }
+        cascadingLov {
+            parentItems: P22_DEPT_ID
+            itemsToSubmit: P22_DEPT_ID
+        }
+        layout {
+            sequence: 80
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_DOC_SH_ID (
+        type: numberField
+        label {
+            label: Doc Sh Id
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+            virtualKeyboard: text
+        }
+        layout {
+            sequence: 90
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_INSERT_BY (
+        type: hidden
+        layout {
+            sequence: 150
+            region: @book-an-appointment
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_INSERT_DATE (
+        type: hidden
+        layout {
+            sequence: 160
+            region: @book-an-appointment
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_NOTE (
+        type: textarea
+        label {
+            label: Note
+            alignment: left
+        }
+        layout {
+            sequence: 130
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+            height: 4
+        }
+        validation {
+            maxLength: 500
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_PATIENT_TYPE (
+        type: radioGroup
+        label {
+            label: Patient Type
+            alignment: left
+        }
+        lov {
+            type: staticValues
+            staticValues: STATIC:New;New,Follow-up;Follow-up,Test Report Review;Test Report Review
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 50
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+        }
+        advanced {
+            warnOnUnsavedChanges: ignore
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_P_NAME (
+        type: textField
+        label {
+            label: Patient Name
+            alignment: left
+        }
+        layout {
+            sequence: 30
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_P_REG_ID (
+        type: numberField
+        label {
+            label: Patient ID
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+            virtualKeyboard: text
+        }
+        layout {
+            sequence: 20
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_RESCHEDULE (
+        type: hidden
+        layout {
+            sequence: 60
+            region: @book-an-appointment
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_SERIAL_NO (
+        type: numberField
+        label {
+            label: Serial No
+            alignment: left
+        }
+        settings {
+            numberAlignment: end
+            virtualKeyboard: text
+        }
+        layout {
+            sequence: 120
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_STATUS (
+        type: textField
+        label {
+            label: Status
+            alignment: left
+        }
+        layout {
+            sequence: 140
+            region: @book-an-appointment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 1
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 170
+            region: @book-an-appointment
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P22_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 180
+            region: @book-an-appointment
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @book-an-appointment
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 20
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @book-an-appointment
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P22_APP_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @book-an-appointment
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectUrl
+            targetUrl: javascript:apex.confirm(htmldb_delete_message,'DELETE');
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P22_APP_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @book-an-appointment
+            slot: change
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P22_APP_ID
+        }
+    )
+
+    branch (
+        execution {
+            sequence: 1
+        }
+        behavior {
+            target: {
+                page: 20
+            }
+        }
+    )
+
+)
+

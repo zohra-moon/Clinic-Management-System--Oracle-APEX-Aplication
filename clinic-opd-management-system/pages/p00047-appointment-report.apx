@@ -1,0 +1,404 @@
+page 47 (
+    name: Appointment REPORT
+    alias: APPOINTMENT-REPORT
+    title: Appointment REPORT
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region new (
+        name: New
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                V_OUTPUT CLOB;
+                CURSOR CLINIC_INFO IS
+                    select clinic_name, address, 'Hotline: '||PHONE_NO||', E-mail: '||email||', Web: '||website as contact
+                    from clinic_info;
+                 CREC CLINIC_INFO%ROWTYPE;
+                
+                CURSOR doc_CUR IS
+                    SELECT DISTINCT doc_id, emr_pkg.GET_DOC(doc_id) doc_name
+                    FROM APPOINTMENT_INFO 
+                   -- WHERE doc_id =nvl(TO_NUMBER(:P41_DOC_ID_1), doc_id)
+                    ORDER BY doc_id ASC;
+                
+                CURSOR APP_INFO (P_DOC IN number) IS 
+                SELECT APP_ID appid,
+                       APP_DATE_TIME,
+                       APP_SERIAL_NO,
+                       P_REG_ID,
+                       EMR_PKG.GET_PAT(P_REG_ID) P_NAME,
+                      emr_pkg.GET_SCH(doc_id) SCHEDULE,
+                      EMR_PKG.GET_DOC(DOC_ID) DOC_NAME,
+                       DOC_ID,
+                       APP_MOBILE_NO,
+                       PATIENT_TYPE,
+                       NOTE
+                FROM APPOINTMENT_INFO
+                   
+                 WHERE 
+                    trunc(APP_DATE_TIME) >= NVL(to_date(:P41_F_DATE, 'MM/DD/YYYY'),TRUNC(APP_DATE_TIME))
+                    AND trunc(APP_DATE_TIME) <= NVL(to_date(:P41_T_DATE,'MM/DD/YYYY'),TRUNC(APP_DATE_TIME))
+                    and PATIENT_TYPE = NVL(:P41_TYPE ,Patient_type)
+                    AND DOC_ID = P_DOC
+                     ORDER BY 
+                     APP_DATE_TIME ASC,
+                      APPID ASC;
+                
+                 v_rep_total NUMBER := 0;
+                 V_START_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                 V_END_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                
+                BEGIN
+                OPEN CLINIC_INFO;
+                FETCH CLINIC_INFO INTO CREC;
+                 V_OUTPUT := V_OUTPUT|| '
+                     <style>
+                            .no-top-border {
+                                        border-top: none;
+                                    }
+                              * {
+                            font-family: Arial;
+                           /* font-size: 12px;  You can adjust the font size */
+                            line-height: 1.5; /* Optional: Adjusts the line height for better readability */
+                        }
+                      </style>
+                
+                      <table width=100% border=0 style="border-collapse: collapse; padding:0; table-layout: auto;">
+                         <tr> <td  style="color: green; font-size: 20px;font-weight: bold; text-align: center;" class="no-top-border">'||CREC.CLINIC_NAME||'</td></tr>
+                         <TR>  <td  style="font-size: 11px; text-align: center;" class="no-top-border">'||CREC.address||'</td></tr>
+                       <TR>    <td  style="font-size: 11px;font-weight: bold; text-align: center;" class="no-top-border">'||CREC.contact||'</td></tr>
+                           </TABLE>';
+                 V_OUTPUT := V_OUTPUT|| '<DIV ALIGN=CENTER>
+                                <h3>Appointment Report </h3> <BR>
+                                From: '||V_START_DT||' To: '||V_END_DT||'<br>
+                              
+                              </DIV>
+                              <br>';
+                            FOR J IN doc_CUR LOOP
+                              V_OUTPUT := V_OUTPUT||'
+                                 <table border=1 style="border-collapse: collapse;" width=100%>
+                              <tr><td colspan=5>  Doctor: '||J.DOC_NAME||' ID: '||j.doc_id||'</td></tr>
+                                              <tr>
+                                                <th>Appoint. No.</th>
+                                                <TH>Appoint. Date</th>
+                                                <th>Patient</th>
+                                                <th>Type</th>
+                                                <th>Time</th>
+                                              
+                                              </tr>';
+                
+                                                     FOR I IN APP_INFO(J.DOC_id) LOOP
+                                                               V_OUTPUT := V_OUTPUT||'
+                                                                     <tr>
+                                                                      <td ALIGN= CENTER>'||I.APPID||'</td>
+                                                                      <td>'||to_char(i.APP_DATE_TIME,'dd-Mon-RRRR')||'</td>
+                                                                      <td>'||I.P_NAME||'</td>
+                                                                      <td>'||I.PATIENT_TYPE||'</td>
+                                                                        <td>'||I.SCHEDULE||'</td>
+                                                                     </tr>';
+                                                            v_rep_total:= v_rep_total+1;         
+                                                     END LOOP;
+                          V_OUTPUT := V_OUTPUT||  '<tr> <td colspan=7 align= right style="span:5;" >Total Patient : '||v_rep_total||'</td></tr>';   
+                            END LOOP;
+                         V_OUTPUT := V_OUTPUT|| '<tr> <td colspan=7 align= right style="span:5;" >Report Total : '||v_rep_total||'</td></tr>'; 
+                 V_OUTPUT := V_OUTPUT||'</table>';
+                 RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                 WHEN OTHERS THEN
+                 RETURN 'Error: '||SQLERRM;
+                END;
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    region new-appointment (
+        name: New_APPOINTMENT
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                    V_OUTPUT CLOB;
+                    v_rep_total NUMBER := 0;
+                    V_START_DT VARCHAR2(50);
+                    V_END_DT VARCHAR2(50);
+                
+                    CURSOR CLINIC_INFO IS
+                        SELECT clinic_name, address, 'Hotline: ' || PHONE_NO || ', E-mail: ' || email || ', Web: ' || website AS contact
+                        FROM clinic_info;
+                    
+                    CREC CLINIC_INFO%ROWTYPE;
+                
+                    CURSOR doc_CUR IS
+                        SELECT DISTINCT doc_id, emr_pkg.GET_DOC(doc_id) doc_name
+                        FROM APPOINTMENT_INFO 
+                        WHERE DOC_ID = NVL(:P41_DOC_ID_1, DOC_ID)
+                        ORDER BY doc_id ASC;
+                
+                    CURSOR APP_INFO (P_DOC IN NUMBER) IS 
+                        SELECT APP_ID appid,
+                               APP_DATE_TIME,
+                               APP_SERIAL_NO,
+                               P_REG_ID,
+                               NVL(EMR_PKG.GET_PAT(P_REG_ID), 'Unknown') P_NAME,
+                               NVL(emr_pkg.GET_SCH(doc_id), 'N/A') SCHEDULE,
+                               NVL(EMR_PKG.GET_DOC(DOC_ID), 'N/A') DOC_NAME,
+                               DOC_ID,
+                               APP_MOBILE_NO,
+                               PATIENT_TYPE,
+                               NOTE
+                        FROM APPOINTMENT_INFO
+                        WHERE trunc(APP_DATE_TIME) >= NVL(to_date(:P41_F_DATE, 'MM/DD/YYYY'), trunc(SYSDATE))
+                          AND trunc(APP_DATE_TIME) <= NVL(to_date(:P41_T_DATE, 'MM/DD/YYYY'), trunc(SYSDATE))
+                          AND PATIENT_TYPE = NVL(:P41_TYPE, PATIENT_TYPE)
+                          AND DOC_ID = P_DOC
+                        ORDER BY APP_DATE_TIME ASC, APP_ID ASC;
+                    
+                BEGIN
+                    -- Handle NULL date cases
+                    V_START_DT := NVL(TO_CHAR(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'), 'N/A');
+                    V_END_DT := NVL(TO_CHAR(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'), 'N/A');
+                
+                    -- Initialize CLOB properly
+                    DBMS_LOB.CREATETEMPORARY(V_OUTPUT, TRUE);
+                
+                    -- Fetch clinic info
+                    OPEN CLINIC_INFO;
+                    FETCH CLINIC_INFO INTO CREC;
+                    CLOSE CLINIC_INFO;
+                
+                    -- Start building the HTML report
+                    DBMS_LOB.APPEND(V_OUTPUT, 
+                        '<style>
+                            .no-top-border { border-top: none; }
+                            * { font-family: Arial; line-height: 1.5; }
+                         </style>
+                         <table width="100%" border="0" style="border-collapse: collapse; padding:0; table-layout: auto;">
+                            <tr><td style="color: green; font-size: 20px; font-weight: bold; text-align: center;" class="no-top-border">'
+                            || CREC.CLINIC_NAME || '</td></tr>
+                            <tr><td style="font-size: 11px; text-align: center;" class="no-top-border">' || CREC.ADDRESS || '</td></tr>
+                            <tr><td style="font-size: 11px; font-weight: bold; text-align: center;" class="no-top-border">' 
+                            || CREC.CONTACT || '</td></tr>
+                         </table>
+                         <div align="center">
+                            <h3>Appointment Report</h3> <br>
+                            From: ' || V_START_DT || ' To: ' || V_END_DT || '
+                         </div><br>'
+                    );
+                
+                    -- Loop through doctors
+                    FOR J IN doc_CUR LOOP
+                        DBMS_LOB.APPEND(V_OUTPUT, 
+                            '<table border="1" style="border-collapse: collapse;" width="100%">
+                            <tr><td colspan="5"><b>Doctor:</b> ' || J.DOC_NAME || ' (ID: ' || J.DOC_ID || ')</td></tr>
+                            <tr>
+                                <th>Appoint. No.</th>
+                                <th>Appoint. Date</th>
+                                <th>Patient</th>
+                                <th>Type</th>
+                                <th>Time</th>
+                            </tr>'
+                        );
+                
+                        -- Reset count for each doctor
+                        v_rep_total := 0;
+                
+                        -- Loop through appointments
+                        FOR I IN APP_INFO(J.DOC_ID) LOOP
+                            DBMS_LOB.APPEND(V_OUTPUT, 
+                                '<tr>
+                                    <td align="center">' || I.APPID || '</td>
+                                    <td>' || TO_CHAR(I.APP_DATE_TIME, 'DD-Mon-YYYY') || '</td>
+                                    <td>' || I.P_NAME || '</td>
+                                    <td>' || I.PATIENT_TYPE || '</td>
+                                    <td>' || I.SCHEDULE || '</td>
+                                </tr>'
+                            );
+                            v_rep_total := v_rep_total + 1;
+                        END LOOP;
+                
+                        -- Append total count for each doctor
+                        DBMS_LOB.APPEND(V_OUTPUT, 
+                            '<tr><td colspan="5" align="right"><b>Total Patients:</b> ' || v_rep_total || '</td></tr></table><br>'
+                        );   
+                    END LOOP;
+                
+                    -- Final report total
+                    DBMS_LOB.APPEND(V_OUTPUT, '<tr><td colspan="5" align="right"><b>Report Total:</b> ' || v_rep_total || '</td></tr></table>');
+                
+                    RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                    WHEN OTHERS THEN
+                        RETURN 'Error: ' || SQLERRM;
+                END;
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region new-check (
+        name: New CHECK
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                V_OUTPUT CLOB;
+                cursor doc_CUR is
+                select distinct(doc_id), emr_pkg.GET_DOC(doc_id) doc_name
+                from billing
+                WHERE DUE_RETURN_AMT IS NOT NULL
+                AND  RECEIVED_AMT IS NOT NULL
+                AND  DISC_AMT IS NOT NULL
+                order by doc_id asc;
+                
+                CURSOR bill_INFO (P_DOC IN number) IS 
+                 SELECT 
+                    TO_CHAR(B.BILL_ID) AS BILL_ID, 
+                    B.bill_DATE, 
+                    P.P_NAME, 
+                    A.PATIENT_TYPE, 
+                    emr_pkg.get_doc(B.doc_id) doc_name, b.doc_id,
+                    B.DISCOUNT_PCT, 
+                    NVL(B.NET_AMOUNT, 0) AS NET_AMOUNT, 
+                    NVL(B.TOTAL, 0) AS TOTAL, 
+                    NVL(B.DISC_AMT, 0) AS DISC_AMT, 
+                    NVL(B.RECEIVED_AMT, 0) AS RECEIVED_AMT, 
+                    NVL(B.DUE_RETURN_AMT, 0) AS DUE_RETURN_AMT
+                 FROM 
+                    APPOINTMENT_INFO A 
+                 JOIN 
+                    PATIENTS_REG_INFO P ON A.P_REG_ID = P.P_REG_ID
+                 JOIN 
+                    BILLING B ON A.APP_ID = B.APP_ID
+                 WHERE 
+                    trunc(B.bill_DATE) >= to_date(:P41_F_DATE, 'MM/DD/YYYY')
+                    AND trunc(B.bill_DATE) <= to_date(:P41_T_DATE, 'MM/DD/YYYY')
+                    and b.doc_id = P_DOC
+                     ORDER BY 
+                       B.BILL_ID DESC, 
+                        B.bill_DATE ASC;
+                
+                v_doc varchar2(100);
+                 v_rep_total NUMBER := 0;
+                 V_START_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                 V_END_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                
+                BEGIN
+                
+                 V_OUTPUT := V_OUTPUT|| '<DIV ALIGN=CENTER>
+                                <h3> Bill Topsheet </h3> <BR>
+                                From: '||V_START_DT||' To: '||V_END_DT||'<br>
+                                
+                              </DIV>
+                              <br>';
+                            FOR J IN doc_CUR LOOP
+                              V_OUTPUT := V_OUTPUT||'
+                               <table border=1 style="border-collapse: collapse;" width=100%>
+                              <tr><td colspan=7>  Doctor: '||J.DOC_NAME||' ID: '||j.doc_id||'</td></tr>
+                               
+                                              <tr>
+                                                <th>Invoice No.</th>
+                                                <TH>Bill Date</th>
+                                                <th>Patient</th>
+                                                <th>Type</th>
+                                                <th>Amount</th>
+                                                <th>Discount</th>
+                                                <th>Total</th>
+                                              </tr>';
+                
+                                         FOR I IN bill_INFO(J.DOC_id) LOOP
+                                                    V_OUTPUT := V_OUTPUT ||
+                                                    '<tr>
+                                                    <td>'||I.BILL_ID||' DOC-ID '||J.DOC_ID||'</td>
+                                                    <td colspan=6>'||I.bill_DATE||'</td>
+                                                    <tr>
+                                                    ';
+                                         END LOOP;
+                
+                
+                
+                                /*
+                
+                                                     FOR I IN bill_INFO(J.DOC_id) LOOP
+                                                               V_OUTPUT := V_OUTPUT||'
+                                                                     <tr>
+                                                                      <td ALIGN= CENTER>'||I.BILL_ID||' DOC-ID '||J.DOC_ID||'</td>
+                                                                      <td>'||to_char(i.bill_date,'dd-Mon-RRRR')||'</td>
+                                                                      <td>'||I.P_NAME||'</td>
+                                                                      <td>'||I.PATIENT_TYPE||'</td>
+                                                                      <td ALIGN= RIGHT style="padding: 5px;">'||NVL(I.NET_AMOUNT, 0)||'</td>
+                                                                      <td ALIGN= RIGHT style="padding: 5px;">'||NVL(I.DISC_AMT, 0)||'</td>
+                                                                      <td ALIGN= RIGHT style="padding: 5px;">'||NVL(I.TOTAL, 0)||'</td>
+                                                                     </tr>';
+                                                     END LOOP; */
+                            END LOOP;
+                 V_OUTPUT := V_OUTPUT||'</table>';
+                 RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                 WHEN OTHERS THEN
+                 RETURN 'Error: '||SQLERRM;
+                END;
+                ```
+        }
+        layout {
+            sequence: 30
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+)
+

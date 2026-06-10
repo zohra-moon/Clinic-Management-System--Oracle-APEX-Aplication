@@ -1,0 +1,95 @@
+file "Untitled designnew.jpg" (
+    mimeType: image/jpeg
+    charSet: utf-8
+)
+
+file app-icon.css (
+    mimeType: text/css
+    charSet: utf-8
+)
+
+file app-icon.svg (
+    mimeType: image/svg+xml
+    charSet: utf-8
+)
+
+file app.js (
+    mimeType: application/javascript
+    charSet: utf-8
+)
+
+file custom-animation.js (
+    mimeType: application/javascript
+    charSet: utf-8
+)
+
+file custom-theme.css (
+    mimeType: text/css
+    charSet: utf-8
+)
+
+file "icons/app-icon-144-rounded.png" (
+    mimeType: image/png
+    charSet: utf-8
+)
+
+file "icons/app-icon-192.png" (
+    mimeType: image/png
+    charSet: utf-8
+)
+
+file "icons/app-icon-256-rounded.png" (
+    mimeType: image/png
+    charSet: utf-8
+)
+
+file "icons/app-icon-32.png" (
+    mimeType: image/png
+    charSet: utf-8
+)
+
+file "icons/app-icon-512.png" (
+    mimeType: image/png
+    charSet: utf-8
+)
+
+file logo.gif (
+    mimeType: image/gif
+    charSet: utf-8
+)
+
+file logo12-final.gif (
+    mimeType: image/gif
+    charSet: utf-8
+)
+
+file logo12-final.jpg (
+    mimeType: image/jpeg
+    charSet: utf-8
+)
+
+file medical-appointment-doctor-healthcare-40568.webp (
+    mimeType: image/webp
+    charSet: utf-8
+)
+
+file particles.js (
+    mimeType: application/javascript
+    charSet: utf-8
+)
+
+file pexels-mikhail-nilov-8670192.jpg (
+    mimeType: image/jpeg
+    charSet: utf-8
+)
+
+file pexels-photo-6823736.webp (
+    mimeType: image/webp
+    charSet: utf-8
+)
+
+file printThis.js (
+    mimeType: application/javascript
+    charSet: utf-8
+)
+

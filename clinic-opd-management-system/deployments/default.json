@@ -1,0 +1,11 @@
+{
+  "app" : {
+    "id" : 44017,
+    "databaseSession" : {
+      "parsingSchema" : "CLOUD_POS"
+    },
+    "runtime" : {
+      "debugging" : true
+    }
+  }
+}

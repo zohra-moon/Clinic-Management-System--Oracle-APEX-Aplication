@@ -1,0 +1,168 @@
+page 56 (
+    name: MATRIX
+    alias: MATRIX
+    title: MATRIX REPORT
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region new (
+        name: New
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                    V_OUTPUT CLOB;
+                    V_FIRST_DATE DATE := TO_DATE(:P41_F_DATE, 'MM/DD/YYYY');
+                    V_LAST_DATE DATE := TO_DATE(:P41_T_DATE, 'MM/DD/YYYY');
+                
+                    -- Cursor for Days Where Appointments Exist
+                    CURSOR DAY_CUR IS
+                        SELECT DISTINCT TRUNC(APP_DATE_TIME) AS APP_DATE
+                        FROM APPOINTMENT_INFO
+                        WHERE TRUNC(APP_DATE_TIME) BETWEEN V_FIRST_DATE AND V_LAST_DATE
+                        ORDER BY APP_DATE;
+                
+                    -- Cursor for Doctors (Table Rows)
+                    CURSOR DOC_CUR IS
+                        SELECT DISTINCT DOC_ID, EMR_PKG.GET_DOC(DOC_ID) AS DOC_NAME
+                        FROM APPOINTMENT_INFO
+                        WHERE TRUNC(APP_DATE_TIME) BETWEEN V_FIRST_DATE AND V_LAST_DATE
+                        ORDER BY DOC_ID;
+                
+                    -- Function to get Appointment Count per Doctor per Day
+                    FUNCTION GET_APPOINTMENT_COUNT(P_DOC_ID NUMBER, P_APP_DATE DATE) RETURN NUMBER IS
+                        V_COUNT NUMBER := 0;
+                    BEGIN
+                        SELECT COUNT(*) INTO V_COUNT
+                        FROM APPOINTMENT_INFO
+                        WHERE DOC_ID = P_DOC_ID 
+                        AND TRUNC(APP_DATE_TIME) = P_APP_DATE;
+                        
+                        RETURN V_COUNT;
+                    EXCEPTION
+                        WHEN NO_DATA_FOUND THEN RETURN 0;
+                        WHEN OTHERS THEN RETURN -1;
+                    END;
+                
+                    -- Function to get Total Appointments per Day
+                    FUNCTION GET_TOTAL_DAY_COUNT(P_APP_DATE DATE) RETURN NUMBER IS
+                        V_COUNT NUMBER := 0;
+                    BEGIN
+                        SELECT COUNT(*) INTO V_COUNT
+                        FROM APPOINTMENT_INFO
+                        WHERE TRUNC(APP_DATE_TIME) = P_APP_DATE;
+                        
+                        RETURN V_COUNT;
+                    EXCEPTION
+                        WHEN NO_DATA_FOUND THEN RETURN 0;
+                        WHEN OTHERS THEN RETURN -1;
+                    END;
+                
+                BEGIN
+                    -- Initialize CLOB
+                    DBMS_LOB.CREATETEMPORARY(V_OUTPUT, TRUE);
+                
+                    -- Start HTML Table with Styling
+                    DBMS_LOB.APPEND(V_OUTPUT, '<style>
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+                        th { background-color: #f2f2f2; }
+                        </style>');
+                    DBMS_LOB.APPEND(V_OUTPUT, '<b style="text-align: center; font-size: 20px;"> Doctor vs Patient Matrix Report</b>');
+                    DBMS_LOB.APPEND(V_OUTPUT, '<table>');
+                
+                    -- Header Row (Only Days with Appointments)
+                    DBMS_LOB.APPEND(V_OUTPUT, '<tr><th>Doctor</th>');
+                
+                    FOR D IN DAY_CUR LOOP
+                        DBMS_LOB.APPEND(V_OUTPUT, '<th>' || TO_CHAR(D.APP_DATE, 'DD-MON') || '</th>');
+                    END LOOP;
+                
+                    DBMS_LOB.APPEND(V_OUTPUT, '<th>Total</th></tr>'); -- Total column at the end
+                
+                    -- Data Rows (Doctors and their appointment counts per filtered day)
+                    DECLARE
+                        V_GRAND_TOTAL NUMBER := 0; -- To keep track of the final report total
+                    BEGIN
+                        FOR DOC IN DOC_CUR LOOP
+                            DBMS_LOB.APPEND(V_OUTPUT, '<tr><td><b>' || DOC.DOC_NAME || '</b></td>');
+                
+                            DECLARE
+                                V_TOTAL_APPOINTMENTS NUMBER := 0;
+                            BEGIN
+                                FOR D IN DAY_CUR LOOP
+                                    DECLARE
+                                        V_COUNT NUMBER;
+                                    BEGIN
+                                        V_COUNT := GET_APPOINTMENT_COUNT(DOC.DOC_ID, D.APP_DATE);
+                                        DBMS_LOB.APPEND(V_OUTPUT, '<td>' || V_COUNT || '</td>');
+                                        V_TOTAL_APPOINTMENTS := V_TOTAL_APPOINTMENTS + V_COUNT;
+                                    END;
+                                END LOOP;
+                
+                                -- Append total for the doctor
+                                DBMS_LOB.APPEND(V_OUTPUT, '<td><b>' || V_TOTAL_APPOINTMENTS || '</b></td></tr>');
+                                V_GRAND_TOTAL := V_GRAND_TOTAL + V_TOTAL_APPOINTMENTS; -- Add to grand total
+                            END;
+                        END LOOP;
+                
+                        -- Row for Total Patients Per Day
+                        DBMS_LOB.APPEND(V_OUTPUT, '<tr><td><b>Total Patients</b></td>');
+                
+                        DECLARE
+                            V_REPORT_TOTAL NUMBER := 0;
+                        BEGIN
+                            FOR D IN DAY_CUR LOOP
+                                DECLARE
+                                    V_DAY_TOTAL NUMBER;
+                                BEGIN
+                                    V_DAY_TOTAL := GET_TOTAL_DAY_COUNT(D.APP_DATE);
+                                    DBMS_LOB.APPEND(V_OUTPUT, '<td><b>' || V_DAY_TOTAL || '</b></td>');
+                                    V_REPORT_TOTAL := V_REPORT_TOTAL + V_DAY_TOTAL;
+                                END;
+                            END LOOP;
+                
+                            -- Append the Final Report Total in the Cross Section
+                            DBMS_LOB.APPEND(V_OUTPUT, '<td><b>' || V_REPORT_TOTAL || '</b></td></tr>');
+                        END;
+                    END;
+                
+                    DBMS_LOB.APPEND(V_OUTPUT, '</table>');
+                
+                    -- Return Output
+                    RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                    WHEN OTHERS THEN
+                        RETURN 'Error: ' || SQLERRM;
+                END;
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+)
+

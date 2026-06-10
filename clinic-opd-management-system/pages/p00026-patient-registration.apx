@@ -1,0 +1,899 @@
+page 26 (
+    name: Patient Registration
+    alias: PATIENT-REGISTRATION
+    title: patient-registration
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region list-of-patients (
+        name: List of Patients
+        type: form
+        source {
+            location: localDatabase
+            tableName: PATIENTS_REG_INFO
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    region patient-registration-information (
+        name: Patient Registration Information
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+            icon: fa-users
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P26_ADDRESS (
+        type: textField
+        label {
+            label: Address
+            alignment: left
+        }
+        layout {
+            sequence: 170
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            columnSpan: 6
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 500
+        }
+        source {
+            formRegion: @list-of-patients
+            column: ADDRESS
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_BLOOD_GROUP (
+        type: popupLov
+        label {
+            label: Blood Group
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @blood-group
+        }
+        layout {
+            sequence: 60
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 3
+        }
+        source {
+            formRegion: @list-of-patients
+            column: BLOOD_GROUP
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_DATE_OF_BIRTH (
+        type: datePicker
+        label {
+            label: Date Of Birth
+            alignment: left
+        }
+        settings {
+            maxDate: static
+            maxStatic: 3/13/2025
+            useDefaults: false
+            appearanceBehavior: [
+                monthPicker
+                yearPicker
+                showTodayButton
+            ]
+        }
+        layout {
+            sequence: 40
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 255
+        }
+        source {
+            formRegion: @list-of-patients
+            column: DATE_OF_BIRTH
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_DIST_NO (
+        type: hidden
+        layout {
+            sequence: 190
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: DIST_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_DIV_NO (
+        type: hidden
+        layout {
+            sequence: 180
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: DIV_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_EMAIL (
+        type: textField
+        label {
+            label: Email
+            alignment: left
+        }
+        layout {
+            sequence: 70
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @list-of-patients
+            column: EMAIL
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_EMERGENCY_CONTACT_NAME (
+        type: textField
+        label {
+            label: Emergency Contact Name
+            alignment: left
+        }
+        layout {
+            sequence: 90
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            maxLength: 200
+        }
+        source {
+            formRegion: @list-of-patients
+            column: EMERGENCY_CONTACT_NAME
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_EMERGENCY_CONTACT_NO (
+        type: textField
+        label {
+            label: Emergency Contact No
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 110
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 15
+        }
+        source {
+            formRegion: @list-of-patients
+            column: EMERGENCY_CONTACT_NO
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_EMERGENCY_CONTACT_RELATION (
+        type: textField
+        label {
+            label: Emergency Contact Relation
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 100
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @list-of-patients
+            column: EMERGENCY_CONTACT_RELATION
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_GENDER (
+        type: selectList
+        label {
+            label: Gender
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @gender
+        }
+        layout {
+            sequence: 50
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @list-of-patients
+            column: GENDER
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_INSERT_BY (
+        type: hidden
+        layout {
+            sequence: 130
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: INSERT_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_INSERT_DATE (
+        type: hidden
+        layout {
+            sequence: 140
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: INSERT_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_MOBILE_NO (
+        type: textField
+        label {
+            label: Mobile No
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 30
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            valueRequired: true
+            maxLength: 11
+        }
+        source {
+            formRegion: @list-of-patients
+            column: MOBILE_NO
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_PS_UPAZILA_NO (
+        type: hidden
+        layout {
+            sequence: 200
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: PS_UPAZILA_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_P_NAME (
+        type: textField
+        label {
+            label: Patient Name
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @list-of-patients
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 60
+        }
+        validation {
+            valueRequired: true
+            maxLength: 200
+        }
+        source {
+            formRegion: @list-of-patients
+            column: P_NAME
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_P_REG_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: P_REG_ID
+            dataType: number
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_STATUS (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: STATUS
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_UNION_NO (
+        type: hidden
+        layout {
+            sequence: 210
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: UNION_NO
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 150
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P26_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 160
+            region: @list-of-patients
+            slot: regionBody
+        }
+        source {
+            formRegion: @list-of-patients
+            column: UPDATE_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @list-of-patients
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 25
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @list-of-patients
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P26_P_REG_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @list-of-patients
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectUrl
+            targetUrl: javascript:apex.confirm(htmldb_delete_message,'DELETE');
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P26_P_REG_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @list-of-patients
+            slot: change
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P26_P_REG_ID
+        }
+    )
+
+    process gen-pk (
+        name: gen_pk
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max(p_reg_id),999)+1 into :P26_P_REG_ID
+                from patients_reg_info;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 12964912856771804556
+        }
+        serverSideCondition {
+            whenButtonPressed: @create
+        }
+    )
+
+    process initialize-form-list-of-patients (
+        name: Initialize form List of Patients
+        type: formInitialization
+        formRegion: @list-of-patients
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 12964876818166231355
+        }
+    )
+
+    process process-form-list-of-patients (
+        name: Process form List of Patients
+        type: formAutoRowProcessing
+        formRegion: @list-of-patients
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 12964877256450231357
+        }
+    )
+
+    branch (
+        execution {
+            sequence: 1
+        }
+        behavior {
+            target: {
+                page: 25
+            }
+        }
+    )
+
+)
+

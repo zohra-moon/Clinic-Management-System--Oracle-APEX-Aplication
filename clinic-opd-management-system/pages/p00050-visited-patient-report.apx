@@ -1,0 +1,153 @@
+page 50 (
+    name: Visited Patient Report
+    alias: VISITED-PATIENT-REPORT
+    title: Visited Patient Report
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region new (
+        name: New
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                    V_OUTPUT CLOB;
+                    V_START_DT VARCHAR2(50);
+                    V_END_DT VARCHAR2(50);
+                    v_rep_total NUMBER := 0;
+                
+                    CURSOR CLINIC_INFO IS
+                        SELECT clinic_name, address, 'Hotline: ' || PHONE_NO || ', E-mail: ' || email || ', Web: ' || website AS contact
+                        FROM clinic_info;
+                    
+                    CREC CLINIC_INFO%ROWTYPE;
+                
+                    -- Cursor for Doctors
+                    CURSOR DOC_CUR IS
+                        SELECT DISTINCT DOC_ID, EMR_PKG.GET_DOC(DOC_ID) AS DOC_NAME
+                        FROM APPOINTMENT_INFO
+                        WHERE DOC_ID = NVL(:P41_DOC_ID_1, DOC_ID)
+                        ORDER BY DOC_ID ASC;
+                
+                    -- Cursor for Nurse Station Visit Data
+                    CURSOR VISIT_INFO (P_DOC IN NUMBER) IS 
+                        SELECT N.NURSE_ST_ID,
+                               N.VISIT_DATE,
+                               A.APP_ID,
+                               A.P_REG_ID,
+                               NVL(EMR_PKG.GET_PAT(A.P_REG_ID), 'Unknown') AS P_NAME,
+                               A.PATIENT_TYPE
+                        FROM NURSE_STATION N
+                        JOIN APPOINTMENT_INFO A ON N.APP_ID = A.APP_ID
+                        WHERE TRUNC(N.VISIT_DATE) >= NVL(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), TRUNC(SYSDATE))
+                          AND TRUNC(N.VISIT_DATE) <= NVL(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), TRUNC(SYSDATE))
+                          AND A.PATIENT_TYPE = NVL(:P41_TYPE, A.PATIENT_TYPE)
+                          AND A.DOC_ID = P_DOC
+                        ORDER BY N.VISIT_DATE ASC, A.P_REG_ID ASC;
+                    
+                BEGIN
+                    -- Handle NULL date cases
+                    V_START_DT := NVL(TO_CHAR(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'), 'N/A');
+                    V_END_DT := NVL(TO_CHAR(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'), 'N/A');
+                
+                    -- Initialize CLOB properly
+                    DBMS_LOB.CREATETEMPORARY(V_OUTPUT, TRUE);
+                
+                    -- Fetch clinic info
+                    OPEN CLINIC_INFO;
+                    FETCH CLINIC_INFO INTO CREC;
+                    CLOSE CLINIC_INFO;
+                
+                    -- Start building the HTML report
+                    DBMS_LOB.APPEND(V_OUTPUT, 
+                        '<style>
+                            .no-top-border { border-top: none; }
+                            * { font-family: Arial; line-height: 1.5; }
+                         </style>
+                         <table width="100%" border="0" style="border-collapse: collapse; padding:0; table-layout: auto;">
+                            <tr><td style="color: green; font-size: 20px; font-weight: bold; text-align: center;" class="no-top-border">'
+                            || CREC.CLINIC_NAME || '</td></tr>
+                            <tr><td style="font-size: 11px; text-align: center;" class="no-top-border">' || CREC.ADDRESS || '</td></tr>
+                            <tr><td style="font-size: 11px; font-weight: bold; text-align: center;" class="no-top-border">' 
+                            || CREC.CONTACT || '</td></tr>
+                         </table>
+                         <div align="center">
+                            <h3>Nurse Station Visit Report</h3> <br>
+                            From: ' || V_START_DT || ' To: ' || V_END_DT || '<br>
+                         </div><br>'
+                    );
+                
+                    -- Loop through doctors
+                    FOR J IN DOC_CUR LOOP
+                        DBMS_LOB.APPEND(V_OUTPUT, 
+                            '<table border="1" style="border-collapse: collapse;" width="100%">
+                            <tr><td colspan="4"><b>Doctor:</b> ' || J.DOC_NAME || ' (ID: ' || J.DOC_ID || ')</td></tr>
+                            <tr>
+                                <th>Visit Date</th>
+                                <th>Patient</th>
+                                <th>Type</th>
+                                <th>Appointment ID</th>
+                            </tr>'
+                        );
+                
+                        -- Reset count for each doctor
+                        v_rep_total := 0;
+                
+                        -- Loop through Nurse Station Visits
+                        FOR I IN VISIT_INFO(J.DOC_ID) LOOP
+                            DBMS_LOB.APPEND(V_OUTPUT, 
+                                '<tr>
+                                    <td>' || TO_CHAR(I.VISIT_DATE, 'DD-Mon-YYYY') || '</td>
+                                    <td>' || I.P_NAME || '</td>
+                                    <td>' || I.PATIENT_TYPE || '</td>
+                                    <td align="center">' || I.APP_ID || '</td>
+                                </tr>'
+                            );
+                            v_rep_total := v_rep_total + 1;
+                        END LOOP;
+                
+                        -- Append total count for each doctor
+                        DBMS_LOB.APPEND(V_OUTPUT, 
+                            '<tr><td colspan="4" align="right"><b>Total Visits:</b> ' || v_rep_total || '</td></tr></table><br>'
+                        );   
+                    END LOOP;
+                
+                    -- Final report total
+                    DBMS_LOB.APPEND(V_OUTPUT, '<tr><td colspan="4" align="right"><b>Report Total:</b> ' || v_rep_total || '</td></tr></table>');
+                
+                    RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                    WHEN OTHERS THEN
+                        RETURN 'Error: ' || SQLERRM;
+                END;
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+)
+

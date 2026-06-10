@@ -1,0 +1,373 @@
+plugin saveFilesToGoogleDrive (
+    name: Save Files to Google Drive
+    staticId: PRC.KADEYEMIAPEX.SAVETOGOOGLEDRIVE
+    type: process
+    component {
+        supports: [
+            pageProcesses
+            automationActions
+        ]
+    }
+    source {
+        plsqlCode:
+            ```plsql
+            -- =============================================================================
+            --
+            --  Author: Kehinde Adeyemi
+            --  Date: 27.03.2021
+            --  This plug-in lets users upload files to google drive.
+            --  
+            --
+            --  License: MIT
+            --
+            --  GitHub: https://github.com/
+            --
+            --
+            -- Modified on 13.04.2021 to ensure metadata is displayed correctly after upload
+            --
+            -- =============================================================================
+            
+            function render
+              ( p_process in apex_plugin.t_process
+              , p_plugin   in apex_plugin.t_plugin
+              )
+            return apex_plugin.t_process_exec_result 
+            as
+                l_result                 apex_plugin.t_process_exec_result;
+            
+                -- general attributes
+               l_refresh_token         p_process.attribute_01%type := p_process.attribute_01;
+               l_client_id             p_process.attribute_02%type := p_process.attribute_02;
+               l_client_secret         p_process.attribute_03%type := p_process.attribute_03;
+               l_api_key               p_process.attribute_04%type := p_process.attribute_04;
+               l_permission_role       p_process.attribute_05%type := p_process.attribute_05;
+               l_permission_type       p_process.attribute_06%type := p_process.attribute_06;
+               l_email_address         p_process.attribute_07%type := p_process.attribute_07;
+               l_domain                p_process.attribute_08%type := p_process.attribute_08;
+               l_filebrowse_item       p_process.attribute_09%type := p_process.attribute_09;
+               l_generated_urls        p_process.attribute_10%type := p_process.attribute_10;
+            
+            
+               l_response_authclob   CLOB;
+               l_rest_authurl        VARCHAR2 (1000);
+               l_parm_names      apex_application_global.vc_arr2;
+               l_parm_values     apex_application_global.vc_arr2;
+               l_access_token    varchar2(1000);
+               l_rest_url        VARCHAR2 (1000);
+               l_payload         CLOB;
+               l_response_clob   CLOB;
+               l_fileid         VARCHAR2(1000);
+               l_ext              VARCHAR2(20);
+               l_mimetype        VARCHAR2(500);
+               v_sqlerrm         VARCHAR2(1000);
+               l_file_link       VARCHAR2(500);
+               l_rest_linkurl        VARCHAR2 (1000);
+               l_response_linkclob   CLOB;
+               l_preview_url     VARCHAR2(500);
+            
+            
+                /*****Added 13th Apr 2021*******/
+               l_rest_nameurl        VARCHAR2 (1000);
+               l_response_nameclob   CLOB;
+               
+               
+               l_rest_permissionurl        VARCHAR2 (1000);
+               l_permissionpayload         CLOB;
+               l_response_permissionclob   CLOB;
+            
+               l_preview_urls    VARCHAR2(4000);
+               l_file_names      apex_application_global.vc_arr2;
+               l_count           NUMBER:=0;
+            BEGIN
+            -----------------Get access token
+            BEGIN
+               l_parm_names (1) := 'refresh_token';
+               l_parm_values (1) := l_refresh_token;
+               l_parm_names (2) := 'client_id';
+               l_parm_values (2) := l_client_id;
+               l_parm_names (3) := 'client_secret';
+               l_parm_values (3) := l_client_secret;
+               l_parm_names (4) := 'grant_type';
+               l_parm_values (4) := 'refresh_token';
+               l_rest_authurl := 'https://www.googleapis.com/oauth2/v4/token';
+               apex_web_service.g_request_headers.delete ();
+               apex_web_service.g_request_headers (1).name := 'Content-Type';
+               apex_web_service.g_request_headers (1).value := 'application/x-www-form-urlencoded';
+               l_response_clob :=
+                  apex_web_service.make_rest_request (p_url           => l_rest_authurl,
+                                                      p_http_method   => 'POST',
+                                                      p_parm_name     => l_parm_names,
+                                                      p_parm_value    => l_parm_values);
+            
+            
+                  SELECT JSON_VALUE (l_response_clob, '$.access_token')
+                    INTO l_access_token
+                    FROM DUAL;
+            
+            
+               EXCEPTION
+                  WHEN OTHERS
+                  THEN
+                     l_access_token:=NULL;
+               END;
+               
+                   l_file_names := apex_util.string_to_table(v(l_filebrowse_item));
+               -----------Upload file(s) from apex_application_temp_files
+              for h in 1 .. l_file_names.count loop
+               for i in (select filename,mime_type,blob_content file_blob from apex_application_temp_files where name = l_file_names(h)
+                     ) loop
+                     COMMIT;
+               BEGIN
+            
+               
+               SELECT substr(i.filename,instr(i.filename,'.',-1,1) - length(i.filename)  ) b
+               into l_ext
+               from dual;
+               if l_ext='doc' then
+               l_mimetype:='application/msword';
+               elsif l_ext='xlsx' then	
+               l_mimetype:='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+               elsif l_ext='ppt' then	
+               l_mimetype:='application/vnd.ms-powerpoint';
+               elsif l_ext='pdf' then	
+               l_mimetype:='application/pdf';
+               elsif l_ext='rtf' then
+               l_mimetype:='application/rtf';
+               elsif l_ext='jpe' then	
+               l_mimetype:='image/jpeg';
+               elsif l_ext='tif' then
+               l_mimetype:='image/tiff';
+               elsif l_ext='docx' then
+               l_mimetype:='application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+               elsif l_ext='xls'  then
+               l_mimetype:='application/vnd.ms-excel';
+               elsif l_ext='gif'  then
+               l_mimetype:='image/gif';
+               elsif l_ext='jpeg' then
+               l_mimetype:='image/jpeg';
+               elsif l_ext='jpg' then
+               l_mimetype:='image/jpeg';
+               elsif l_ext='tiff' then	
+               l_mimetype:='image/tiff';
+               elsif l_ext='bmp' then
+               l_mimetype:='image/bmp';
+               elsif l_ext='jfif' then
+               l_mimetype:='image/jfif';
+               elsif l_ext='txt' then
+               l_mimetype:='text/plain';
+               elsif l_ext='ico' then	
+               l_mimetype:='image/x-icon';
+               else
+               l_mimetype:='application/octet-stream';
+               end if;
+               
+               ----Set headers
+               
+                apex_web_service.g_request_headers.delete ();
+            	apex_web_service.g_request_headers (1).name := 'Content-Type';
+                apex_web_service.g_request_headers (1).value := l_mimetype;
+                apex_web_service.g_request_headers (2).name := 'Authorization';
+                apex_web_service.g_request_headers (2).value := 'Bearer ' || l_access_token;
+                apex_web_service.g_request_headers (3).name := 'Accept';
+                apex_web_service.g_request_headers (3).value := 'application/json';
+            	l_rest_url:= 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media';
+            
+              ---- Generate payload
+                   l_payload :=
+                   '{
+            "name": "'||i.filename||'",
+            "mimeType": "'||l_mimetype||'"
+            }';
+                  apex_json.parse(l_payload);
+              ---- Call Web Service.
+                  l_response_clob :=
+                     apex_web_service.make_rest_request (p_url           => l_rest_url,
+                                                         p_http_method   => 'POST',
+                                                         p_body_blob     => i.file_blob,
+                                                         p_wallet_path   => NULL,
+                                                         p_wallet_pwd    => '');
+            
+                    commit;
+                  select JSON_VALUE(l_response_clob,
+                              '$.id')
+                  into l_fileid
+                  FROM   dual;
+            
+            
+            		 
+            		 
+            	EXCEPTION
+            	WHEN OTHERS THEN
+            	NULL;
+            	END;
+            
+               BEGIN
+               l_rest_linkurl     :='https://www.googleapis.com/drive/v2/files/'||l_fileid||'?key='||l_api_key;
+                apex_web_service.g_request_headers.delete ();
+            	apex_web_service.g_request_headers (1).name := 'Authorization';
+                apex_web_service.g_request_headers (1).value := 'Bearer ' || l_access_token;
+                apex_web_service.g_request_headers (2).name := 'Accept';
+                apex_web_service.g_request_headers (2).value := 'application/json';
+                  -- 3. Call Web Service.
+                  l_response_linkclob :=
+                     apex_web_service.make_rest_request (p_url           => l_rest_linkurl,
+                                                         p_http_method   => 'GET',
+                                                         p_wallet_path   => NULL,
+                                                         p_wallet_pwd    => '');
+            
+                  select JSON_VALUE(l_response_linkclob,
+                              '$.embedLink')
+                  into l_preview_url
+                  FROM   dual;
+            
+            
+               EXCEPTION
+                  WHEN OTHERS
+                  THEN
+                     return NULL;
+                     END;
+            
+            
+                     BEGIN
+               l_parm_names (1) := 'refresh_token';
+               l_parm_values (1) := l_refresh_token;
+               l_parm_names (2) := 'client_id';
+               l_parm_values (2) := l_client_id;
+               l_parm_names (3) := 'client_secret';
+               l_parm_values (3) := l_client_secret;
+               l_parm_names (4) := 'grant_type';
+               l_parm_values (4) := 'refresh_token';
+               l_rest_authurl := 'https://www.googleapis.com/oauth2/v4/token';
+               apex_web_service.g_request_headers.delete ();
+               apex_web_service.g_request_headers (1).name := 'Content-Type';
+               apex_web_service.g_request_headers (1).value := 'application/x-www-form-urlencoded';
+               l_response_clob :=
+                  apex_web_service.make_rest_request (p_url           => l_rest_authurl,
+                                                      p_http_method   => 'POST',
+                                                      p_parm_name     => l_parm_names,
+                                                      p_parm_value    => l_parm_values);
+            
+            
+                  SELECT JSON_VALUE (l_response_clob, '$.access_token')
+                    INTO l_access_token
+                    FROM DUAL;
+            
+            
+               EXCEPTION
+                  WHEN OTHERS
+                  THEN
+                     l_access_token:=NULL;
+               END;
+            
+               ------------13.04.2021  set metadata
+                   BEGIN
+               l_rest_nameurl     :='https://www.googleapis.com/drive/v3/files/'||l_fileid||'?key='||l_api_key;
+                   apex_web_service.g_request_headers.delete ();
+            	apex_web_service.g_request_headers (1).name := 'Content-Type';
+                apex_web_service.g_request_headers (1).value := 'application/json';---l_mimetype;
+                apex_web_service.g_request_headers (2).name := 'Authorization';
+                apex_web_service.g_request_headers (2).value := 'Bearer ' || l_access_token;
+                apex_web_service.g_request_headers (3).name := 'Accept';
+                apex_web_service.g_request_headers (3).value := 'application/json';
+                ---- Generate payload
+                   l_payload :=
+                   '{
+            "name": "'||i.filename||'",
+            "mimeType": "'||l_mimetype||'"
+            }';
+                  apex_json.parse(l_payload);
+                  -- 3. Call Web Service.
+                  l_response_nameclob :=
+                     apex_web_service.make_rest_request (p_url           => l_rest_nameurl,
+                                                         p_http_method   => 'PATCH',
+                                                         p_body          => l_payload,
+                                                         p_wallet_path   => NULL,
+                                                         p_wallet_pwd    => '');
+            END;
+            
+            -------------Get permission
+            
+            
+               BEGIN
+               l_rest_permissionurl     :='https://www.googleapis.com/drive/v3/files/'||l_fileid||'/permissions?key='||l_api_key;
+                   apex_web_service.g_request_headers.delete ();
+            	apex_web_service.g_request_headers (1).name := 'Content-Type';
+                apex_web_service.g_request_headers (1).value := 'application/json';---l_mimetype;
+                apex_web_service.g_request_headers (2).name := 'Authorization';
+                apex_web_service.g_request_headers (2).value := 'Bearer ' || l_access_token;
+                apex_web_service.g_request_headers (3).name := 'Accept';
+                apex_web_service.g_request_headers (3).value := 'application/json';
+                if l_email_address is not null and l_permission_type in ('user','group') then
+                    l_permissionpayload :='{
+              "role": "'||l_permission_role||'",
+              "type": "'||l_permission_type||'",
+              "emailAddress": "'||l_email_address||'"
+            }';
+               elsif l_domain is not null and l_permission_type in ('domain') then
+               l_permissionpayload :='{
+              "role": "'||l_permission_role||'",
+              "type": "'||l_permission_type||'",
+              "domain": "'||l_domain||'"
+            }';
+            else
+                  l_permissionpayload :='{"role": "'||l_permission_role||'","type": "anyone"}';
+            end if;
+            --"reader","anyone"
+            
+                  -- 3. Call Web Service.
+                  l_response_permissionclob :=
+                     apex_web_service.make_rest_request (p_url           => l_rest_permissionurl,
+                                                         p_http_method   => 'POST',
+                                                         p_body          => l_permissionpayload,
+                                                         p_wallet_path   => NULL,
+                                                         p_wallet_pwd    => '');
+            
+                l_preview_urls:=l_preview_urls||chr(13)||chr(10)||l_preview_url;
+                l_count:=l_count+1;
+            
+               EXCEPTION
+                  WHEN OTHERS
+                  THEN
+                     NULL;
+                     END;
+            
+               END LOOP;
+            END LOOP;
+             
+             if l_preview_url is not null then
+              --
+            apex_util.set_session_state(l_generated_urls,l_preview_urls);
+              
+              --
+              l_result.success_message:=l_count||' File(s) successfully uploaded';
+              --
+              RETURN l_result;
+              else
+              l_result.success_message:='There are no files uploaded';
+            
+              RETURN l_result;
+              END IF;
+                
+                    EXCEPTION
+                    when others then
+                     l_result.success_message:='TAn error occurred during file upload';
+            
+              RETURN l_result;
+            end render;
+            ```
+    }
+    callbacks {
+        apiInterface: function
+        executionFunctionProcedureName: render
+    }
+    advanced {
+        substituteAttributeValues: true
+    }
+    information {
+        version: 1.0.2
+    }
+    comments {
+        comments: ****Update made on the 13th April to ensure metadata is updated correctly
+    }
+)
+

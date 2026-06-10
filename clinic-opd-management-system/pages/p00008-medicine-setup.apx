@@ -1,0 +1,1168 @@
+page 8 (
+    name: Medicine Setup
+    alias: MEDICINE-SETUP
+    title: Medicine Setup
+    appearance {
+        pageTemplate: @/left-side-column
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #000000;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+    }
+    advanced {
+        enableDuplicatePageSubmissions: false
+        reloadOnSubmit: always
+    }
+
+    region generic-setup (
+        name: Generic Setup
+        type: classicReport
+        source {
+            location: localDatabase
+            tableName: GENERIC_INFO
+            whereClause: "GENERIC_ID" = :P8_GENERIC_ID
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        advanced {
+            htmlDomId: bgtwo
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P8_GENERIC_ID
+        }
+        componentAppearance {
+            template: @/value-attribute-pairs-column
+            templateOptions: [
+                #DEFAULT#
+                t-AVPList--leftAligned
+            ]
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: No Record Selected
+        }
+        componentAdvanced {
+            stripHtml: true
+        }
+
+        column GENERIC_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 1
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "GENERIC_ID" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column GENERIC_NAME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Generic Name
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "GENERIC_NAME" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 5
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "INSERT_BY" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 6
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "INSERT_DATE" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column NOTE (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Note
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "NOTE" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 4
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "STATUS" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 7
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "UPDATE_BY" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 8
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "GENERIC_INFO"
+                    where "UPDATE_DATE" is not null
+                    and "GENERIC_ID" = :P8_GENERIC_ID
+                    ```
+            }
+        )
+
+    )
+
+    region master-records (
+        name: Master Records
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select "GENERIC_ID",
+                    null link_class,
+                    apex_page.get_url(p_items => 'P8_GENERIC_ID', p_values => "GENERIC_ID") link,
+                    null icon_class,
+                    null link_attr,
+                    null icon_color_class,
+                    case when nvl(:P8_GENERIC_ID,'0') = "GENERIC_ID"
+                      then 'is-active' 
+                      else ' '
+                    end list_class,
+                    substr("GENERIC_NAME", 1, 50)||( case when length("GENERIC_NAME") > 50 then '...' end ) list_title,
+                    null list_text,
+                    null list_badge
+                from "GENERIC_INFO" x
+                where (:P8_SEARCH is null
+                        or upper(x."GENERIC_NAME") like '%'||upper(:P8_SEARCH)||'%'
+                    )
+                order by "GENERIC_NAME"
+                ```
+            pageItemsToSubmit: P8_SEARCH
+        }
+        layout {
+            sequence: 20
+            slot: leftColumn
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+            cssClasses: search-results
+        }
+        reportLayout {
+            numberOfRows: 1000
+        }
+        componentAppearance {
+            template: @/media-list
+            templateOptions: [
+                t-MediaList--showDesc
+                t-MediaList--stack
+            ]
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: <div class="u-tC">No Records Found</div>
+        }
+
+        column GENERIC_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: GENERIC_ID
+                alignment: center
+            }
+            layout {
+                sequence: 1
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column ICON_CLASS (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: ICON_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 4
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column ICON_COLOR_CLASS (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: ICON_COLOR_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 6
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: LINK
+                alignment: center
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK_ATTR (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: LINK_ATTR
+                alignment: center
+            }
+            layout {
+                sequence: 5
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK_CLASS (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: LINK_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_BADGE (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            heading {
+                heading: LIST_BADGE
+                alignment: center
+            }
+            layout {
+                sequence: 10
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_CLASS (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: LIST_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 7
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_TEXT (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            heading {
+                heading: LIST_TEXT
+                alignment: center
+            }
+            layout {
+                sequence: 9
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_TITLE (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            heading {
+                heading: LIST_TITLE
+                alignment: center
+            }
+            layout {
+                sequence: 8
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    region medicine-setup (
+        name: Medicine Setup
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/hero
+            templateOptions: #DEFAULT#
+            icon: fa-medication-pills
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region medicines (
+        name: Medicines
+        type: classicReport
+        source {
+            location: localDatabase
+            tableName: MEDICINE_INFO
+            whereClause: "GENERIC_ID" = :P8_GENERIC_ID
+        }
+        orderBy {
+            type: staticValue
+            orderByClause: med_name asc
+        }
+        layout {
+            sequence: 30
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--noUI
+                t-Region--scrollBody
+            ]
+            cssClasses: js-detail-region
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P8_GENERIC_ID
+        }
+        reportLayout {
+            numberOfRows: 100
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                t-Report--stretch
+                #DEFAULT#
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+                t-Report--inline
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        performance {
+            maxRowsToProcess: 5000
+        }
+        messages {
+            whenNoDataFound: No data found.
+        }
+        componentAdvanced {
+            stripHtml: true
+        }
+
+        column DOSAGE_FORM (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 5
+            }
+        )
+
+        column GENERIC_ID (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 7
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 9
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 10
+            }
+        )
+
+        column MED_DESCRIPTION (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 4
+            }
+        )
+
+        column MED_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: link
+            heading {
+                heading: <span class="u-VisuallyHidden">Edit</span>
+            }
+            layout {
+                sequence: 1
+            }
+            link {
+                target: {
+                    page: 10
+                    items: {
+                        P10_MED_ID: #MED_ID#
+                    }
+                    action: resetPagination
+                }
+                linkText: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
+            }
+            sorting {
+                sortable: false
+            }
+            advanced {
+                cellWidth: 32
+            }
+        )
+
+        column MED_NAME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Name
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column MED_TYPE (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Medication Type
+                alignment: center
+            }
+            lov {
+                type: staticValues
+                staticValues: STATIC:Tablet;Tablet,Nasal Spray;Nasal Spray,Suspension;Suspension,Capsule;Capsule,Syrup;Syrup
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 8
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 11
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 12
+            }
+        )
+
+        column U_O_M (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 6
+            }
+        )
+
+    )
+
+    region no-record-selected (
+        name: No Record Selected
+        type: staticContent
+        source {
+            htmlCode: No Record Selected
+        }
+        layout {
+            sequence: 70
+            slot: body
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P8_GENERIC_ID
+        }
+    )
+
+    region region-display-selector (
+        name: Region Display Selector
+        type: regionDisplaySelector
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                margin-bottom-md
+            ]
+            cssClasses: js-detail-rds
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P8_GENERIC_ID
+        }
+        settings {
+            rememberSelection: false
+        }
+    )
+
+    region search (
+        name: Search
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: leftColumn
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                t-Form--stretchInputs
+            ]
+            cssClasses: [
+                search-region
+                padding-md
+            ]
+        }
+    )
+
+    pageItem P8_GENERIC_ID (
+        type: hidden
+        layout {
+            sequence: 40
+            region: @generic-setup
+            slot: regionBody
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P8_SEARCH (
+        type: textField
+        label {
+            label: Search
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @search
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/hidden
+            templateOptions: [
+                #DEFAULT#
+                t-Form-fieldContainer--large
+                t-Form-fieldContainer--postTextBlock
+            ]
+            icon: fa-search
+            width: 30
+            valuePlaceholder: Search...
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button create (
+        buttonName: Create
+        label: Add New
+        layout {
+            sequence: 20
+            region: @medicine-setup
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--success
+                t-Button--iconLeft
+                t-Button--hoverIconPush
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 9
+                clearCache: 9
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button edit (
+        buttonName: EDIT
+        label: Edit
+        layout {
+            sequence: 20
+            region: @generic-setup
+            slot: edit
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+            ]
+            icon: fa-pencil-square-o
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 9
+                items: {
+                    P9_GENERIC_ID: &P8_GENERIC_ID.
+                }
+                clearCache: 9
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+        advanced {
+            htmlDomId: edit_master_btn
+        }
+    )
+
+    button pop-medicine-info (
+        buttonName: POP_MEDICINE_INFO
+        label: Add Medicines
+        layout {
+            sequence: 10
+            region: @medicines
+            slot: edit
+        }
+        appearance {
+            buttonTemplate: @/icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 10
+                items: {
+                    P10_GENERIC_ID: &P8_GENERIC_ID.
+                }
+                clearCache: 10
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button reset (
+        buttonName: RESET
+        label: Reset
+        layout {
+            sequence: 10
+            region: @medicine-setup
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+                t-Button--gapRight
+            ]
+            icon: fa-undo-alt
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 8
+                clearCache: 8
+                action: resetPagination
+                request: RESET
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction edit-master-record (
+        name: Edit Master Record
+        execution {
+            sequence: 10
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: region
+            region: @generic-setup
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode: apex.message.showPageSuccess('Generic\u0020Setup\u0020updated');
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @generic-setup
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction perform-search (
+        name: Perform Search
+        execution {
+            sequence: 150
+        }
+        when {
+            event: keypress
+            selectionType: items
+            items: P8_SEARCH
+        }
+        clientSideCondition {
+            type: jsExpression
+            javaScriptExpression: this.browserEvent.which === apex.jQuery.ui.keyCode.ENTER
+        }
+
+        action native-cancel-event (
+            action: cancelEvent
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @master-records
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction refresh-on-dialog-close (
+        name: Refresh on Dialog Close
+        execution {
+            sequence: 40
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: region
+            region: @medicines
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode: apex.message.showPageSuccess('Medicines updated');
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @medicines
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+)
+

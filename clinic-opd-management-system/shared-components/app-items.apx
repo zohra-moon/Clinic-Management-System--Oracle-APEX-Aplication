@@ -1,0 +1,18 @@
+appItem G_APPOINT_ID (
+)
+
+appItem G_INVOICE_ID (
+)
+
+appItem G_PRSC (
+)
+
+appItem G_USER_GRP (
+)
+
+appItem G_USER_ROLE (
+)
+
+appItem SESSION_GROUP_ID (
+)
+

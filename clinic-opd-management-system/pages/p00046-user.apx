@@ -1,0 +1,236 @@
+page 46 (
+    name: USER
+    alias: USER
+    title: USER
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region user (
+        name: user
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select USER_ID,
+                       EMP_ID,
+                       USER_NAME,
+                       USER_PASS,
+                       ACTIVE_FLAG,
+                       COMPANY_ID,
+                       CREATE_BY,
+                       CREATE_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE,
+                       PHOTO,
+                       MIMETYPE,
+                       FILENAME,
+                       'EDIT' EDIT
+                  from GUSER
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column ACTIVE_FLAG (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Active Flag
+            }
+            layout {
+                sequence: 50
+            }
+        )
+
+        column COMPANY_ID (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 60
+            }
+        )
+
+        column CREATE_BY (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 70
+            }
+        )
+
+        column CREATE_DATE (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 80
+            }
+        )
+
+        column EDIT (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Edit
+            }
+            layout {
+                sequence: 140
+            }
+            link {
+                target: {
+                    page: 48
+                    items: {
+                        P48_USER_ID: #USER_ID#
+                    }
+                }
+                linkText: #EDIT#
+            }
+        )
+
+        column EMP_ID (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Emp Id
+                alignment: end
+            }
+            layout {
+                sequence: 20
+                columnAlignment: end
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 90
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 100
+            }
+        )
+
+        column USER_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: User Id
+            }
+            layout {
+                sequence: 10
+            }
+        )
+
+        column USER_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: User Name
+            }
+            layout {
+                sequence: 30
+            }
+        )
+
+        column USER_PASS (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: User Pass
+            }
+            layout {
+                sequence: 40
+            }
+        )
+
+    )
+
+    button create (
+        buttonName: Create
+        label: Create
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 48
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+)
+

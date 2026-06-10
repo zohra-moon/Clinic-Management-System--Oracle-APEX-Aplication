@@ -1,0 +1,314 @@
+page 1 (
+    name: Home
+    alias: HOME
+    title: Clinic OPD Management System
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #a5decd;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(#135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            .apex-row {
+                 display: block;
+                 flex-wrap: wrap; 
+            }
+            
+            
+            
+            ```
+    }
+    security {
+        formAutoComplete: false
+    }
+
+    region clinic-opd-management-system (
+        name: Clinic OPD Management System
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useRegionTitle
+            ]
+            icon: fa-hospital-o
+        }
+    )
+
+    region dash-board-card (
+        name: Dash board Card
+        type: plugin/coolDashboardV20
+        source {
+            sqlQuery:
+                ```sql
+                select * from (
+                
+                SELECT 1 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 31) AS LINK1,
+                       'Appointments' AS title,
+                       (SELECT to_char(COUNT(app_id)) FROM appointment_info) AS data,
+                       'fa-clock-o fa-fw fa-3x' AS icon_class,
+                      'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 31) AS link,
+                       1003 as user_grp
+                FROM dual
+                UNION ALL
+                SELECT 1 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 25) AS LINK1,
+                       'Total Patients' AS title,
+                       (SELECT to_char(COUNT(p_reg_id)) FROM patients_reg_info) AS data,
+                       'fa-users fa-fw fa-3x' AS icon_class,
+                       'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 25) AS link,
+                       1003 as user_grp
+                FROM dual
+                UNION ALL
+                SELECT 2 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 36) AS LINK1,
+                       'Visited' AS title,
+                      (SELECT to_char(COUNT(app_id)) FROM nurse_station) AS data,
+                       'fa-users-alt fa-fw fa-3x' AS icon_class,
+                       'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 36) AS link,
+                       1003 as user_grp
+                FROM dual
+                UNION ALL
+                SELECT 3 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 33) AS LINK1,
+                       'Consultation' AS title,
+                       (SELECT to_char(COUNT(consultation_id)) FROM Consultation) AS data,
+                       'fa-file-prescription fa-fw fa-3x' AS icon_class,
+                       'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 33) AS link,
+                       1004 as user_grp
+                FROM dual
+                UNION ALL
+                SELECT 4 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 34) AS LINK1,
+                       'Bills' AS title,
+                       (SELECT to_char(sum(Received_Amt),'99G99G99G99D00')||'BDT' FROM billing
+                        ) AS data,
+                       'fa-money-bag fa-fw fa-3x' AS icon_class,
+                       'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 34) AS link,
+                       1002 as user_grp
+                FROM dual
+                UNION ALL
+                SELECT 5 AS sort_order,
+                       APEX_PAGE.GET_URL(p_page => 41) AS LINK1,
+                       'Reports' AS title,
+                       ' ' AS data,
+                       'fa-files-o fa-fw fa-3x' AS icon_class,
+                       'dark-blue' AS class1,
+                       'dark-blue' AS class2,
+                       APEX_PAGE.GET_URL(p_page => 41) AS link,
+                       1002 as user_grp
+                FROM dual
+                )
+                
+                WHERE user_grp = V('G_USER_GRP') OR V('G_USER_GRP') = '1000'
+                
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: body
+            startNewRow: false
+        }
+        appearance {
+            template: @/cards-container
+            templateOptions: [
+                #DEFAULT#
+                t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+                t-CardsRegion--styleB
+                t-Form--slimPadding
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        settings {
+            configuraionjson: "{ \"cardWidth\": 3, \"refresh\": 0 ,\"releaveHideIcon\":\"fa-long-arrow-down\"}	"
+        }
+    )
+
+)
+

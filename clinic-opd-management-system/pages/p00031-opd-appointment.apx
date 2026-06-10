@@ -1,0 +1,2047 @@
+page 31 (
+    name: Appointment Information
+    alias: OPD-APPOINTMENT
+    title: Appointment Information
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        formAutoComplete: false
+    }
+
+    region appointment-entry (
+        name: appointment entry
+        type: staticContent
+        layout {
+            sequence: 30
+            slot: body
+            column: 2
+            columnSpan: 10
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--noUI
+                t-Region--scrollBody
+                t-Form--slimPadding
+                margin-top-sm
+                margin-bottom-sm
+                margin-left-sm
+                margin-right-sm
+            ]
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+    )
+
+    region appointment-information (
+        name: Appointment Information
+        title: Appointment Information
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useRegionTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region doc-av-days (
+        name: doc_av_days
+        title: Doctor Available on
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select DOC_DAYS,
+                       DOC_ID,
+                       SAT,
+                       SUN,
+                       MON,
+                       TUE,
+                       WED,
+                       THU,
+                       FRI
+                  from DOCS_AV_DAY
+                  where doc_id = :P31_DOCTOR_NO;
+                ```
+            pageItemsToSubmit: P31_DOCTOR_NO
+        }
+        layout {
+            sequence: 20
+            parentRegion: @appointment-entry
+            slot: subRegions
+            column: 7
+        }
+        appearance {
+            template: @/interactive-report
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--noBorders
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Form--slimPadding
+                t-Region-orderBy--center
+                margin-bottom-none
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+        componentAppearance {
+            selectFirstRow: false
+            fixedRowHeight: false
+        }
+        pagination {
+            type: page
+            showTotalCount: false
+        }
+        toolbar {
+            show: false
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+            download: false
+        }
+        advanced {
+            savedReportMappingIdentifier: 4434213013490136
+        }
+
+        savedReport 44899 (
+            visibility: primary
+            view {
+                default: grid
+            }
+            singleRowView {
+                displayedColumns: true
+            }
+
+            displayColumn (
+                column: @DOC_DAYS
+                layout {
+                    sequence: 1
+                }
+            )
+
+            displayColumn (
+                column: @DOC_ID
+                layout {
+                    sequence: 2
+                }
+            )
+
+            displayColumn (
+                column: @SAT
+                layout {
+                    sequence: 3
+                }
+            )
+
+            displayColumn (
+                column: @SUN
+                layout {
+                    sequence: 4
+                }
+            )
+
+            displayColumn (
+                column: @MON
+                layout {
+                    sequence: 5
+                }
+            )
+
+            displayColumn (
+                column: @TUE
+                layout {
+                    sequence: 6
+                }
+            )
+
+            displayColumn (
+                column: @WED
+                layout {
+                    sequence: 7
+                }
+            )
+
+            displayColumn (
+                column: @THU
+                layout {
+                    sequence: 8
+                }
+            )
+
+            displayColumn (
+                column: @FRI
+                layout {
+                    sequence: 9
+                }
+            )
+
+        )
+
+        column DOC_DAYS (
+            type: hidden
+            layout {
+                sequence: 10
+            }
+            source {
+                databaseColumn: DOC_DAYS
+                dataType: number
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column DOC_ID (
+            type: hidden
+            layout {
+                sequence: 20
+            }
+            source {
+                databaseColumn: DOC_ID
+                dataType: number
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column FRI (
+            type: checkbox
+            heading {
+                heading: Fri
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 90
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: FRI
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column MON (
+            type: checkbox
+            heading {
+                heading: Mon
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 50
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: MON
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column SAT (
+            type: checkbox
+            heading {
+                heading: Sat
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 30
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: SAT
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column SUN (
+            type: checkbox
+            heading {
+                heading: Sun
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 40
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: SUN
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column THU (
+            type: checkbox
+            heading {
+                heading: Thu
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 80
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: THU
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column TUE (
+            type: checkbox
+            heading {
+                heading: Tue
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 60
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: TUE
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column WED (
+            type: checkbox
+            heading {
+                heading: Wed
+                alignment: end
+            }
+            settings {
+                useDefaults: false
+                checkedValue: 1
+                uncheckedValue: 0
+            }
+            layout {
+                sequence: 70
+                columnAlignment: end
+            }
+            source {
+                databaseColumn: WED
+                dataType: number
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+    )
+
+    region doc-avail-cards (
+        name: doc_avail_cards
+        type: cards
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT ADAY FROM (
+                                        SELECT 'Saturday' ADAY, 1 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND SAT = 1
+                                        UNION
+                                        SELECT 'Sunday' ADAY, 2 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND SUN = 1
+                                        UNION
+                                        SELECT 'Monday' ADAY, 3 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND MON = 1
+                                        UNION
+                                        SELECT 'Tuesday' ADAY, 4 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND TUE = 1
+                                        UNION
+                                        SELECT 'Wednesday' ADAY, 5 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND WED = 1
+                                        UNION
+                                        SELECT 'Thursday' ADAY, 6 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND THU = 1
+                                        UNION
+                                        SELECT 'Friday' ADAY, 7 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = :P31_DOCTOR_NO
+                                        AND FRI = 1)
+                                        ORDER BY SL ASC;
+                ```
+        }
+        layout {
+            sequence: 30
+            parentRegion: @appointment-entry
+            slot: subRegions
+            column: 7
+        }
+        appearance {
+            template: @/cards-container
+            templateOptions: [
+                #DEFAULT#
+                t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+                t-CardsRegion--styleB
+                t-Form--slimPadding
+                margin-top-sm
+            ]
+        }
+        componentAppearance {
+            gridColumns: 3
+        }
+        title {
+            column: ADAY
+        }
+    )
+
+    region doctor-available-on (
+        name: Doctor Available on
+        title: <p align=center>Doctor Available on</p>
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE
+                 V_OUTPUT CLOB; 
+                
+                V_AVAILABLE_DAY VARCHAR2(100);
+                CURSOR DOC_AV_DAYS(P_DOC_ID IN NUMBER) IS 
+                                        
+                                        SELECT ADAY FROM (
+                                        SELECT 'Saturday' ADAY, 1 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND SAT = 1
+                                        UNION
+                                        SELECT 'Sunday' ADAY, 2 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND SUN = 1
+                                        UNION
+                                        SELECT 'Monday' ADAY, 3 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND MON = 1
+                                        UNION
+                                        SELECT 'Tuesday' ADAY, 4 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND TUE = 1
+                                        UNION
+                                        SELECT 'Wednesday' ADAY, 5 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND WED = 1
+                                        UNION
+                                        SELECT 'Thursday' ADAY, 6 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND THU = 1
+                                        UNION
+                                        SELECT 'Friday' ADAY, 7 SL
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND FRI = 1)
+                                        ORDER BY SL ASC;
+                BEGIN
+                 
+                 FOR i IN DOC_AV_DAYS(P_DOC_ID => :P31_DOCTOR_NO) LOOP
+                    V_AVAILABLE_DAY := V_AVAILABLE_DAY ||' '||i.ADAY;
+                 END LOOP;
+                
+                V_OUTPUT := '<SPAN>Doctor Available on: <b style="color: blue;">'||V_AVAILABLE_DAY||'</b></SPAN>';
+                
+                RETURN V_OUTPUT;
+                END;
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @appointment-entry
+            slot: subRegions
+            column: 7
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--scrollBody
+                margin-bottom-none
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    region queue (
+        name: Queue
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select APP_SERIAL_NO,
+                       APP_MOBILE_NO,
+                       P_NAME,
+                       DOC_NAME,
+                       SHIFT_NAME,
+                       APP_ID APPID,
+                       START_TIME,
+                       END_TIME,
+                       X,
+                       APP_DATE_TIME
+                  from NURSE_STAION
+                  Order By APPID desc
+                ```
+        }
+        layout {
+            sequence: 40
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        breakFormatting {
+            breakColumns: col1
+            style: repeatHeadings
+            repeatHeadingFormat: #COLUMN_VALUE#
+        }
+
+        column APPID (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: ID
+                alignment: end
+            }
+            layout {
+                sequence: 20
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_DATE_TIME (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            heading {
+                heading: Appointment Date
+            }
+            layout {
+                sequence: 40
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_MOBILE_NO (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Mobile No
+            }
+            layout {
+                sequence: 60
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_SERIAL_NO (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Serial No
+                alignment: end
+            }
+            layout {
+                sequence: 50
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DOC_NAME (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Doctor Name
+            }
+            layout {
+                sequence: 10
+            }
+            columnFormatting {
+                cssStyle: [
+                    font-weight:
+                    bold;
+                    color:
+                    5C7285;
+                ]
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column END_TIME (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            heading {
+                heading: End Time
+            }
+            layout {
+                sequence: 100
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column P_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Patient Name
+            }
+            layout {
+                sequence: 70
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SHIFT_NAME (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Shift Name
+            }
+            layout {
+                sequence: 80
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column START_TIME (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: Start Time
+            }
+            layout {
+                sequence: 90
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column X (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: link
+            layout {
+                sequence: 110
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s('P31_APP_CONFIRM','#APPID#');
+                }
+                linkText: <span class="fa fa-check-circle" aria-hidden="true"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    pageItem P31_AGE (
+        type: textField
+        label {
+            label: Age
+            alignment: left
+        }
+        layout {
+            sequence: 90
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_APP_CONFIRM (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 10
+            region: @appointment-entry
+            slot: regionBody
+        }
+    )
+
+    pageItem P31_APP_DATE (
+        type: datePicker
+        label {
+            label: App Date
+            alignment: left
+        }
+        settings {
+            minDate: static
+            minStatic: +0d
+        }
+        layout {
+            sequence: 160
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            valueRequired: true
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_APP_ID (
+        type: hidden
+        layout {
+            sequence: 30
+            region: @appointment-entry
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_APP_MOBILE_NO (
+        type: textFieldWithAutocomplete
+        label {
+            label: Mobile no.
+            alignment: left
+        }
+        settings {
+            infiniteScroll: false
+            maxValuesInList: 7
+        }
+        search {
+            minChars: 3
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery: select mobile_no from patients_reg_info;
+        }
+        layout {
+            sequence: 50
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            valueRequired: true
+            maxLength: 11
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_APP_SL_NO (
+        type: hidden
+        layout {
+            sequence: 150
+            region: @appointment-entry
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_DEPT_NO (
+        type: popupLov
+        label {
+            label: Department
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @departments
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 110
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_DOB (
+        type: datePicker
+        label {
+            label: Date of Birth
+            alignment: left
+        }
+        settings {
+            useDefaults: false
+            appearanceBehavior: [
+                monthPicker
+                yearPicker
+                showTodayButton
+            ]
+        }
+        layout {
+            sequence: 80
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_DOCTOR_NO (
+        type: popupLov
+        label {
+            label: Doctor
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select nvl2(details, doc_name||' -'||details, doc_name) D, doc_id R
+                from doctors_info
+                where dept_id = :P31_DEPT_NO
+                ```
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        cascadingLov {
+            parentItems: P31_DEPT_NO
+            itemsToSubmit: P31_DEPT_NO
+        }
+        layout {
+            sequence: 120
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            valueRequired: true
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_DOC_SH_NO (
+        type: hidden
+        layout {
+            sequence: 130
+            region: @appointment-entry
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_EMAIL (
+        type: textField
+        label {
+            label: Email
+            alignment: left
+        }
+        layout {
+            sequence: 180
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P31_GENDER (
+        type: selectList
+        label {
+            label: Gender
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @gender
+            displayExtraValues: false
+            nullDisplayValue: --select--
+        }
+        layout {
+            sequence: 70
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_INSERT (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @appointment-entry
+            slot: regionBody
+        }
+    )
+
+    pageItem P31_NOTE (
+        type: textFieldWithAutocomplete
+        label {
+            label: Primary Issue
+            alignment: left
+        }
+        settings {
+            infiniteScroll: false
+            maxValuesInList: 7
+        }
+        search {
+            minChars: 2
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery: select unique initcap(note) from appointment_info;
+        }
+        layout {
+            sequence: 170
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            columnSpan: 3
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P31_PAT_NAME (
+        type: textField
+        label {
+            label: Patient Name
+            alignment: left
+        }
+        layout {
+            sequence: 60
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: [
+                #DEFAULT#
+                t-Form-fieldContainer--slimPadding
+            ]
+            width: 30
+        }
+        validation {
+            valueRequired: true
+        }
+    )
+
+    pageItem P31_PAT_TYPE (
+        type: radioGroup
+        label {
+            label: Patient Type
+            alignment: left
+        }
+        settings {
+            noOfCols: 2
+        }
+        lov {
+            type: sharedComponent
+            lov: @patient-type
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 20
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+        }
+        validation {
+            valueRequired: true
+        }
+        default {
+            type: static
+            staticValue: New
+        }
+    )
+
+    pageItem P31_P_REG_ID (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 40
+            region: @appointment-entry
+            slot: regionBody
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P31_SHIFT_NAME (
+        type: textField
+        label {
+            label: Shift Name
+            alignment: left
+        }
+        layout {
+            sequence: 140
+            region: @appointment-entry
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button all-appointments (
+        buttonName: All_appointments
+        label: All Appointments
+        layout {
+            sequence: 20
+            region: @appointment-information
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+            ]
+            icon: fa-angle-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 24
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button refresh (
+        buttonName: Refresh
+        label: Refresh
+        layout {
+            sequence: 10
+            region: @appointment-information
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--iconLeft
+            ]
+            icon: fa-refresh
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 31
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button save (
+        buttonName: Save
+        label: Save
+        layout {
+            sequence: 10
+            region: @appointment-entry
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--iconLeft
+            ]
+            icon: fa-save
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            requiresConfirmation: true
+        }
+        confirmation {
+            message: Confirm the Appointment?
+            style: information
+        }
+    )
+
+    dynamicAction add-to-nurse-st (
+        name: ADD TO NURSE ST
+        execution {
+            sequence: 70
+        }
+        when {
+            selectionType: items
+            items: P31_APP_CONFIRM
+        }
+
+        action native-alert (
+            action: alert
+            settings {
+                message: Are you sure you want to confirm this visit?
+                style: warning
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE 
+                    	V_NURSE_ST_ID NUMBER;
+                    
+                    BEGIN
+                    	SELECT NVL((MAX(NURSE_ST_ID)),0)+1 INTO V_NURSE_ST_ID FROM NURSE_STATION;
+                    
+                    	 INSERT INTO NURSE_STATION (NURSE_ST_ID, VISIT_DATE, IN_FLAG, APP_ID)
+                       VALUES (V_NURSE_ST_ID, SYSDATE, 1, :P31_APP_CONFIRM  
+                    );
+                    end;
+                    ```
+                itemsToSubmit: P31_APP_CONFIRM
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    apex.message.confirm("Are you sure you want to confirm this visit?", function(okPressed) {
+                        if (okPressed) {
+                            apex.server.process("CONFIRM_VISIT"); // Call APEX Process to confirm visit
+                            apex.message.alert("The patient's visit has been confirmed successfully.");
+                        }
+                    });
+                    
+                    ```
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @queue
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction clear-page-items (
+        name: clear page items
+        execution {
+            sequence: 30
+        }
+        when {
+            event: ready
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P31_APP_ID
+                    P31_P_REG_ID
+                    P31_APP_MOBILE_NO
+                    P31_GENDER
+                    P31_DOB
+                    P31_DEPT_NO
+                    P31_DOCTOR_NO
+                    P31_DOC_SH_NO
+                    P31_SHIFT_NAME
+                    P31_APP_SL_NO
+                    P31_APP_DATE
+                    P31_PAT_TYPE
+                    P31_NOTE
+                    P31_PAT_NAME
+                    P31_INSERT
+                    P31_AGE
+                    P31_EMAIL
+                ]
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+    )
+
+    dynamicAction fetch-doc-schedule (
+        name: fetch doc schedule
+        execution {
+            sequence: 20
+        }
+        when {
+            selectionType: items
+            items: P31_DOCTOR_NO
+        }
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @doc-av-days
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-2 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @doctor-available-on
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-3 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @doc-avail-cards
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                     select   DS.shift_name||' ('|| DS.START_TIME||'-'|| DS.END_TIME||')' D
+                    
+                      from doctors_info D, DR_NEW_SHIFT_INFO DS
+                    	WHERE(D.DR_SH_ID = DS.DR_SH_ID)
+                    	AND DOC_ID =:P31_DOCTOR_NO;
+                    ```
+                itemsToSubmit: P31_DOCTOR_NO
+                escapeSpecialChars: false
+            }
+            affectedElements {
+                selectionType: items
+                items: P31_SHIFT_NAME
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+                stopExecutionOnError: false
+            }
+        )
+
+    )
+
+    dynamicAction fetch-patient-info (
+        name: fetch patient info
+        execution {
+            sequence: 10
+        }
+        when {
+            event: input
+            selectionType: items
+            items: P31_APP_MOBILE_NO
+        }
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select P_reg_id, p_name, Date_of_birth, Gender, email from patients_reg_info
+                    where mobile_no= :P31_APP_MOBILE_NO
+                    ```
+                itemsToSubmit: P31_APP_MOBILE_NO
+                escapeSpecialChars: false
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P31_P_REG_ID
+                    P31_PAT_NAME
+                    P31_DOB
+                    P31_GENDER
+                    P31_EMAIL
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new (
+        name: New
+        execution {
+            sequence: 50
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: jsExpression
+            javaScriptExpression: window
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P31_PAT_TYPE
+                    P31_APP_ID
+                    P31_P_REG_ID
+                    P31_APP_MOBILE_NO
+                    P31_PAT_NAME
+                    P31_GENDER
+                    P31_DOB
+                    P31_AGE
+                    P31_DEPT_NO
+                    P31_DOCTOR_NO
+                    P31_SHIFT_NAME
+                    P31_APP_SL_NO
+                    P31_APP_DATE
+                    P31_NOTE
+                    P31_EMAIL
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @queue
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new-2 (
+        name: New_1
+        execution {
+            sequence: 60
+        }
+        when {
+            selectionType: items
+            items: P31_DOB
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    // Function to calculate age in years, months, and days
+                    function calculateAge(dob) {
+                        let birthDate = new Date(dob);
+                        let today = new Date();
+                        
+                        let years = today.getFullYear() - birthDate.getFullYear();
+                        let months = today.getMonth() - birthDate.getMonth();
+                        let days = today.getDate() - birthDate.getDate();
+                        
+                        // Adjust months and years if necessary
+                        if (days < 0) {
+                            months--; // Borrow a month
+                            let previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                            days += previousMonth.getDate();
+                        }
+                    
+                        if (months < 0) {
+                            years--; // Borrow a year
+                            months += 12;
+                        }
+                    
+                        return `${years} Years, ${months} Months, ${days} Days`;
+                    }
+                    
+                    // Get the DOB value from APEX Item
+                    let dobValue = $v("P31_DOB"); // Change "P1_DOB" to your actual item name
+                    
+                    if (dobValue) {
+                        let ageText = calculateAge(dobValue);
+                    
+                        // Set the calculated age text into the APEX page item
+                        $s("P31_AGE", ageText); // Change "P1_AGE" to your actual item name
+                    }
+                    
+                    ```
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P31_AGE
+                    P31_DOB
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: items
+                items: P31_AGE
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction p-type (
+        name: p type
+        execution {
+            sequence: 40
+        }
+        when {
+            selectionType: items
+            items: P31_INSERT
+        }
+
+        action native-set-value (
+            action: setValue
+            settings {
+                value: New
+            }
+            affectedElements {
+                selectionType: items
+                items: P31_PAT_TYPE
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    validation doc-av-day-check (
+        name: DOC AV DAY CHECK
+        execution {
+            sequence: 10
+        }
+        validation {
+            type: functionBody
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                 V_PICKED_DAY VARCHAR2(5) := TO_CHAR(TO_DATE(:P31_APP_DATE,'MM/DD/YYYY'),'DY');
+                 V_DOC_ID NUMBER := :P31_DOCTOR_NO;
+                 V_COUNTER NUMBER := 0;
+                 CURSOR DOC_AV_DAYS(P_DOC_ID IN NUMBER) IS 
+                                        SELECT 'SAT' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND SAT = 1
+                                        UNION
+                                        SELECT 'SUN' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND SUN = 1
+                                        UNION
+                                        SELECT 'MON' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND MON = 1
+                                        UNION
+                                        SELECT 'TUE' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND TUE = 1
+                                        UNION
+                                        SELECT 'WED' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND WED = 1
+                                        UNION
+                                        SELECT 'THU' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND THU = 1
+                                        UNION
+                                        SELECT 'FRI' ADAY
+                                        FROM DOCS_AV_DAY
+                                        WHERE DOC_ID = P_DOC_ID
+                                        AND FRI = 1;
+                BEGIN
+                
+                
+                 FOR i IN DOC_AV_DAYS(  P_DOC_ID=>V_DOC_ID) LOOP
+                  IF V_PICKED_DAY = i.ADAY THEN
+                     V_COUNTER := 1; 
+                   END IF;
+                 END LOOP;
+                
+                
+                IF V_COUNTER = 0 THEN
+                   RETURN 'Doctor Not Available on Selected Day!';
+                END IF;
+                
+                END;
+                ```
+            alwaysExecute: true
+        }
+        error {
+            displayLocation: inlineWithField
+            associatedItem: @P31_APP_DATE
+        }
+        serverSideCondition {
+            whenButtonPressed: @save
+        }
+    )
+
+    process dml-appointment (
+        name: DML Appointment
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                declare 
+                 v_pk number;
+                 v_reg_pk number;
+                 V_SL NUMBER;
+                 V_CHK NUMBER :=0;
+                begin
+                  select nvl(max(app_ID),9999)+1 into v_pk
+                  from appointment_INFO;
+                  
+                 SELECT NVL (MAX (APP_SERIAL_NO), 0) + 1 INTO V_SL
+                            FROM APPOINTMENT_INFO
+                            WHERE DOC_ID = :P31_DOCTOR_NO
+                           AND APP_DATE_TIME = :P31_APP_DATE ;
+                :G_APPOINT_ID :=V_PK;
+                ------------------------------------New patient----------------------
+                 IF  :P31_P_REG_ID is null THEN
+                   	SELECT NVL(MAX(P_REG_ID), 0) + 1 
+                   INTO v_reg_pk
+                   FROM PATIENTS_REG_INFO;
+                   
+                      INSERT INTO PATIENTS_REG_INFO (P_REG_ID, P_NAME, MOBILE_NO, DATE_OF_BIRTH, GENDER, email)
+                      VALUES ( v_reg_pk, :P31_PAT_NAME, :P31_APP_MOBILE_NO, :P31_DOB, :P31_GENDER, :P31_EMAIL);
+                
+                   else 
+                   v_reg_pk:= :P31_P_REG_ID;
+                   END IF;
+                   
+                
+                
+                   ----------------CHECK IF THE RECORD IS EXIST IN DB------------------------------
+                    BEGIN
+                    SELECT COUNT(*) INTO V_CHK
+                    FROM APPOINTMENT_INFO
+                    WHERE APP_id = :P31_APP_ID;
+                    EXCEPTION
+                     WHEN OTHERS THEN
+                      V_CHK := 0;
+                    END;
+                
+                IF V_CHK = 0 THEN
+                insert into APPOINTMENT_INFO(
+                        APP_ID,
+                       APP_DATE_TIME,
+                          APP_SERIAL_NO,
+                       P_REG_ID,
+                       DOC_ID,
+                       APP_MOBILE_NO,
+                       PATIENT_TYPE,
+                    
+                       NOTE,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       DEPT_ID
+                )
+                 values (
+                        v_pk,
+                        :P31_APP_DATE,
+                        V_SL,
+                        v_reg_pk,
+                        :P31_DOCTOR_NO,
+                        :P31_APP_MOBILE_NO,
+                        :P31_PAT_TYPE,
+                        :P31_NOTE,
+                        :P27_STATUS,    
+                         v('APP_USER'),      
+                         SYSDATE,
+                         :P31_DEPT_NO
+                
+                 );
+                
+                
+                declare
+                v_doc varchar2(100);
+                BEGIN
+                select doc_name into v_doc
+                from doctors_info  where doc_id=:P31_DOCTOR_NO;
+                    APEX_MAIL.SEND(
+                        p_to        => :P31_EMAIL,
+                       p_from      => 'zohramoon10@gmail.com',
+                        p_subj      => 'Appointment Booking Confirmation',
+                        p_body      => 'Greetings '||:P31_PAT_NAME||',
+                                        Your Appointment has been booked with'||v_doc||' on '||:P31_APP_DATE||'.
+                                        serial no: '||V_SL||'.
+                                        Thank You for choosing Green Heart Clinic.'
+                    );
+                    
+                    COMMIT;  -- Required to process email
+                END;
+                
+                
+                
+                
+                END IF;
+                
+                
+                
+                
+                end;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Appointment Booked!
+        }
+        error {
+            errorMessage: Couldn't book the Appointment
+        }
+        advanced {
+            executionMappingIdentifier: 13151680554876962903
+        }
+        serverSideCondition {
+            whenButtonPressed: @save
+        }
+    )
+
+    branch (
+        execution {
+            sequence: 10
+        }
+        behavior {
+            target: {
+                page: 44
+            }
+        }
+    )
+
+)
+

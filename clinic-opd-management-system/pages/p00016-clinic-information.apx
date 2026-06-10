@@ -1,0 +1,937 @@
+page 16 (
+    name: Clinic Information
+    alias: CLINIC-INFORMATION
+    title: Clinic Information
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #000000;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            
+            ```
+    }
+    security {
+        formAutoComplete: false
+    }
+
+    region clinic-information (
+        name: Clinic Information
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableName: CLINIC_INFO
+            includeRowidColumn: true
+        }
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/interactive-report
+            templateOptions: #DEFAULT#
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        pagination {
+            showTotalCount: false
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        download {
+            formats: [
+                csv
+                html
+                pdf
+                excel
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 4112057355711339
+        }
+
+        savedReport 41125 (
+            visibility: primary
+            view {
+                default: grid
+            }
+            singleRowView {
+                displayedColumns: true
+            }
+
+            displayColumn (
+                column: @CLINIC_ID
+                layout {
+                    sequence: 2
+                }
+            )
+
+            displayColumn (
+                column: @CLINIC_NAME
+                layout {
+                    sequence: 3
+                }
+            )
+
+            displayColumn (
+                column: @PHONE_NO
+                layout {
+                    sequence: 4
+                }
+            )
+
+            displayColumn (
+                column: @MOBILE_NO
+                layout {
+                    sequence: 5
+                }
+            )
+
+            displayColumn (
+                column: @WEBSITE
+                layout {
+                    sequence: 6
+                }
+            )
+
+            displayColumn (
+                column: @EMAIL
+                layout {
+                    sequence: 7
+                }
+            )
+
+            displayColumn (
+                column: @ADDRESS
+                layout {
+                    sequence: 8
+                }
+            )
+
+            displayColumn (
+                column: @REGISTRATION_NO
+                layout {
+                    sequence: 9
+                }
+            )
+
+            displayColumn (
+                column: @CLINIC_IMAGE
+                layout {
+                    sequence: 10
+                }
+            )
+
+            displayColumn (
+                column: @MIMETYPE
+                layout {
+                    sequence: 11
+                }
+            )
+
+            displayColumn (
+                column: @FILENAME
+                layout {
+                    sequence: 12
+                }
+            )
+
+            displayColumn (
+                column: @IMAGE_LAST_UPDATE
+                layout {
+                    sequence: 13
+                }
+            )
+
+            displayColumn (
+                column: @NOTE
+                layout {
+                    sequence: 14
+                }
+            )
+
+            displayColumn (
+                column: @STATUS
+                layout {
+                    sequence: 15
+                }
+            )
+
+            displayColumn (
+                column: @INSERT_BY
+                layout {
+                    sequence: 16
+                }
+            )
+
+            displayColumn (
+                column: @INSERT_DATE
+                layout {
+                    sequence: 17
+                }
+            )
+
+            displayColumn (
+                column: @UPDATE_BY
+                layout {
+                    sequence: 18
+                }
+            )
+
+            displayColumn (
+                column: @UPDATE_DATE
+                layout {
+                    sequence: 19
+                }
+            )
+
+            displayColumn (
+                column: @DIV_NO
+                layout {
+                    sequence: 20
+                }
+            )
+
+            displayColumn (
+                column: @DIST_NO
+                layout {
+                    sequence: 21
+                }
+            )
+
+            displayColumn (
+                column: @PS_UPAZILA_NO
+                layout {
+                    sequence: 22
+                }
+            )
+
+            displayColumn (
+                column: @UNION_NO
+                layout {
+                    sequence: 23
+                }
+            )
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+        )
+
+        column ADDRESS (
+            type: textarea
+            heading {
+                heading: House/Road
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                maxLength: 500
+            }
+            source {
+                databaseColumn: ADDRESS
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: none
+            }
+            enableUsersTo {
+                sort: false
+            }
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CLINIC_ID (
+            type: numberField
+            heading {
+                heading: Clinic Id
+                alignment: end
+            }
+            settings {
+                numberAlignment: end
+                virtualKeyboard: text
+            }
+            layout {
+                sequence: 30
+                columnAlignment: end
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: CLINIC_ID
+                dataType: number
+                primaryKey: true
+            }
+            columnFilter {
+                lovType: none
+            }
+        )
+
+        column CLINIC_IMAGE (
+            type: hidden
+            layout {
+                sequence: 110
+            }
+            source {
+                databaseColumn: CLINIC_IMAGE
+                dataType: blob
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            serverSideCondition {
+                type: never
+            }
+        )
+
+        column CLINIC_NAME (
+            type: textarea
+            heading {
+                heading: Clinic Name
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+                maxLength: 200
+            }
+            source {
+                databaseColumn: CLINIC_NAME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: none
+            }
+            enableUsersTo {
+                sort: false
+            }
+        )
+
+        column DIST_NO (
+            type: selectList
+            heading {
+                heading: District
+            }
+            lov {
+                type: sharedComponent
+                lov: @districts
+            }
+            layout {
+                sequence: 220
+            }
+            source {
+                databaseColumn: DIST_NO
+                dataType: number
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: useLov
+            }
+        )
+
+        column DIV_NO (
+            type: selectList
+            heading {
+                heading: Division
+            }
+            lov {
+                type: sharedComponent
+                lov: @devisions
+            }
+            layout {
+                sequence: 210
+            }
+            source {
+                databaseColumn: DIV_NO
+                dataType: number
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: useLov
+            }
+        )
+
+        column EMAIL (
+            type: textarea
+            heading {
+                heading: Email
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: EMAIL
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: none
+            }
+            enableUsersTo {
+                sort: false
+            }
+        )
+
+        column FILENAME (
+            type: hidden
+            layout {
+                sequence: 130
+            }
+            source {
+                databaseColumn: FILENAME
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column IMAGE_LAST_UPDATE (
+            type: hidden
+            layout {
+                sequence: 140
+            }
+            source {
+                databaseColumn: IMAGE_LAST_UPDATE
+                dataType: timestampWithLocalTimeZone
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column INSERT_BY (
+            type: hidden
+            layout {
+                sequence: 170
+            }
+            source {
+                databaseColumn: INSERT_BY
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column INSERT_DATE (
+            type: hidden
+            layout {
+                sequence: 180
+            }
+            source {
+                databaseColumn: INSERT_DATE
+                dataType: date
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column MIMETYPE (
+            type: hidden
+            layout {
+                sequence: 120
+            }
+            source {
+                databaseColumn: MIMETYPE
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column MOBILE_NO (
+            type: textField
+            heading {
+                heading: Mobile No
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 15
+            }
+            source {
+                databaseColumn: MOBILE_NO
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column NOTE (
+            type: hidden
+            layout {
+                sequence: 150
+            }
+            source {
+                databaseColumn: NOTE
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column PHONE_NO (
+            type: textField
+            heading {
+                heading: Phone No
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                maxLength: 15
+            }
+            source {
+                databaseColumn: PHONE_NO
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column PS_UPAZILA_NO (
+            type: selectList
+            heading {
+                heading: Ps/Upazila
+            }
+            lov {
+                type: sharedComponent
+                lov: @ps-upazilas
+            }
+            layout {
+                sequence: 230
+            }
+            source {
+                databaseColumn: PS_UPAZILA_NO
+                dataType: number
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: useLov
+            }
+        )
+
+        column REGISTRATION_NO (
+            type: textField
+            heading {
+                heading: Registration No
+            }
+            layout {
+                sequence: 100
+            }
+            validation {
+                maxLength: 15
+            }
+            source {
+                databaseColumn: REGISTRATION_NO
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column STATUS (
+            type: hidden
+            layout {
+                sequence: 160
+            }
+            source {
+                databaseColumn: STATUS
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column UNION_NO (
+            type: selectList
+            heading {
+                heading: Union
+            }
+            lov {
+                type: sharedComponent
+                lov: @unions
+            }
+            layout {
+                sequence: 240
+            }
+            source {
+                databaseColumn: UNION_NO
+                dataType: number
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: useLov
+            }
+        )
+
+        column UPDATE_BY (
+            type: hidden
+            layout {
+                sequence: 190
+            }
+            source {
+                databaseColumn: UPDATE_BY
+                dataType: varchar2
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column UPDATE_DATE (
+            type: hidden
+            layout {
+                sequence: 200
+            }
+            source {
+                databaseColumn: UPDATE_DATE
+                dataType: date
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column WEBSITE (
+            type: textarea
+            heading {
+                heading: Website
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: WEBSITE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+                lovType: none
+            }
+            enableUsersTo {
+                sort: false
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+        pageHeader {
+            pageHeaderText: Clinic Information
+        }
+    )
+
+    region clinic-informations (
+        name: Clinic Informations
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useRegionTitle
+            ]
+            icon: fa-hospital-o
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    process clinic-information-save-interactive-grid-data (
+        name: Clinic Information - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @clinic-information
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 12964508975693828989
+        }
+    )
+
+)
+

@@ -1,0 +1,193 @@
+plugin coolDashboardV20 (
+    name: Cool Dashboard V 2.0
+    staticId: COOL.DASHBOARD_V_2.0
+    type: region
+    component {
+        standardAttributes: [
+            regionSourceIsSqlQuery
+            pageItemsToSubmitAttr
+            noDataFoundMessageAttr
+        ]
+    }
+    source {
+        plsqlCode:
+            ```plsql
+            FUNCTION SQL_TO_SYS_REFCURSOR (
+                P_IN_SQL_STATEMENT   CLOB,
+                P_IN_BINDS           SYS.DBMS_SQL.VARCHAR2_TABLE
+            ) RETURN SYS_REFCURSOR AS
+                VR_CURS         BINARY_INTEGER;
+                VR_REF_CURSOR   SYS_REFCURSOR;
+                VR_EXEC         BINARY_INTEGER;
+            /* TODO make size dynamic */
+                VR_BINDS        VARCHAR(100);
+            BEGIN
+                VR_CURS         := DBMS_SQL.OPEN_CURSOR;
+                DBMS_SQL.PARSE(
+                    VR_CURS,
+                    P_IN_SQL_STATEMENT,
+                    DBMS_SQL.NATIVE
+                );
+                IF P_IN_BINDS.COUNT > 0 THEN
+                    FOR I IN 1..P_IN_BINDS.COUNT LOOP
+                    /* TODO find out how to prevent ltrim */
+                        VR_BINDS   := LTRIM(
+                            P_IN_BINDS(I),
+                            ':'
+                        );
+                        DBMS_SQL.BIND_VARIABLE(
+                            VR_CURS,
+                            VR_BINDS,
+                            V(VR_BINDS)
+                        );
+                    END LOOP;
+                END IF;
+            
+                VR_EXEC         := DBMS_SQL.EXECUTE(VR_CURS);
+                VR_REF_CURSOR   := DBMS_SQL.TO_REFCURSOR(VR_CURS);
+                RETURN VR_REF_CURSOR;
+            EXCEPTION
+                WHEN OTHERS THEN
+                    IF DBMS_SQL.IS_OPEN(VR_CURS) THEN
+                        DBMS_SQL.CLOSE_CURSOR(VR_CURS);
+                    END IF;
+                    RAISE;
+            END;
+            
+            FUNCTION F_AJAX (
+                P_REGION   IN         APEX_PLUGIN.T_REGION,
+                P_PLUGIN   IN         APEX_PLUGIN.T_PLUGIN
+            ) RETURN APEX_PLUGIN.T_REGION_AJAX_RESULT IS
+                VR_RESULT       APEX_PLUGIN.T_REGION_AJAX_RESULT;
+                VR_CUR          SYS_REFCURSOR;
+                VR_BIND_NAMES   SYS.DBMS_SQL.VARCHAR2_TABLE;
+            BEGIN
+            /* undocumented function of APEX for get all bindings */
+                VR_BIND_NAMES   := WWV_FLOW_UTILITIES.GET_BINDS(P_REGION.SOURCE);
+            
+            /* execute binding*/
+                VR_CUR          := SQL_TO_SYS_REFCURSOR(
+                    RTRIM(
+                        P_REGION.SOURCE,
+                        ';'
+                    ),
+                    VR_BIND_NAMES
+                );
+            
+            /* create json */
+                APEX_JSON.OPEN_OBJECT;
+                APEX_JSON.WRITE(
+                    'row',
+                    VR_CUR
+                );
+                APEX_JSON.CLOSE_OBJECT;
+            
+                RETURN VR_RESULT;
+            END;
+            
+            FUNCTION F_RENDER (
+                P_REGION                IN                      APEX_PLUGIN.T_REGION,
+                P_PLUGIN                IN                      APEX_PLUGIN.T_PLUGIN,
+                P_IS_PRINTER_FRIENDLY   IN                      BOOLEAN
+            ) RETURN APEX_PLUGIN.T_REGION_RENDER_RESULT IS
+            
+                VR_RESULT         APEX_PLUGIN.T_REGION_RENDER_RESULT;
+                VR_ITEMS2SUBMIT   APEX_APPLICATION_PAGE_REGIONS.AJAX_ITEMS_TO_SUBMIT%TYPE := APEX_PLUGIN_UTIL.PAGE_ITEM_NAMES_TO_JQUERY(P_REGION.AJAX_ITEMS_TO_SUBMIT);
+            BEGIN
+                APEX_CSS.ADD_FILE(
+                    P_NAME        => 'Latest_Dashboard',
+                    P_DIRECTORY   => P_PLUGIN.FILE_PREFIX,
+                    P_VERSION     => NULL,
+                    P_KEY         => 'LatestDashboard'
+                );
+                
+                APEX_JAVASCRIPT.ADD_LIBRARY(
+                    P_NAME        => 'Latest_Dashboard',
+                    P_DIRECTORY   => P_PLUGIN.FILE_PREFIX,
+                    P_VERSION     => NULL,
+                    P_CHECK_TO_ADD_MINIFIED => False,
+                    P_KEY         => 'LatestDashboard'
+                );
+            
+               HTP.P('<div id="' || APEX_ESCAPE.HTML_ATTRIBUTE( P_REGION.STATIC_ID ) || '-p" class="mat-flip-cards"></div>');
+            
+                APEX_JAVASCRIPT.ADD_ONLOAD_CODE( 'LatestDashboard.render('
+                 || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.STATIC_ID, TRUE )    
+                 || APEX_JAVASCRIPT.ADD_VALUE( APEX_PLUGIN.GET_AJAX_IDENTIFIER, TRUE )
+                 || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.NO_DATA_FOUND_MESSAGE, TRUE )
+                 || APEX_JAVASCRIPT.ADD_VALUE( VR_ITEMS2SUBMIT, TRUE )
+                 || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.ESCAPE_OUTPUT, TRUE )
+                 || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.ATTRIBUTE_01, FALSE )
+                 || ');' );
+            
+                RETURN VR_RESULT;
+            END;
+            ```
+    }
+    callbacks {
+        apiInterface: function
+        renderProcedureName: F_RENDER
+        ajaxProcedureName: F_AJAX
+    }
+    advanced {
+        substituteAttributeValues: true
+    }
+    information {
+        version: 2.0.0
+        aboutUrl: https://github.com/sattuvirus
+        helpText: This is New version of Cool Dashboard V 2.0 plugin where you can show your data into different cards view.
+    }
+
+    standardAttributeConfig (
+        name: regionSourceIsSqlQuery
+        validation {
+            required: true
+        }
+        default {
+            value:
+                ```
+                Select 1 as sort_order,
+                'https://www.google.com/' as LINK1,
+                'Users' title,
+                '250' data,
+                'fa-users fa-fw fa-3x' as icon_class,
+                'dark-blue' as class1,
+                'dark-blue' as class2,
+                'https://www.google.com/' as link
+                from dual
+                union all
+                Select 2 as sort_order,
+                'https://www.google.com/' as LINK1,
+                'Online' title,
+                '150' data,
+                'fa-phone fa-fw fa-3x' as icon_class,
+                'red' as class1,
+                'red' as class2,
+                'https://www.google.com/' as link
+                from dual
+                union all
+                Select 3 as sort_order,
+                'https://www.google.com/' as LINK1,
+                'Off-line' title,
+                '100' data,
+                'fa-area-chart fa-fw fa-3x' as icon_class,
+                'orange' as class1,
+                'orange' as class2,
+                'https://www.google.com/' as link
+                from dual
+                union all
+                Select 4 as sort_order,
+                'https://www.google.com/' as LINK1,
+                'Pending' title,
+                '250' data,
+                'fa fa-download fa-fw fa-3x' as icon_class,
+                'green' as class1,
+                'green' as class2,
+                'https://www.google.com/' as link
+                from dual
+                ```
+        }
+    )
+
+)
+

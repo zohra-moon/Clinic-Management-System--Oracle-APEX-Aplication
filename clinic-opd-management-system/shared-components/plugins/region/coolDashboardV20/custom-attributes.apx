@@ -1,0 +1,15 @@
+customAttribute attribute_01 (
+    apexlangName: configuraionjson
+    attribute: 1
+    name: ConfiguraionJSON
+    validation {
+        required: true
+    }
+    appearance {
+        sequence: 10
+    }
+    default {
+        value: "{ \"cardWidth\": 2, \"refresh\": 0 ,\"releaveHideIcon\":\"fa-long-arrow-down\"}	"
+    }
+)
+

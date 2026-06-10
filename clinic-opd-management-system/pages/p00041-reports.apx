@@ -1,0 +1,723 @@
+page 41 (
+    name: Reports
+    alias: REPORTS
+    title: Reports
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #5cabe3, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #8ee6d7, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region bill-report (
+        name: bill report
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE 
+                 V_OUTPUT CLOB;
+                 CURSOR bill_INFO IS 
+                 SELECT 
+                    TO_CHAR(B.BILL_ID) AS BILL_ID, 
+                    B.bill_DATE, 
+                    P.P_NAME, 
+                    A.PATIENT_TYPE, 
+                    emr_pkg.get_doc(B.doc_id) doc_name, 
+                    B.DISCOUNT_PCT, 
+                    NVL(B.NET_AMOUNT, 0) AS NET_AMOUNT, 
+                    NVL(B.TOTAL, 0) AS TOTAL, 
+                    NVL(B.DISC_AMT, 0) AS DISC_AMT, 
+                    NVL(B.RECEIVED_AMT, 0) AS RECEIVED_AMT, 
+                    NVL(B.DUE_RETURN_AMT, 0) AS DUE_RETURN_AMT
+                 FROM 
+                    APPOINTMENT_INFO A 
+                 JOIN 
+                    PATIENTS_REG_INFO P ON A.P_REG_ID = P.P_REG_ID
+                 JOIN 
+                    BILLING B ON A.APP_ID = B.APP_ID
+                 WHERE 
+                    trunc(B.bill_DATE) >= to_date(:P41_F_DATE, 'MM/DD/YYYY')
+                    AND trunc(B.bill_DATE) <= to_date(:P41_T_DATE, 'MM/DD/YYYY')
+                 ORDER BY 
+                    TO_NUMBER(REGEXP_SUBSTR(B.BILL_ID, '\d+')) DESC, 
+                    B.bill_DATE ASC;
+                
+                 v_rep_total NUMBER := 0;
+                 V_START_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_F_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                 V_END_DT VARCHAR2(50) := TO_CHAR(TO_DATE(:P41_T_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY');
+                
+                BEGIN
+                 V_OUTPUT := '<DIV ALIGN=CENTER>
+                                <h3> Bill Topsheet </h3> <BR>
+                                From: '||V_START_DT||' To: '||V_END_DT||'<br>
+                              </DIV>
+                              <br>
+                              <table border=1 style="border-collapse: collapse;" width=100%>
+                              <tr>
+                                <th>Invoice No.</th>
+                                <th>Patient</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Discount</th>
+                                <th>Total</th>
+                              </tr>';
+                
+                 FOR I IN bill_INFO LOOP
+                   V_OUTPUT := V_OUTPUT||'
+                         <tr>
+                          <td ALIGN= CENTER>'||I.BILL_ID||'</td>
+                          <td>'||I.P_NAME||'</td>
+                          <td>'||I.PATIENT_TYPE||'</td>
+                          <td ALIGN= RIGHT>'||NVL(I.NET_AMOUNT, 0)||'</td>
+                          <td ALIGN= RIGHT>'||NVL(I.DISC_AMT, 0)||'</td>
+                          <td ALIGN= RIGHT>'||NVL(I.TOTAL, 0)||'</td>
+                         </tr>';
+                 END LOOP;
+                
+                 V_OUTPUT := V_OUTPUT||'</table>';
+                 RETURN V_OUTPUT;
+                
+                EXCEPTION 
+                 WHEN OTHERS THEN
+                 RETURN 'Error: '||SQLERRM;
+                END;
+                
+                ```
+            pageItemsToSubmit: [
+                P41_F_DATE
+                P41_T_DATE
+            ]
+        }
+        layout {
+            sequence: 60
+            slot: dialogsDrawersAndPopups
+        }
+        appearance {
+            template: @/inline-dialog
+            templateOptions: [
+                #DEFAULT#
+                js-dialog-size600x400
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region item (
+        name: item
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: body
+            columnSpan: 4
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region new (
+        name: New
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: [
+                #DEFAULT#
+                t-ButtonRegion--noPadding
+            ]
+        }
+    )
+
+    pageItem P41_DOC_ID_1 (
+        type: popupLov
+        label {
+            label: Doctor
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select doc_name, doc_id 
+                from doctors_info
+                order by 2 asc;
+                ```
+            displayExtraValues: false
+            nullDisplayValue: --All--
+        }
+        layout {
+            sequence: 40
+            region: @item
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P41_F_DATE (
+        type: datePicker
+        label {
+            label: From
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @item
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P41_TYPE (
+        type: selectList
+        label {
+            label: Patient Type
+            alignment: left
+        }
+        lov {
+            type: staticValues
+            staticValues: STATIC:New;New,Follow-up;Follow-up,Test Report Review;Test Report Review
+            displayExtraValues: false
+            nullDisplayValue: --select--
+        }
+        layout {
+            sequence: 50
+            region: @item
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+    )
+
+    pageItem P41_T_DATE (
+        type: datePicker
+        label {
+            label: To
+            alignment: left
+        }
+        layout {
+            sequence: 30
+            region: @item
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    button appointment-report (
+        buttonName: Appointment_Report
+        label: Appointment Report
+        layout {
+            sequence: 40
+            region: @new
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--large
+                t-Button--iconLeft
+                t-Button--padTop
+                t-Button--padBottom
+            ]
+            icon: fa-chevron-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 47
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button bill-report (
+        buttonName: Bill_Report
+        label: Bill Report
+        layout {
+            sequence: 10
+            region: @new
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--large
+                t-Button--iconLeft
+            ]
+            icon: fa-chevron-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 49
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button matrix-report (
+        buttonName: Matrix_Report
+        label: Matrix Report
+        layout {
+            sequence: 50
+            region: @new
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--large
+                t-Button--iconLeft
+                t-Button--padTop
+                t-Button--padBottom
+            ]
+            icon: fa-chevron-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 56
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button visited-patient-report (
+        buttonName: Visited_patient_report
+        label: Visited Patient Report
+        layout {
+            sequence: 30
+            region: @new
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--large
+                t-Button--iconLeft
+                t-Button--padTop
+                t-Button--padBottom
+            ]
+            icon: fa-chevron-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 50
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction get-doc (
+        name: GET doc
+        execution {
+            sequence: 70
+        }
+        when {
+            selectionType: items
+            items: P41_DOC_ID_1
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                    APEX_UTIL.SET_SESSION_STATE('P41_DOC_ID_1',:P41_DOC_ID_1);
+                    END;
+                    ```
+                itemsToSubmit: P41_DOC_ID_1
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction get-doc-2 (
+        name: GET DOC
+        execution {
+            sequence: 50
+        }
+        when {
+            selectionType: items
+            items: P41_DOC_ID
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                    APEX_UTIL.SET_SESSION_STATE('P41_DOC_ID',:P41_DOC_ID);
+                    END;
+                    ```
+                itemsToSubmit: P41_DOC_ID
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction get-from-date (
+        name: GET FROM DATE
+        execution {
+            sequence: 30
+        }
+        when {
+            selectionType: items
+            items: P41_F_DATE
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                    APEX_UTIL.SET_SESSION_STATE('P41_F_DATE',:P41_F_DATE);
+                    END;
+                    ```
+                itemsToSubmit: P41_F_DATE
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction get-to-date (
+        name: GET TO DATE
+        execution {
+            sequence: 40
+        }
+        when {
+            selectionType: items
+            items: P41_T_DATE
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                    APEX_UTIL.SET_SESSION_STATE('P41_T_DATE',:P41_T_DATE);
+                    END;
+                    ```
+                itemsToSubmit: P41_T_DATE
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction get-type (
+        name: GET TYPE
+        execution {
+            sequence: 60
+        }
+        when {
+            selectionType: items
+            items: P41_TYPE
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                    APEX_UTIL.SET_SESSION_STATE('P41_TYPE',:P41_TYPE);
+                    END;
+                    ```
+                itemsToSubmit: P41_TYPE
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new (
+        name: New
+        execution {
+            sequence: 80
+        }
+        when {
+            selectionType: items
+            items: [
+                P41_F_DATE
+                P41_T_DATE
+            ]
+        }
+        serverSideCondition {
+            type: never
+        }
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @bill-report
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+)
+

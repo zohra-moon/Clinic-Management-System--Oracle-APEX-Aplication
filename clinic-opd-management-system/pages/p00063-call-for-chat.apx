@@ -1,0 +1,157 @@
+page 63 (
+    name: call for chat
+    alias: CALL-FOR-CHAT
+    title: call for chat
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P63_CONV_ID (
+        type: textField
+        label {
+            label: Conv Id
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            slot: body
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    button start-chat (
+        buttonName: Start_Chat
+        label: Start Chat
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction session (
+        name: session
+        execution {
+            sequence: 10
+        }
+        when {
+            selectionType: items
+            items: P63_CONV_ID
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode: apex_util.set_session_state('P63_CONV_ID',:P63_CONV_ID);
+                itemsToSubmit: P63_CONV_ID
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    process new (
+        name: New
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                DECLARE
+                    l_conv_id NUMBER;
+                BEGIN
+                    -- Try to find existing buyer-admin conversation
+                    SELECT c.conv_id
+                    INTO l_conv_id
+                    FROM chat_conversations c
+                    WHERE EXISTS (
+                        SELECT 1
+                        FROM chat_participants p
+                        WHERE p.conv_id = c.conv_id
+                        AND p.username = :APP_USER
+                    )
+                 --   AND EXISTS (
+                   --     SELECT 1
+                   --     FROM chat_participants p
+                   --     WHERE p.conv_id = c.conv_id
+                 --       AND p.username = 'ADMIN'
+                --    )
+                    fetch first row only;
+                
+                    -- Reuse conversation
+                    :P63_CONV_ID := l_conv_id;
+                
+                EXCEPTION
+                    WHEN NO_DATA_FOUND THEN
+                        -- Create new conversation
+                        INSERT INTO chat_conversations (CREATED_ON)
+                        VALUES (sysdate)
+                        RETURNING conv_id INTO l_conv_id;
+                
+                        INSERT INTO chat_participants (conv_id, username)
+                        VALUES (l_conv_id, :APP_USER);
+                
+                        INSERT INTO chat_participants (conv_id, username)
+                        VALUES (l_conv_id, 'ADMIN');
+                
+                    --    COMMIT;
+                
+                        :P63_CONV_ID := l_conv_id;
+                END;
+                
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 124335103572034044875
+        }
+    )
+
+)
+

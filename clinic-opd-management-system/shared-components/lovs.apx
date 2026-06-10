@@ -1,0 +1,685 @@
+lov access-roles (
+    name: ACCESS_ROLES
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select role_name d, role_id r
+            from APEX_APPL_ACL_ROLES where application_id = :APP_ID 
+            order by 1
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov advices (
+    name: ADVICES
+    source {
+        type: sqlQuery
+        sqlQuery: SELECT ADV_NAME D, ADV_ID R FROM ADVICE_INFO
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov appointment-info-app-mobile-no (
+    name: APPOINTMENT_INFO.APP_MOBILE_NO
+    source {
+        tableName: APPOINTMENT_INFO
+    }
+    columnMapping {
+        return: APP_ID
+        display: APP_MOBILE_NO
+        defaultSort: APP_MOBILE_NO
+    }
+)
+
+lov blood-group (
+    name: BLOOD GROUP
+    source {
+        location: staticValues
+    }
+
+    entry a (
+        sequence: 1
+        display: A+
+        return: A+
+    )
+
+    entry a-2 (
+        sequence: 2
+        display: A-
+        return: A-
+    )
+
+    entry ab (
+        sequence: 5
+        display: AB+
+        return: AB+
+    )
+
+    entry ab-2 (
+        sequence: 6
+        display: AB-
+        return: AB-
+    )
+
+    entry b (
+        sequence: 3
+        display: B+
+        return: B+
+    )
+
+    entry b-2 (
+        sequence: 4
+        display: B-
+        return: B-
+    )
+
+    entry o (
+        sequence: 7
+        display: O+
+        return: O+
+    )
+
+    entry o-2 (
+        sequence: 8
+        display: O-
+        return: O-
+    )
+
+)
+
+lov departments (
+    name: DEPARTMENTS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            SELECT dept_name AS D, dept_id AS R
+            FROM departments_info
+            ORDER BY dept_NAME ASC;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov desktop-theme-styles (
+    name: DESKTOP THEME STYLES
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select s.name d,
+                s.theme_style_id r
+            from apex_application_theme_styles s, apex_application_themes t
+            where s.application_id = t.application_id
+                and s.theme_number = t.theme_number
+                and s.application_id = :app_id
+                and t.ui_type_name   = 'DESKTOP'
+                and t.is_current = 'Yes'
+            order by 1
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov devisions (
+    name: DEVISIONS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select div_name d, div_no R
+            from divisions
+            order by 1;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov districts (
+    name: DISTRICTS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select dist_name d, dist_no R
+            from districts
+            order by 1;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov doctor-shift-dtl-status (
+    name: DOCTOR_SHIFT_DTL.STATUS
+    source {
+        tableName: DOCTOR_SHIFT_DTL
+    }
+    columnMapping {
+        return: DOC_SH_ID
+        display: STATUS
+        defaultSort: STATUS
+    }
+)
+
+lov doctors (
+    name: DOCTORS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select doc_name d, doc_id r from doctors_info
+            order by 1 asc;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov doctors-info-doc-name (
+    name: DOCTORS_INFO.DOC_NAME
+    source {
+        tableName: DOCTORS_INFO
+    }
+    columnMapping {
+        return: DOC_ID
+        display: DOC_NAME
+        defaultSort: DOC_NAME
+    }
+)
+
+lov email-username-format (
+    name: EMAIL_USERNAME_FORMAT
+    source {
+        location: staticValues
+    }
+
+    entry email (
+        sequence: 1
+        display: Email Addresses
+        return: EMAIL
+    )
+
+)
+
+lov employees (
+    name: EMPLOYEES
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select emp_id||'-'||Emp_name d, emp_id r
+            from employees_info
+            order by 2 asc;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov feedback-rating (
+    name: FEEDBACK_RATING
+    source {
+        location: staticValues
+    }
+
+    entry lov_data (
+        sequence: 1
+        display: Positive
+        return: 3
+        globalization {
+            template: <span title="#DISPLAY_VALUE#" aria-label="#DISPLAY_VALUE#"><span class="fa fa-smile-o fa-2x feedback-positive" aria-hidden="true" ></span></span>
+        }
+    )
+
+    entry lov_data-2 (
+        sequence: 2
+        display: Neutral
+        return: 2
+        globalization {
+            template: <span title="#DISPLAY_VALUE#" aria-label="#DISPLAY_VALUE#"><span class="fa fa-emoji-neutral fa-2x feedback-neutral" aria-hidden="true" ></span></span>
+        }
+    )
+
+    entry lov_data-3 (
+        sequence: 3
+        display: Negative
+        return: 1
+        globalization {
+            template: <span title="#DISPLAY_VALUE#" aria-label="#DISPLAY_VALUE#"><span class="fa fa-frown-o fa-2x feedback-negative" aria-hidden="true" ></span></span>
+        }
+    )
+
+)
+
+lov feedback-status (
+    name: FEEDBACK_STATUS
+    source {
+        location: staticValues
+    }
+
+    entry lov_data (
+        sequence: 1
+        display: No Action
+        return: 0
+    )
+
+    entry lov_data-2 (
+        sequence: 2
+        display: Acknowledged
+        return: 1
+    )
+
+    entry lov_data-3 (
+        sequence: 3
+        display: Open
+        return: 3
+    )
+
+    entry lov_data-4 (
+        sequence: 4
+        display: Closed
+        return: 4
+    )
+
+)
+
+lov gender (
+    name: GENDER
+    source {
+        location: staticValues
+    }
+
+    entry f (
+        sequence: 2
+        display: Female
+        return: F
+    )
+
+    entry m (
+        sequence: 1
+        display: Male
+        return: M
+    )
+
+    entry o (
+        sequence: 3
+        display: Other
+        return: O
+    )
+
+    entry other (
+        sequence: 4
+        display: Other
+        return: Other
+    )
+
+)
+
+lov investigations (
+    name: INVESTIGATIONS
+    source {
+        type: sqlQuery
+        sqlQuery: SELECT INV_NAME D, INV_ID R FROM INVESTIGATION_info
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov login-remember-username (
+    name: LOGIN_REMEMBER_USERNAME
+    source {
+        location: staticValues
+    }
+
+    entry y (
+        sequence: 10
+        display: Remember username
+        return: Y
+    )
+
+)
+
+lov med-frequency (
+    name: MED FREQUENCY
+    source {
+        location: staticValues
+    }
+
+    entry lov_data (
+        sequence: 1
+        display: 1+1+1
+        return: 1+1+1
+    )
+
+    entry lov_data-10 (
+        sequence: 10
+        display: 0+1/2+1/2
+        return: 0+1/2+1/2
+    )
+
+    entry lov_data-2 (
+        sequence: 2
+        display: 0+1+0
+        return: 0+1+0
+    )
+
+    entry lov_data-3 (
+        sequence: 3
+        display: 1+0+0
+        return: 1+0+0
+    )
+
+    entry lov_data-4 (
+        sequence: 4
+        display: 0+0+1
+        return: 0+0+1
+    )
+
+    entry lov_data-5 (
+        sequence: 5
+        display: 1+0+1
+        return: 1+0+1
+    )
+
+    entry lov_data-6 (
+        sequence: 6
+        display: 1+1+0
+        return: 1+1+0
+    )
+
+    entry lov_data-7 (
+        sequence: 7
+        display: 0+1+1
+        return: 0+1+1
+    )
+
+    entry lov_data-8 (
+        sequence: 8
+        display: 1/2+1/2+1/2
+        return: 1/2+1/2+1/2
+    )
+
+    entry lov_data-9 (
+        sequence: 9
+        display: 1/2+0+1/2
+        return: 1/2+0+1/2
+    )
+
+)
+
+lov medicines (
+    name: MEDICINES
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            SELECT MED_NAME||'('||MED_TYPE||')-'||GENERIC_NAME D, MED_ID R
+            FROM MEDICINE_INFO M JOIN GENERIC_INFO G
+            ON(M.GENERIC_ID = G.GENERIC_ID)
+            
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov patient-type (
+    name: PATIENT TYPE
+    source {
+        location: staticValues
+    }
+
+    entry follow-up (
+        sequence: 2
+        display: Follow-up
+        return: Follow-up
+    )
+
+    entry new (
+        sequence: 1
+        display: New
+        return: New
+    )
+
+    entry test-report-review (
+        sequence: 3
+        display: Test Report Review
+        return: Test Report Review
+    )
+
+)
+
+lov patient-type-2 (
+    name: PATIENT_TYPE
+    source {
+        location: staticValues
+    }
+
+    entry follow-up (
+        sequence: 2
+        display: Follow-up
+        return: Follow-up
+    )
+
+    entry new (
+        sequence: 1
+        display: New
+        return: New
+    )
+
+    entry test-report-review (
+        sequence: 3
+        display: Test Report Review
+        return: Test Report Review
+    )
+
+)
+
+lov patients (
+    name: PATIENTS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select p_name||' -'|| mobile_no D , p_reg_id R from patients_reg_info
+            order by D asc;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov patients-reg-info-p-name (
+    name: PATIENTS_REG_INFO.P_NAME
+    source {
+        tableName: PATIENTS_REG_INFO
+    }
+    columnMapping {
+        return: P_REG_ID
+        display: P_NAME
+        defaultSort: P_NAME
+    }
+)
+
+lov ps-upazilas (
+    name: PS_UPAZILAS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select ps_upazila_name d, ps_upazila_no R
+            from ps_upazilas
+            order by 1;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov roles (
+    name: ROLES
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select ri_id||'-'||ri_name d, ri_id r from roles_info
+            order by 2 asc;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov shifts (
+    name: SHIFTS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select START_TIME||'-'||END_TIME D, DR_SH_ID R
+                  
+            from DR_NEW_SHIFT_INFO;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+        defaultSort: D
+    }
+)
+
+lov status (
+    name: STATUS
+    source {
+        location: staticValues
+    }
+
+    entry n (
+        sequence: 2
+        display: Disabled
+        return: N
+    )
+
+    entry y (
+        sequence: 1
+        display: Active
+        return: Y
+    )
+
+)
+
+lov timeframe-4-weeks (
+    name: TIMEFRAME (4 WEEKS)
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select disp,
+                  val as seconds
+             from table( apex_util.get_timeframe_lov_data )
+            order by insert_order
+            ```
+    }
+    columnMapping {
+        return: SECONDS
+        display: DISP
+    }
+)
+
+lov unions (
+    name: UNIONS
+    source {
+        type: sqlQuery
+        sqlQuery:
+            ```sql
+            select union_name d, union_no R
+            from unions
+            order by 1;
+            ```
+    }
+    columnMapping {
+        return: R
+        display: D
+    }
+)
+
+lov user-theme-preference (
+    name: USER_THEME_PREFERENCE
+    source {
+        location: staticValues
+    }
+
+    entry yes (
+        sequence: 1
+        display: Allow End Users to choose Theme Style
+        return: Yes
+    )
+
+)
+
+lov view-as-report-chart (
+    name: VIEW_AS_REPORT_CHART
+    source {
+        location: staticValues
+    }
+
+    entry chart (
+        sequence: 2
+        display: Add Chart Page
+        return: CHART
+        globalization {
+            template: <span class="fa fa-pie-chart" aria-hidden="true"></span><span class="u-VisuallyHidden">#DISPLAY_VALUE#</span>
+        }
+    )
+
+    entry report (
+        sequence: 1
+        display: Add Report Page
+        return: REPORT
+        globalization {
+            template: <span class="fa fa-table" aria-hidden="true"></span><span class="u-VisuallyHidden">#DISPLAY_VALUE#</span>
+        }
+    )
+
+)
+

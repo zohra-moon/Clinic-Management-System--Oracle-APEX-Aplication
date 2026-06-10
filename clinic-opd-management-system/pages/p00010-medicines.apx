@@ -1,0 +1,498 @@
+page 10 (
+    name: Medicines
+    alias: MEDICINES
+    title: Medicines
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: [
+            #DEFAULT#
+            t-Dialog--noPadding
+        ]
+    }
+    dialog {
+        chained: false
+        resizable: false
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    }
+    css {
+        inline:
+            ```css
+            #bg_one {
+                background-color: #EADDCA;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region buttons (
+        name: Buttons
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: dialogFooter
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region medicines (
+        name: Medicines
+        type: form
+        source {
+            location: localDatabase
+            tableName: MEDICINE_INFO
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        advanced {
+            htmlDomId: bg_one
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    pageItem P10_DOSAGE_FORM (
+        type: hidden
+        layout {
+            sequence: 50
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: DOSAGE_FORM
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_GENERIC_ID (
+        type: hidden
+        layout {
+            sequence: 70
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: GENERIC_ID
+            dataType: number
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_INSERT_BY (
+        type: hidden
+        layout {
+            sequence: 90
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: INSERT_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_INSERT_DATE (
+        type: hidden
+        layout {
+            sequence: 100
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: INSERT_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_MED_DESCRIPTION (
+        type: hidden
+        layout {
+            sequence: 40
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: MED_DESCRIPTION
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_MED_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: MED_ID
+            dataType: number
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_MED_NAME (
+        type: textarea
+        label {
+            label: Med Name
+            alignment: right
+        }
+        layout {
+            sequence: 20
+            region: @medicines
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/required-floating
+            templateOptions: #DEFAULT#
+            width: 60
+            height: 4
+        }
+        validation {
+            valueRequired: true
+            maxLength: 200
+        }
+        source {
+            formRegion: @medicines
+            column: MED_NAME
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_MED_TYPE (
+        type: selectList
+        label {
+            label: Type
+            alignment: left
+        }
+        lov {
+            type: staticValues
+            staticValues: STATIC:Tablet;Tablet,Nasal Spray;Nasal Spray,Capsule;Capsule,Suspension;Suspension,Syrup;Syrup
+        }
+        layout {
+            sequence: 30
+            region: @medicines
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @medicines
+            column: MED_TYPE
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_STATUS (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: STATUS
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 110
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 120
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: UPDATE_DATE
+            dataType: date
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P10_U_O_M (
+        type: hidden
+        layout {
+            sequence: 60
+            region: @medicines
+            slot: regionBody
+        }
+        source {
+            formRegion: @medicines
+            column: U_O_M
+            dataType: varchar2
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @buttons
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P10_MED_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @buttons
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: [
+                #DEFAULT#
+                t-Button--danger
+                t-Button--simple
+            ]
+        }
+        behavior {
+            action: redirectUrl
+            targetUrl: javascript:apex.confirm(htmldb_delete_message,'DELETE');
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P10_MED_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P10_MED_ID
+        }
+    )
+
+    dynamicAction cancel-dialog (
+        name: Cancel Dialog
+        execution {
+            sequence: 10
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @cancel
+        }
+
+        action native-dialog-cancel (
+            action: cancelDialog
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    process close-dialog (
+        name: Close Dialog
+        type: closeDialog
+        settings {
+            itemsToReturn: [
+                P10_MED_ID
+                REQUEST
+            ]
+            showSuccessMessages: false
+        }
+        execution {
+            sequence: 30
+        }
+        advanced {
+            executionMappingIdentifier: 12963880060339885225
+        }
+        serverSideCondition {
+            type: requestIsContainedInValue
+            value: CREATE,SAVE,DELETE
+        }
+    )
+
+    process genpk-med (
+        name: genpk med
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max(med_id),999)+1 into :P10_MED_ID
+                from medicine_info;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 12964030904224671475
+        }
+        serverSideCondition {
+            whenButtonPressed: @create
+        }
+    )
+
+    process initialize-form-medicines (
+        name: Initialize form Medicines
+        type: formInitialization
+        formRegion: @medicines
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 12963879223536885225
+        }
+    )
+
+    process process-form-medicines (
+        name: Process form Medicines
+        type: formAutoRowProcessing
+        formRegion: @medicines
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 12963879606784885225
+        }
+    )
+
+)
+

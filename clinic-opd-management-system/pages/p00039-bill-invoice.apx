@@ -1,0 +1,235 @@
+page 39 (
+    name: Bill Invoice
+    alias: BILL-INVOICE
+    title: Bill Invoice
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/modal-dialog
+        templateOptions: #DEFAULT#
+    }
+    dialog {
+        width: 550
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region invoice (
+        name: Invoice
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE V_CLOB CLOB;
+                
+                CURSOR CLINIC_INFO IS
+                select clinic_name, address, 'Hotline: '||PHONE_NO||', E-mail: '||email||', Web: '||website as contact
+                from clinic_info;
+                 CREC CLINIC_INFO%ROWTYPE;
+                
+                
+                cursor bill_info is
+                
+                SELECT 
+                    D.DOC_NAME, dd.dept_name, ds.rate,
+                    P.P_NAME,
+                    A.PATIENT_TYPE,
+                    to_char(N.VISIT_DATE,'DD-Mon-RRRR') visit_date,
+                    A.APP_MOBILE_NO,
+                    B.DISCOUNT_PCT,
+                    SPELL_OUT(ROUND(B.TOTAL, 2)) AS in_word, 
+                    B.DISC_AMT,
+                    B.NET_AMOUNT,
+                    B.TOTAL,
+                    B.RECEIVED_AMT,
+                    B.DUE_RETURN_AMT,
+                    CASE 
+                        WHEN B.DUE_RETURN_AMT <= 0 THEN 'PAID' 
+                        ELSE 'DUE' 
+                    END AS TOTAL_STATUS,
+                    A.APP_SERIAL_NO,
+                    CASE 
+                        WHEN P.Gender = 'F' THEN 'Female'
+                        WHEN P.Gender = 'M' THEN 'Male'
+                        ELSE 'Other' 
+                    END AS Gender,
+                    P.BLOOD_GROUP,
+                    P.ADDRESS,
+                    'A'||A.APP_ID app_id, 
+                    B.BILL_ID, 'BI'||B.bill_id invoice_id,
+                GET_FULL_AGE(P.DATE_OF_BIRTH) AGE,
+                    B.INSERT_BY, B.INSERT_DATE
+                FROM APPOINTMENT_INFO A
+                JOIN PATIENTS_REG_INFO P ON A.P_REG_ID = P.P_REG_ID
+                JOIN DOCTORS_INFO D ON D.DOC_ID = A.DOC_ID
+                JOIN DEPARTMENTS_INFO DD ON D.DEPT_ID = DD.DEPT_ID
+                JOIN BILLING B ON A.APP_ID = B.APP_ID
+                JOIN NURSE_STATION N ON N.NURSE_ST_ID = B.NURSE_ST_ID
+                JOIN DOC_SERVICES DS ON D.DOC_ID = DS.DOC_ID
+                WHERE B.BILL_ID =:P39_BILL_ID
+                AND A.PATIENT_TYPE = DS.PATIENT_TYPE;
+                BREC BILL_INFO%ROWTYPE;
+                
+                
+                BEGIN
+                    OPEN CLINIC_INFO;
+                    FETCH CLINIC_INFO INTO CREC;
+                 
+                    OPEN BILL_INFO;
+                    FETCH BILL_INFO INTO BREC;
+                
+                
+                
+                
+                 V_CLOB := '
+                      
+                      <style>
+                            .no-top-border {
+                                        border-top: none;
+                                    }
+                              * {
+                            font-family: Arial;
+                           /* font-size: 12px;  You can adjust the font size */
+                            line-height: 1.5; /* Optional: Adjusts the line height for better readability */
+                        }
+                            
+                
+                      
+                      </style>
+                      
+                      
+                      
+                      
+                      <table width=100% border=0 style="border-collapse: collapse; padding:0; table-layout: auto;">
+                         <tr>
+                           <td colspan=9 style="color: green; font-size: 20px;font-weight: bold; text-align: center;" class="no-top-border">'||CREC.CLINIC_NAME||'</td></tr>
+                           <td colspan=9 style="font-size: 11px; text-align: center;" class="no-top-border">'||CREC.address||'</td></tr>
+                           <td colspan=9 style="font-size: 11px;font-weight: bold; text-align: center;" class="no-top-border">'||CREC.contact||'</td></tr>
+                           <tr>
+                           <td colspan=9 style="text-align: center; font-weight: bold;font-size: 16px; text-align: center;">Bill Invoice<hr></td></tr><tr>
+                           <td colspan=9 style="text-align: center; font-weight: bold; text-align: center;"> Invoice No.  : '||BREC.Invoice_id||'</td>
+                         </tr><tr>
+                           <td colspan=3 style="text-align: left;font-size: 12px;  text-align: left; "> <b>Appointment No.  :  </b> '||BREC.app_id||'</td>
+                            <td colspan=3 style="text-align: left;font-size: 12px;  text-align: left; "><b> Serial No.  </b>: '||BREC.app_serial_no||'</td>
+                             <td colspan=3 style="text-align: left;font-size: 12px;  text-align: right; "><b> Date  :  </b>'||BREC.visit_date||'</td>
+                         </tr>
+                
+                           <tr>
+                           <td style="font-size: 12px;"><b>Patient Name</b></td><td>:</td><td style="font-size: 12px;">  '||BREC.P_NAME||'</td></tr> <tr>
+                           
+                             <td style="font-size: 12px;"><b>Age</b></td><td>:</td><td style="font-size: 12px;">  '||BREC.age||'</td>      
+                            <td align=left style="font-size: 12px;"><b>Gender</b></td><td>:</td><td style="font-size: 12px;">  '||BREC.Gender||'</td> 
+                             <td style="font-size: 12px;"><b>Contact No.</b></td><td>:</td><td style="font-size: 12px;">  '||BREC.APP_mobile_no||'</td>                
+                         </tr>
+                       <tr>
+                         <td style="font-size: 12px;"><b>Address</b></td><td>:</td><td style="font-size: 12px;">  '||BREC.Address||'</td> 
+                       </tr>
+                              <tr>
+                           <td style="font-size: 12px;"><b>Type</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;"> '||BREC.PATIENT_TYPE||'</td>
+                        
+                          <td></td> <td></td> <td></td> <td style="font-size: 12px;"><b>Department</b></td><td style="font-size: 12px;">:</td><td style="font-size: 12px;">  '||BREC.dept_name||'</td>
+                         </tr>
+                          <tr>
+                           <td style="font-size: 12px;"><b>Doctor</b></td><td  style="font-size: 12px;">:</td><td colspan=2 align=left style="font-size: 12px;">  '||BREC.doc_name||'</td>
+                         </tr>
+                     
+                         <tr>
+                    
+                
+                      </table>
+                 ';
+                 
+                 
+                
+                 V_CLOB :=  V_CLOB||' <br>
+                      <table width=100% border=0 style="border-collapse: collapse;">
+                         <tr>
+                           <th colspan=6 align = left>Service Name 
+                
+                </th><th colspan=3 align= right>Amount
+                
+                </th>
+                            </tr>
+                
+                ';
+                
+                V_CLOB := V_CLOB||'
+                        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+                           <td colspan=6 style="text-align: LEFT;">OPD Consultation 
+                
+                </td>
+                           <td colspan=3 style="text-align: RIGHT;padding-right: 7px;">'||TO_CHAR(BREC.RATE,'9G99G99G99G990D00')||'
+                
+                </td>
+                          </TR>
+                ';
+                V_CLOB := V_CLOB||'
+                
+                        <tr>
+                        <td colspan=7 rowspan =4 style="
+                          text-align: center; 
+                            /*transform: rotate(-20deg); */
+                            font-size: 30px;
+                            font-weight: bold;
+                          color: rgba( 0, 128, 0, 0.3);
+                            text-transform: uppercase;
+                            "><span style="display: inline-block; 
+                            border: 2px solid rgba( 0, 128, 0, 0.3) ;
+                            padding: 10px;" >'||brec.TOTAL_STATUS||'</span></TD>
+                            <td style=" text-align: right; font-weight: bold;padding-right: 7px;">Total:</td><td style=" border-bottom: 1px solid black; text-align: right; padding-right: 7px;">'||to_char(BREC.NET_AMOUNT,'9G99G99G99G990D00')||'
+                </td>
+                        <tr>
+                        <tr> 
+                            <td style="text-align: right; font-weight: bold;padding-right: 7px;">Discount('||BREC.DISCOUNT_PCT||'%):</td><td style=" border-bottom: 1px solid black; text-align: right; padding-right: 7px;">'||to_char(BREC.DISC_AMT,'9G99G99G99G990D00')||'</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; font-weight: bold;padding-right: 7px;">Net Total:</td><td style="text-align: right; padding-right: 7px;  border-bottom: 1px solid black;">'||to_char(BREC.TOTAL,'9G99G99G99G990D00')||'</td>
+                        </tr>
+                        <tr> <td colspan=7 style="text-align: left;padding-right: 7px;"><b>In Word  :</b>Taka '||BREC.IN_WORD||'</TD>
+                            <td style="text-align: right; font-weight: bold;padding-right: 7px;">Paid:</td><td style="text-align: right; padding-right: 7px;  border-bottom: 1px solid black;">'||to_char(BREC.RECEIVED_AMT,'9G99G99G99G990D00')||'</td>
+                        </tr>
+                        <tr><td colspan=7 style="text-align: left; font-weight: bold;padding-right: 7px; font-size:10px">Prepared By :'||BREC.Insert_by||'</TD>
+                            <td style="text-align: right; font-weight: bold;padding-right: 7px;">Return(-)/Due(+):</td><td style="text-align: right; padding-right: 7px;  border-bottom: 1px solid black;">'||to_char(BREC.DUE_RETURN_AMT,'9G99G99G99G990D00')||'</td>
+                        </tr>
+                      </table>
+                
+                      <br>
+                      <br><p style="font-size:11px;" align= center>পরামর্শ ফি ফেরতযোগ্য নয় এবং শুধুমাত্র বর্তমান পরিদর্শনের জন্য প্রযোজ্য। অতিরিক্ত পরিষেবার জন্য আলাদা চার্জ প্রযোজ্য হতে পারে।চিকিৎসকের পরামর্শ নিরাময়ের নিশ্চয়তা দেয় না। রোগীকে নির্ধারিত চিকিৎসা অনুসরণ করতে হবে এবং প্রয়োজন অনুযায়ী ফলো-আপ করতে হবে।</p>
+                      <br>
+                 ';
+                
+                  RETURN V_CLOB;
+                END;
+                
+                
+                
+                
+                
+                
+                
+                ```
+        }
+        layout {
+            sequence: 20
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P39_BILL_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+    )
+
+)
+

@@ -1,0 +1,469 @@
+page 52 (
+    name: User Group
+    alias: USER-GROUP
+    title: User Group
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/drawer
+        templateOptions: [
+            #DEFAULT#
+            js-dialog-class-t-Drawer--pullOutEnd
+        ]
+    }
+    dialog {
+        chained: false
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region buttons (
+        name: Buttons
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: dialogFooter
+        }
+        appearance {
+            template: @/buttons-container
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region user-group (
+        name: User Group
+        type: form
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select USER_GROUP_ID,
+                       USER_ID,
+                       GROUP_ID,
+                       ACTIVE_FLAG,
+                       COMPANY_ID,
+                       CREATE_BY,
+                       CREATE_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE
+                  from USER_GROUP
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+    )
+
+    pageItem P52_ACTIVE_FLAG (
+        type: textField
+        label {
+            label: Active Flag
+            alignment: right
+        }
+        layout {
+            sequence: 40
+            region: @user-group
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 32
+        }
+        validation {
+            maxLength: 1
+        }
+        source {
+            formRegion: @user-group
+            column: ACTIVE_FLAG
+            dataType: varchar2
+        }
+    )
+
+    pageItem P52_COMPANY_ID (
+        type: hidden
+        layout {
+            sequence: 50
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: COMPANY_ID
+            dataType: number
+        }
+    )
+
+    pageItem P52_CREATE_BY (
+        type: hidden
+        layout {
+            sequence: 60
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: CREATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P52_CREATE_DATE (
+        type: hidden
+        layout {
+            sequence: 70
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: CREATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P52_GROUP_ID (
+        type: selectList
+        label {
+            label: Group Id
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT GROUP_NAME,GROUP_ID
+                FROM GROUPS 
+                ORDER BY 1 DESC;
+                ```
+        }
+        layout {
+            sequence: 30
+            region: @user-group
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @user-group
+            column: GROUP_ID
+            dataType: number
+        }
+    )
+
+    pageItem P52_UPDATE_BY (
+        type: hidden
+        layout {
+            sequence: 80
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P52_UPDATE_DATE (
+        type: hidden
+        layout {
+            sequence: 90
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P52_USER_GROUP_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @user-group
+            slot: regionBody
+        }
+        source {
+            formRegion: @user-group
+            column: USER_GROUP_ID
+            dataType: number
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    pageItem P52_USER_ID (
+        type: selectList
+        label {
+            label: User Id
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select user_name, USER_ID
+                from Guser;
+                ```
+        }
+        layout {
+            sequence: 20
+            region: @user-group
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            height: 1
+        }
+        source {
+            formRegion: @user-group
+            column: USER_ID
+            dataType: varchar2
+        }
+    )
+
+    button cancel (
+        buttonName: CANCEL
+        label: Cancel
+        layout {
+            sequence: 10
+            region: @buttons
+            slot: close
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 40
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: insert
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P52_USER_GROUP_ID
+        }
+    )
+
+    button delete (
+        buttonName: DELETE
+        label: Delete
+        layout {
+            sequence: 20
+            region: @buttons
+            slot: delete
+        }
+        appearance {
+            buttonTemplate: @/text
+            templateOptions: [
+                #DEFAULT#
+                t-Button--danger
+                t-Button--simple
+            ]
+        }
+        behavior {
+            executeValidations: false
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: delete
+            requiresConfirmation: true
+        }
+        confirmation {
+            message: &APP_TEXT$DELETE_MSG!RAW.
+            style: danger
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P52_USER_GROUP_ID
+        }
+    )
+
+    button save (
+        buttonName: SAVE
+        label: Apply Changes
+        layout {
+            sequence: 30
+            region: @buttons
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+            databaseAction: update
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P52_USER_GROUP_ID
+        }
+    )
+
+    dynamicAction cancel-dialog (
+        name: Cancel Dialog
+        execution {
+            sequence: 10
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @cancel
+        }
+
+        action native-dialog-cancel (
+            action: cancelDialog
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    process close-dialog (
+        name: Close Dialog
+        type: closeDialog
+        execution {
+            sequence: 30
+        }
+        advanced {
+            executionMappingIdentifier: 21271027091063769856
+        }
+        serverSideCondition {
+            whenButtonPressed: @save
+        }
+    )
+
+    process initialize-form-user-group (
+        name: Initialize form User Group
+        type: formInitialization
+        formRegion: @user-group
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 21271026272873769856
+        }
+    )
+
+    process new (
+        name: New
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                select nvl(max(user_ID),999)+1
+                into :P52_USER_GROUP_ID
+                from USER_GROUP;
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 20685670626846729127
+        }
+    )
+
+    process process-form-user-group (
+        name: Process form User Group
+        type: formAutoRowProcessing
+        formRegion: @user-group
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 21271026635854769856
+        }
+    )
+
+    branch (
+        name: Redirect to new
+        execution {
+            sequence: 10
+        }
+        behavior {
+            target: {
+                page: 51
+                items: {
+                    P51_USER_GROUP_ID: &P52_USER_GROUP_ID.
+                }
+                action: resetPagination
+            }
+        }
+        serverSideCondition {
+            whenButtonPressed: @create
+        }
+    )
+
+    branch (
+        name: Redirect to all
+        execution {
+            sequence: 20
+        }
+        behavior {
+            target: {
+                page: 51
+                clearCache: 51
+                action: resetPagination
+            }
+        }
+        serverSideCondition {
+            whenButtonPressed: @delete
+        }
+    )
+
+)
+

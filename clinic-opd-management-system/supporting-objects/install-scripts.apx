@@ -1,0 +1,754 @@
+installScript CMS_INSTALLATION_SCRIPT (
+    execution {
+        sequence: 10
+    }
+    script {
+        contentFile: cms-installation-script.sql
+    }
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_AGE
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_CL_FULL_ADDRESS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_DEPT
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_FULL_ADDRESS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_FULL_AGE
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: GET_PATIENT_FULL_ADDRESS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: function
+        name: SPELL_OUT
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: ADVV_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: APP_ID_NU_ST_UQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: APP_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: APP_SYS_NAV_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: ASSESS_ID_CONS_UQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: BILLING_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: CI_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: CONSULT_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: CONS_ADV_DTL_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: CONS_DTL_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DD_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DEPT_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DG_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DISEASE_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DIST_NO_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DIV_NO_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DOC_DAY_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DOC_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DOC_SERVICE_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DOC_SH_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DR_SH_PK_NEW
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: DTL_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: EMP_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: EMP_SH_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: GEN_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: GROUP_MENU_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: GROUP_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: INV_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MED_DET_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MED_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MENU_MENU_APEX_MENU_UK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MENU_MENU_CODE_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MOBILE_NO_UK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: MOB_NO_UK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: NURSE_ST_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: NU_ST_IDIN_PR_AS_UQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: PRES_INV_DE_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: PS_UPAZILA_NO_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: P_A_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: P_REG_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: RI_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: SERVICE_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: SH_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: UI_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: UNION_NO_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: USERNAME_UK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: USER_GROUP_ID_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: index
+        name: USER_LOG_NO_PK
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: package
+        name: EMR_PKG
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: procedure
+        name: GOOGLE_USER_MAP
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: procedure
+        name: POST_AUTH_CONTEXT
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: procedure
+        name: POST_AUTH_CONTEXT2
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: procedure
+        name: PRC_PRESCRIBE_MEDICINES
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: CONS_MED_DTL_SEQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: ASSESS_PK_SEQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: CONS_ADV_DTL_SEQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: CONS_INV_DTL_SEQ
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: ISEQ$$_474882108
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: ISEQ$$_474882111
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: sequence
+        name: ISEQ$$_480058820
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: ADVICE_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: APPOINTMENT_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: APP_SYS_NAV
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: APP_USERS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: APP_USER_OTP
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: BILLING
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CHAT_CONVERSATIONS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CONSULTATION
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CHAT_MESSAGES
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CHAT_PARTICIPANTS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CLINIC_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CONSULT_DTL
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CONSULT_INV_DETAILS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CONSULT_MEDICINE_DETAILS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: CONS_ADVICE_DETAILS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DEPARTMENTS_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DESIGNATIONS_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DISEASE
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DISEASE_MEDICINE
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DISTRICTS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DISTRICTS_ERR$
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DIVISIONS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOCS_AV_DAY
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOCTORS_DTL_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOCTORS_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOCTOR_SHIFT_DTL
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOC_EXP_DTL
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DOC_SERVICES
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DR_DEGREES_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: DR_NEW_SHIFT_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: EMPLOYEES_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: GROUP_MENU
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: EMPLOYEE_SHIFT_DTL
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: GENERIC_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: GROUPS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: GUSER
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: HTMLDB_PLAN_TABLE
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: INVESTIGATION_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: MEDICINE_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: MENU
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: NURSE_STATION
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: PATIENTS_REG_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: PRIMARY_ASSESSMENT
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: PS_UPAZILAS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: ROLES_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: SERVICES
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: SHIFTS_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: UNIONS
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: USERS_INFO
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: USER_GROUP
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: DOC_COMPLETED_LIST
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: table
+        name: USER_SESSION_TRACKING
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: BILLINGVIEW
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: CONSULTAION_LOV
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: DOC_WAITING_LIST
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: NURSE_STAION
+    )
+
+    databaseObject (
+        owner: CLOUD_POS
+        type: view
+        name: PRE_CONSULT_INFO
+    )
+
+)
+

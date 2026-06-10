@@ -1,0 +1,495 @@
+page 61 (
+    name: chayan
+    alias: CHAYAN
+    title: chayan
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region new (
+        name: New
+        type: form
+        source {
+            location: localDatabase
+            tableName: APPOINTMENT_INFO
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    pageItem P61_APP_DATE_TIME (
+        type: datePicker
+        label {
+            label: App Date Time
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: APP_DATE_TIME
+            dataType: date
+        }
+    )
+
+    pageItem P61_APP_ID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @new
+            slot: regionBody
+        }
+        source {
+            formRegion: @new
+            column: APP_ID
+            dataType: number
+            primaryKey: true
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    pageItem P61_APP_MOBILE_NO (
+        type: textField
+        label {
+            label: App Mobile No
+            alignment: left
+        }
+        layout {
+            sequence: 60
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 15
+        }
+        source {
+            formRegion: @new
+            column: APP_MOBILE_NO
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_APP_SERIAL_NO (
+        type: numberField
+        label {
+            label: App Serial No
+            alignment: left
+        }
+        layout {
+            sequence: 30
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: APP_SERIAL_NO
+            dataType: number
+        }
+    )
+
+    pageItem P61_DEPT_ID (
+        type: numberField
+        label {
+            label: Dept Id
+            alignment: left
+        }
+        layout {
+            sequence: 170
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: DEPT_ID
+            dataType: number
+        }
+    )
+
+    pageItem P61_DOC_ID (
+        type: numberField
+        label {
+            label: Doc Id
+            alignment: left
+        }
+        layout {
+            sequence: 160
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: DOC_ID
+            dataType: number
+        }
+    )
+
+    pageItem P61_DOC_SH_ID (
+        type: numberField
+        label {
+            label: Doc Sh Id
+            alignment: left
+        }
+        layout {
+            sequence: 50
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: DOC_SH_ID
+            dataType: number
+        }
+    )
+
+    pageItem P61_INSERT_BY (
+        type: textField
+        label {
+            label: Insert By
+            alignment: left
+        }
+        layout {
+            sequence: 120
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @new
+            column: INSERT_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_INSERT_DATE (
+        type: datePicker
+        label {
+            label: Insert Date
+            alignment: left
+        }
+        layout {
+            sequence: 130
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: INSERT_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P61_NOTE (
+        type: textarea
+        label {
+            label: Note
+            alignment: left
+        }
+        layout {
+            sequence: 100
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+            height: 5
+        }
+        validation {
+            maxLength: 500
+        }
+        source {
+            formRegion: @new
+            column: NOTE
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_PATIENT_TYPE (
+        type: textField
+        label {
+            label: Patient Type
+            alignment: left
+        }
+        layout {
+            sequence: 80
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @new
+            column: PATIENT_TYPE
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_P_REG_ID (
+        type: numberField
+        label {
+            label: P Reg Id
+            alignment: left
+        }
+        layout {
+            sequence: 40
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: P_REG_ID
+            dataType: number
+        }
+    )
+
+    pageItem P61_RESCHEDULE (
+        type: datePicker
+        label {
+            label: Reschedule
+            alignment: left
+        }
+        layout {
+            sequence: 70
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: RESCHEDULE
+            dataType: date
+        }
+    )
+
+    pageItem P61_SERIAL_NO (
+        type: numberField
+        label {
+            label: Serial No
+            alignment: left
+        }
+        layout {
+            sequence: 90
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: SERIAL_NO
+            dataType: number
+        }
+    )
+
+    pageItem P61_STATUS (
+        type: textField
+        label {
+            label: Status
+            alignment: left
+        }
+        layout {
+            sequence: 110
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 1
+        }
+        source {
+            formRegion: @new
+            column: STATUS
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_UPDATE_BY (
+        type: textField
+        label {
+            label: Update By
+            alignment: left
+        }
+        layout {
+            sequence: 140
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 100
+        }
+        source {
+            formRegion: @new
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P61_UPDATE_DATE (
+        type: datePicker
+        label {
+            label: Update Date
+            alignment: left
+        }
+        layout {
+            sequence: 150
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        source {
+            formRegion: @new
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    process initialize-form-chayan (
+        name: Initialize form chayan
+        type: formInitialization
+        formRegion: @new
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 19307432559430991319
+        }
+    )
+
+)
+

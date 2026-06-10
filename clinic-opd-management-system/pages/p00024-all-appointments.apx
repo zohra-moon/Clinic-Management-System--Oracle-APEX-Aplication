@@ -1,0 +1,735 @@
+page 24 (
+    name: All Appointments
+    alias: ALL-APPOINTMENTS
+    title: All Appointments
+    appearance {
+        pageTemplate: @/left-side-column
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region all-appointments (
+        name: All Appointments
+        title: All Appointments
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select 
+                APP_ID appid,
+                       APP_DATE_TIME,
+                       APP_SERIAL_NO,
+                       P_REG_ID p_reg_id_dis, 
+                       P_REG_ID,
+                       DOC_SH_ID,
+                       APP_MOBILE_NO,
+                       RESCHEDULE,
+                       PATIENT_TYPE,
+                       SERIAL_NO,
+                       NOTE,
+                       STATUS,
+                       INSERT_BY,
+                       INSERT_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE,
+                       DOC_ID,
+                       DEPT_ID, 'Print' Print
+                  from APPOINTMENT_INFO
+                  where trunc(app_date_time) between to_date(:P24_FDT,'dd/mm/rrrr') and to_date(:P24_TDT,'dd/mm/rrrr') 
+                  order by APP_ID desc;
+                ```
+            pageItemsToSubmit: [
+                P24_FDT
+                P24_TDT
+            ]
+        }
+        layout {
+            sequence: 30
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column APPID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: ID
+                alignment: end
+            }
+            layout {
+                sequence: 10
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_DATE_TIME (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: Appointment Date
+                alignment: center
+            }
+            layout {
+                sequence: 30
+            }
+            appearance {
+                formatMask: DD/MM/YYYY
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_MOBILE_NO (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: Mobile No
+                alignment: center
+            }
+            layout {
+                sequence: 60
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column APP_SERIAL_NO (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Serial No
+                alignment: center
+            }
+            layout {
+                sequence: 70
+                columnAlignment: center
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DEPT_ID (
+            reportColumnQueryId: 18
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 180
+            }
+        )
+
+        column DOC_ID (
+            reportColumnQueryId: 17
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Doctor
+                alignment: center
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select doc_name, doc_id
+                    from Doctors_info;
+                    ```
+            }
+            layout {
+                sequence: 20
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DOC_SH_ID (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 80
+            }
+        )
+
+        column INSERT_BY (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 140
+            }
+        )
+
+        column INSERT_DATE (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 150
+            }
+        )
+
+        column NOTE (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            heading {
+                heading: Issue
+                alignment: center
+            }
+            layout {
+                sequence: 120
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column PATIENT_TYPE (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            heading {
+                heading: Patient Type
+                alignment: center
+            }
+            layout {
+                sequence: 100
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column PRINT (
+            reportColumnQueryId: 19
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Token
+                alignment: center
+            }
+            layout {
+                sequence: 190
+                columnAlignment: center
+            }
+            link {
+                target: {
+                    page: 38
+                    items: {
+                        P38_APP_ID: #APPID#
+                    }
+                }
+                linkText: <span class="fa fa-print" aria-hidden="true"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column P_REG_ID (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Patient
+                alignment: center
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select P_name ,p_reg_id
+                    from patients_reg_info
+                    order by 2 desc
+                    ```
+            }
+            layout {
+                sequence: 50
+            }
+            sorting {
+                sortable: false
+            }
+            security {
+                escapeSpecialChars: false
+            }
+        )
+
+        column P_REG_ID_DIS (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 40
+            }
+        )
+
+        column RESCHEDULE (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 90
+            }
+        )
+
+        column SERIAL_NO (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 110
+            }
+        )
+
+        column STATUS (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 130
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 15
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 160
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 16
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 170
+            }
+        )
+
+    )
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region new (
+        name: New
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: leftColumn
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region search (
+        name: search
+        type: facetedSearch
+        source {
+            filteredRegion: @all-appointments
+        }
+        layout {
+            sequence: 20
+            slot: leftColumn
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        settings {
+            compactNosThreshold: 10000
+            displayChartForTopNValues: 10
+        }
+
+        facet P24_MOBILE (
+            type: search
+            label {
+                label: Mobile No.
+            }
+            layout {
+                sequence: 20
+            }
+            appearance {
+                valuePlaceholder: Enter Mobile No.
+            }
+            source {
+                dbColumns: APP_MOBILE_NO
+            }
+        )
+
+        facet P24_SEARCH (
+            type: checkboxGroup
+            label {
+                label: Search by Doctor
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select doc_name, doc_id from doctors_info
+                    order by 1 asc;
+                    ```
+            }
+            layout {
+                sequence: 10
+            }
+            listEntries {
+                maxDisplayedEntries: 7
+            }
+            source {
+                databaseColumn: DOC_ID
+            }
+        )
+
+    )
+
+    pageItem P24_FDT (
+        type: datePicker
+        label {
+            label: From
+            alignment: left
+        }
+        settings {
+            useDefaults: false
+            appearanceBehavior: [
+                monthPicker
+                yearPicker
+            ]
+            showOn: iconClick
+        }
+        layout {
+            sequence: 10
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            formatMask: dd/mm/rrrr
+            width: 30
+        }
+        default {
+            type: expression
+            plsqlExpression: to_char(sysdate,'dd/mm/rrrr')
+        }
+        sessionState {
+            storage: request
+        }
+    )
+
+    pageItem P24_TDT (
+        type: datePicker
+        label {
+            label: To
+            alignment: left
+        }
+        settings {
+            useDefaults: false
+            appearanceBehavior: [
+                monthPicker
+                yearPicker
+            ]
+            showOn: iconClick
+        }
+        layout {
+            sequence: 20
+            region: @new
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            formatMask: dd/mm/rrrr
+            width: 30
+        }
+        default {
+            type: expression
+            plsqlExpression: to_char(sysdate,'dd/mm/rrrr')
+        }
+        sessionState {
+            storage: request
+        }
+    )
+
+    button back (
+        buttonName: Back
+        label: Back
+        layout {
+            sequence: 10
+            region: @breadcrumb
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+            ]
+            icon: fa-angle-right
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 31
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction new (
+        name: New
+        execution {
+            sequence: 10
+        }
+        when {
+            selectionType: items
+            items: [
+                P24_FDT
+                P24_TDT
+            ]
+        }
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @all-appointments
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+)
+

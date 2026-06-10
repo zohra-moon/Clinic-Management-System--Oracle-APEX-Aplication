@@ -1,0 +1,698 @@
+page 9999 (
+    name: Login Page
+    alias: LOGIN
+    title: Clinic OPD Management System - Sign In
+    appearance {
+        pageTemplate: @login-spider
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        warnOnUnsavedChanges: false
+    }
+    javaScript {
+        functionAndGlobalVariableDeclaration:
+            ```javascript-browser
+            /* ENTER BUTTON */
+            $('body').on('keydown','input,select,textarea',function(e){
+            var self = $(this)
+            , form = self.parents('form:eq(0)')
+            , focusable
+            , next
+            ;
+            if (e.keyCode == 13){
+            focusable = form.find('input,a,select,button,textarea').filter(':visible');
+            next = focusable.eq(focusable.index(this)+1);
+            if (next.length){
+            next.focus();
+            }else {
+            form.submit();
+            }
+            return false;
+            }
+            });
+            
+            
+            function stFocus(evt, PageItem) {
+                var e = evt || window.event;
+                var key = e.keyCode || e.which;
+            	if (key == 13 || key == 9) {
+            		//document.getElementById(PageItem).focus();
+            		 apex.item( PageItem ).setFocus();
+            	}
+            }
+            
+            ```
+    }
+    css {
+        inline:
+            ```css
+            /* Hide Loading */ 
+            .u-Processing {
+            display:none
+            !important;
+            }
+            
+            
+            .t-Login-logo { 
+            background-image: url(#APP_IMAGES#logo.gif);
+            background-size: cover;
+            background-color: rgba(0, 255, 255, 0);
+            width: 80px;
+            height: 80px;
+            pointer-events: none;
+            }
+            .t-PageBody--login {
+            background-image:url(#APP_IMAGES#logo.gif);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            }
+            
+               .t-Login-region { 
+                    background-color: rgba(3, 19, 19, 0.2);
+                    padding-right: 5px;
+                    padding-left:5px;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
+                    margin-top: 20px;
+                }
+                   
+                   
+            .a-Button--hot, .a-CardView-button--hot, .apex-button-group input:checked+label, .t-Button--hot, .t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc input:checked+label, .ui-button--hot {
+                --a-button-background-color: #436484;
+                --a-button-hover-background-color: #b54931;}
+            
+            
+            
+            .t-Form--labelsAbove .t-Form-fieldContainer.rel-col>.col, .t-Form-fieldContainer--stacked.rel-col>.col {
+                flex-basis: auto;
+                max-width: 80%;
+                margin: auto;
+            }
+            .t-Login-buttons .t-Button {
+                width: 80%;
+                margin: auto;
+                display: flex;
+            }
+            .t-Login-title {
+                font-size: 1.5rem !important;
+                font-weight: bold;
+                text-align: center;
+                color: rgb(248, 248, 248);
+            }
+            
+            h1#R73029026360177613_heading {
+                color: #0df591!important;
+            }
+            
+            .t-Button+.t-Button.t-Button--stretch {
+                /* -webkit-margin-start: 0!important; */
+                /* margin-inline-start: 0!important; */
+                margin: 7px auto !important;
+            }
+            
+            .t-Login-container {
+                display: grid;
+                gap: var(--ut-login-container-item-spacing, 1rem);
+                grid-area: body;
+                grid-template-areas:
+                    "login-header"
+                    "login-body"
+                    "login-footer";
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+                padding-inline-end: var(--ut-grid-gutter-width, .5rem);
+                padding-inline-start: var(--ut-grid-gutter-width, .5rem);
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            #particles-js {
+                background: linear-gradient(#051a28, #717287) !important;
+            }
+            
+            
+            ```
+    }
+    security {
+        authentication: public
+        formAutoComplete: false
+    }
+
+    region clinic-opd-management-system (
+        name: Clinic OPD Management System
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: contentBody
+        }
+        appearance {
+            template: @/login
+            templateOptions: [
+                #DEFAULT#
+                t-Login-region--headerIcon
+            ]
+            icon: app-icon
+        }
+        settings {
+            outputAs: text
+        }
+    )
+
+    region language-selector (
+        name: Language Selector
+        type: plSqlDynamicContent
+        source {
+            plsqlCode: apex_lang.emit_language_selector_list;
+        }
+        layout {
+            sequence: 20
+            parentRegion: @clinic-opd-management-system
+            slot: subRegions
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region new (
+        name: New
+        type: staticContent
+        source {
+            htmlCode:
+                ```html
+                <div align="center">
+                    
+                  <span style="font-weight: bold; color:white;font-size: 14px;">Developed By Zohra<br> DDD/ACSL-A/61/01</span>
+                </div>
+                ```
+        }
+        layout {
+            sequence: 30
+            parentRegion: @clinic-opd-management-system
+            slot: subRegions
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                margin-top-md
+            ]
+        }
+    )
+
+    region new-2 (
+        name: New
+        type: staticContent
+        source {
+            htmlCode:
+                ```html
+                <div align="center">
+                  <span style="font-weight: bold; color: white; font-size:26px;">Clinic OPD Management System</span> <br>
+                 
+                  <span style="font-size:18px;color: white;">OPD Simplified, Care Amplified.<br>
+                   User: VISITOR<br>
+                     Password: 123</span><br>
+                </div>
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @clinic-opd-management-system
+            slot: regionBody
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                margin-bottom-md
+            ]
+        }
+    )
+
+    region new-3 (
+        name: New
+        type: staticContent
+        source {
+            htmlCode:
+                ```html
+                <div align="center">
+                 
+                  <a style="font-weight: bold; color:black;font-size: 14px;" href="https://apex.oracle.com/pls/apex/r/ddd_61_moon/patient-portal/login?session=10270271227548">Go to Patient Poral</a>
+                
+                </div> 
+                ```
+        }
+        layout {
+            sequence: 40
+            parentRegion: @clinic-opd-management-system
+            slot: subRegions
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                margin-top-md
+            ]
+        }
+    )
+
+    pageItem P9999_PASSWORD (
+        type: password
+        label {
+            label: Password
+            alignment: left
+        }
+        layout {
+            sequence: 30
+            region: @clinic-opd-management-system
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/hidden
+            templateOptions: #DEFAULT#
+            icon: fa-key
+            width: 40
+            valuePlaceholder: Password
+        }
+        validation {
+            maxLength: 100
+        }
+        sessionState {
+            storage: request
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    pageItem P9999_REMEMBER (
+        type: checkboxGroup
+        label {
+            label: Remember username
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @login-remember-username
+            displayExtraValues: false
+        }
+        layout {
+            sequence: 40
+            region: @clinic-opd-management-system
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/hidden
+            templateOptions: #DEFAULT#
+        }
+        sessionState {
+            storage: request
+        }
+        serverSideCondition {
+            type: expression
+            plsqlExpression: apex_authentication.persistent_cookies_enabled
+        }
+        security {
+            encryptSessionState: false
+        }
+        help {
+            helpText:
+                ```html
+                <p>
+                If you select this checkbox, the application will save your username in a persistent browser cookie named "LOGIN_USERNAME_COOKIE".
+                When you go to the login page the next time,
+                the username field will be automatically populated with this value.
+                </p>
+                <p>
+                If you deselect this checkbox and your username is already saved in the cookie,
+                the application will overwrite it with an empty value.
+                You can also use your browser's developer tools to completely remove the cookie.
+                </p>
+                ```
+        }
+    )
+
+    pageItem P9999_USERNAME (
+        type: textField
+        label {
+            label: Username
+            alignment: left
+        }
+        settings {
+            trimSpaces: none
+        }
+        layout {
+            sequence: 20
+            region: @clinic-opd-management-system
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/hidden
+            templateOptions: #DEFAULT#
+            icon: fa-user
+            width: 40
+            valuePlaceholder: Username
+        }
+        validation {
+            maxLength: 100
+        }
+        sessionState {
+            storage: request
+        }
+        security {
+            encryptSessionState: false
+        }
+    )
+
+    button bt-forgot (
+        buttonName: BT_FORGOT
+        label: Forgot Password
+        layout {
+            sequence: 20
+            region: @new-3
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--danger
+            ]
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button google (
+        buttonName: Google
+        label: Continue with Google
+        layout {
+            sequence: 10
+            region: @new-3
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--iconLeft
+            ]
+            icon: fa-google
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 1
+                clearCache: 9999
+                request: APEX_AUTHENTICATION=Google
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button login (
+        buttonName: LOGIN
+        label: Sign In
+        layout {
+            sequence: 20
+            region: @clinic-opd-management-system
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction set-username-session (
+        name: set username session
+        execution {
+            sequence: 10
+        }
+        when {
+            selectionType: items
+            items: P9999_USERNAME
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode: APEX_UTIL.SET_SESSION_STATE('P9999_USERNAME',:P9999_USERNAME);
+                itemsToSubmit: P9999_USERNAME
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    validation valid-user (
+        name: valid user
+        execution {
+            sequence: 10
+        }
+        validation {
+            type: functionBody
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE
+                    l_dummy NUMBER;
+                BEGIN
+                    IF :P9999_USERNAME IS NULL THEN
+                        RETURN 'Username is required';
+                    END IF;
+                
+                    BEGIN
+                        SELECT 1
+                        INTO l_dummy
+                        FROM GUSER
+                        WHERE TRIM(UPPER(user_name)) = TRIM(UPPER(:P9999_USERNAME));
+                
+                    EXCEPTION
+                        WHEN NO_DATA_FOUND THEN
+                            RETURN 'User not found';
+                    END;
+                
+                    RETURN NULL;
+                END;
+                ```
+            alwaysExecute: true
+        }
+        error {
+            associatedItem: @P9999_USERNAME
+        }
+        serverSideCondition {
+            whenButtonPressed: @bt-forgot
+        }
+    )
+
+    process clear-page-s-cache (
+        name: Clear Page(s) Cache
+        type: clearSessionState
+        execution {
+            sequence: 60
+        }
+        advanced {
+            executionMappingIdentifier: 12963307302142155611
+        }
+    )
+
+    process cust-login (
+        name: CUST_LOGIN
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                DECLARE 
+                 V_CHK NUMBER := 0;
+                BEGIN
+                 SELECT COUNT(*) INTO V_CHK
+                 FROM APP_USERS
+                 WHERE USERNAME = :P9999_USERNAME
+                 AND PWD = :P9999_PASSWORD 
+                 AND NVL(IS_ACTIVE,'N') = 'Y';
+                
+                 -------------GET USER ROLE NUMBER ---------------
+                    BEGIN
+                        SELECT USER_ROLE INTO :G_USER_ROLE
+                        FROM APP_USERS
+                        WHERE USERNAME = :P9999_USERNAME
+                        AND PWD = :P9999_PASSWORD 
+                        AND NVL(IS_ACTIVE,'N') = 'Y';
+                    EXCEPTION
+                        WHEN OTHERS THEN 
+                          :G_USER_NO := 0;
+                    END;
+                 -------------------------------------------------
+                
+                
+                 IF V_CHK = 1 THEN 
+                    --- LET USER TO LOGIIN 
+                    apex_authentication.login(
+                                                p_username => :P9999_USERNAME,
+                                                p_password => :P9999_PASSWORD
+                                                    );
+                 ELSE
+                    --- SHOW ERROR 
+                    apex_error.add_error (
+                                                p_message          => '<span> Username or Password Incorrect!</span>',
+                                                p_display_location =>  apex_error.c_inline_with_field_and_notif,
+                                                p_page_item_name   => 'P9999_PASSWORD'
+                                        );
+                 END IF;
+                
+                END;
+                ```
+        }
+        execution {
+            sequence: 40
+        }
+        advanced {
+            executionMappingIdentifier: 15993761527037021140
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    process get-username-cookie (
+        name: Get Username Cookie
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                :P9999_USERNAME := apex_authentication.get_login_username_cookie;
+                :P9999_REMEMBER := case when :P9999_USERNAME is not null then 'Y' end;
+                ```
+        }
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 12963306904614155610
+        }
+    )
+
+    process login (
+        name: Login
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                apex_authentication.login(
+                    p_username => :P9999_USERNAME,
+                    p_password => :P9999_PASSWORD );
+                ```
+        }
+        execution {
+            sequence: 50
+        }
+        advanced {
+            executionMappingIdentifier: 12963306152023155610
+        }
+        serverSideCondition {
+            type: never
+        }
+    )
+
+    process new (
+        name: New
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                
+                APEX_AUTHENTICATION.LOGIN(
+                P_USERNAME => :P9999_USERNAME,
+                P_PASSWORD => :P9999_PASSWORD
+                );
+                BEGIN
+                SELECT USER_ID 
+                INTO :SESSION_GROUP_ID
+                FROM GUSER
+                WHERE UPPER(USER_NAME) = UPPER(:P9999_USERNAME)
+                AND USER_PASS  = :P9999_PASSWORD;
+                -- :Global_value:='Halima';
+                -- :Global_doc_id:=700;
+                SELECT GROUP_ID INTO :G_USER_grp
+                FROM USER_GROUP
+                WHERE USER_ID= :SESSION_GROUP_ID;
+                EXCEPTION
+                WHEN OTHERS THEN NULL;
+                END;
+                ```
+        }
+        execution {
+            sequence: 20
+        }
+        advanced {
+            executionMappingIdentifier: 20685671998519729140
+        }
+        serverSideCondition {
+            whenButtonPressed: @login
+        }
+        comments {
+            comments: commented out only to check login with google
+        }
+    )
+
+    process set-username-cookie (
+        name: Set Username Cookie
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                apex_authentication.send_login_username_cookie (
+                    p_username => lower(:P9999_USERNAME),
+                    p_consent  => :P9999_REMEMBER = 'Y' );
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 12963306571173155610
+        }
+        serverSideCondition {
+            whenButtonPressed: @login
+        }
+    )
+
+    branch (
+        name: to reset pass
+        execution {
+            sequence: 10
+        }
+        behavior {
+            target: {
+                page: 66
+                items: {
+                    P66_USER_NAME: &P9999_USERNAME.
+                }
+            }
+        }
+        serverSideCondition {
+            whenButtonPressed: @bt-forgot
+        }
+    )
+
+)
+

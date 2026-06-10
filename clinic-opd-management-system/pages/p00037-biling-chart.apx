@@ -1,0 +1,414 @@
+page 37 (
+    name: biling Chart
+    alias: BILING-CHART
+    title: Analytics
+    appearance {
+        pageMode: modalDialog
+        dialogTemplate: @/drawer
+        templateOptions: [
+            #DEFAULT#
+            js-dialog-class-t-Drawer--pullOutEnd
+        ]
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #0f0d0d;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #030202;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #222121;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #000000;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region doctor-wise-net-income (
+        name: Doctor-wise Net-income
+        type: chart
+        layout {
+            sequence: 40
+            slot: contentBody
+            startNewRow: false
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        security {
+            escapeSpecialChars: false
+        }
+        legend {
+            show: false
+        }
+
+        series series (
+            name: Series 1
+            execution {
+                sequence: 10
+            }
+            source {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    /*select 'Label 1' label, 30 value from sys.dual
+                    union all
+                    select 'Label 2' label, 20 value from sys.dual
+                    union all
+                    select 'Label 3' label, 34 value from sys.dual
+                    union all
+                    select 'Label 4' label, 6  value from sys.dual
+                    union all
+                    select 'Label 5' label, 10 value from sys.dual*/
+                    
+                    SELECT SUM(NVL(b.NET_AMOUNT,0)) AS TOTAL, d.doc_name
+                    FROM BILLING b join doctors_info d
+                    on(b.doc_id=d.doc_id)
+                    where to_char(b.bill_date,'MON')='FEB'
+                    and b.TOTAL >100
+                    GROUP BY d.doc_name
+                    order by 2 asc;
+                    ```
+            }
+            columnMapping {
+                label: DOC_NAME
+                value: TOTAL
+            }
+            performance {
+                maxRowsToProcess: 20
+            }
+        )
+
+        axis x (
+            name: x
+            majorTicks {
+                show: auto
+            }
+        )
+
+        axis y (
+            name: y
+            majorTicks {
+                show: auto
+            }
+        )
+
+    )
+
+    region monthly-financial-view (
+        name: Monthly Financial View
+        type: chart
+        layout {
+            sequence: 20
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        security {
+            escapeSpecialChars: false
+        }
+        chart {
+            type: line
+        }
+        chartLayout {
+            height: 400
+        }
+        legend {
+            show: false
+        }
+
+        series series (
+            name: Series 1
+            execution {
+                sequence: 10
+            }
+            source {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    /*select 'Label 1' label, 30 value from sys.dual
+                    union all
+                    select 'Label 2' label, 20 value from sys.dual
+                    union all
+                    select 'Label 3' label, 34 value from sys.dual
+                    union all
+                    select 'Label 4' label, 6  value from sys.dual
+                    union all
+                    select 'Label 5' label, 10 value from sys.dual*/
+                    
+                    
+                    
+                    SELECT SUM(NVL(NET_AMOUNT,0)) AS TOTAL,to_char(BILL_DATE,'DD-MON') as Bill_date
+                    FROM BILLING
+                    where to_char(bill_date,'MON')='JAN'
+                    GROUP BY BILL_DATE
+                    order by 2 asc;
+                    ```
+            }
+            columnMapping {
+                label: BILL_DATE
+                value: TOTAL
+            }
+            label {
+                show: true
+            }
+            performance {
+                maxRowsToProcess: 20
+            }
+        )
+
+        axis x (
+            name: x
+            majorTicks {
+                show: auto
+            }
+        )
+
+        axis y (
+            name: y
+            majorTicks {
+                show: auto
+            }
+        )
+
+    )
+
+    region pie-chart-on-billing (
+        name: Pie Chart on Billing
+        type: chart
+        layout {
+            sequence: 30
+            slot: contentBody
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+        security {
+            escapeSpecialChars: false
+        }
+        chart {
+            type: pie
+        }
+        legend {
+            show: false
+        }
+
+        series pie (
+            name: Pie
+            execution {
+                sequence: 10
+            }
+            source {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    /*select 'Label 1' label, 30 value from sys.dual
+                    union all
+                    select 'Label 2' label, 20 value from sys.dual
+                    union all
+                    select 'Label 3' label, 34 value from sys.dual
+                    union all
+                    select 'Label 4' label, 6  value from sys.dual
+                    union all
+                    select 'Label 5' label, 10 value from sys.dual*/
+                    
+                    SELECT SUM(NVL(NET_AMOUNT,0)) AS TOTAL,to_char(BILL_DATE,'DD-MON') as Bill_date
+                    FROM BILLING
+                    where to_char(bill_date,'MON')='JAN'
+                    GROUP BY BILL_DATE
+                    order by 2 asc;
+                    ```
+            }
+            columnMapping {
+                label: BILL_DATE
+                value: TOTAL
+            }
+            label {
+                show: true
+            }
+            performance {
+                maxRowsToProcess: 20
+            }
+        )
+
+    )
+
+)
+

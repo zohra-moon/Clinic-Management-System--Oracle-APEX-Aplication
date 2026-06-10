@@ -1,0 +1,2625 @@
+page 32 (
+    name: Consultation-test
+    alias: CONSULTATION-TEST
+    title: Consultation
+    appearance {
+        pageTemplate: @/right-side-column
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* General Page Styling */
+            .t-Body-mainContent {
+                background: #FEFBE0;
+                color: #004d40;
+            }
+            
+                .t-Body-actions{
+                    transition: var(--ut-layout-transition, .1s);
+                    width: fit-content;
+                }
+            
+            
+            
+            
+            /* Static Region Styling */
+            .t-Region {
+                background: #e2ece9;
+                border-radius: 10px;
+                padding: 14px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Table Styling */
+            .t-IRR-table, .a-IG-table {
+                background: e2ece9;
+                border-radius: 10px;
+                padding: 12px;
+                border: 1px solid #B6D0E2;
+            }
+            .t-Report-report td, .a-IRR-table td, .a-IG-table td {
+                border: 1px solid #B6D0E2;
+                padding: 12px;
+                color: #4A4A4A;
+            }
+            
+            /* Toolbar Styling */
+            .a-IRR-toolbar {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 10px;
+                padding: 8px;
+                box-shadow: 0 4px 8px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* Buttons */
+            .t-Button, #save, #btn_submit, #update {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                color: #333;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .t-Button:hover, #save:hover, #btn_submit:hover, #update:hover {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+            }
+            #close, #btn_cancel {
+                background: linear-gradient(135deg, #FFAAAA, #FF6666);
+                color: white;
+            }
+            #close:hover, #btn_cancel:hover {
+                background: linear-gradient(135deg, #FF6666, #CC4444);
+            }
+            
+            /* Input Fields */
+            .input-container input, .input-container select {
+                width: 100%;
+                background: #f6dede;
+                border: 1px solid #B6D0E2;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 14px;
+                color: #4A4A4A;
+            }
+            
+            /* Modal/Dialog */
+            .ui-dialog {
+                background: #FFFFFF;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 4px 12px rgba(182, 208, 226, 0.5);
+            }
+            
+            /* ===== ¿ Mega Menu Styling ===== */
+            .t-MegaMenu {
+                background: linear-gradient(135deg, #FEFBE0, #B6D0E2);
+                border-radius: 12px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+               /* padding: 8px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item {
+                font-weight: bold;
+                color: white;
+               /* padding: 12px 16px;*/
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .t-MegaMenu .is-hover .t-MegaMenu-subMenu {
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item {
+                color: white;
+                background: transparent;
+                /*padding: 10px 14px;*/
+            }
+            
+            .t-MegaMenu .t-MegaMenu-subMenu .t-MegaMenu-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: cyan;
+                border-radius: 6px;
+                transform: translateX(4px);
+            }
+            
+            .t-MegaMenu .t-MegaMenu-item.is-active {
+                background: #e2ece9;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+            }
+            
+            
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #B6D0E2;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #A0B8C8;
+            }
+            
+            /* Hover Effects */
+            .t-Report-report tr:hover td, .a-IRR-table tr:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            
+            /* Breadcrumb Bar Styling */
+            .t-BreadcrumbRegion {
+                background: linear-gradient(135deg, #B6D0E2, #FEFBE0);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid #B6D0E2;
+                box-shadow: 0 2px 6px rgba(182, 208, 226, 0.5);
+            }
+            .t-BreadcrumbRegion .t-Breadcrumb-label {
+                color: #004d40;
+                font-weight: bold;
+            }
+            .t-BreadcrumbRegion a {
+                color: #006064;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+            .t-BreadcrumbRegion a:hover {
+                color: #004d40;
+                text-decoration: underline;
+            }
+            
+            .apex-card .t-Card-body {
+                display: flex; 
+                justify-content: space-between;  /* Moves left & right sections apart */
+                align-items: center;  /* Aligns items vertically */
+            }
+            
+            .apex-card .right-side-column {
+                text-align: right;  /* Align text to the right */
+                font-weight: bold;  /* Make text bold */
+                 /* Dark blue color */
+                font-size: 14px;
+                    background: e2ece9;
+            }
+            .apex-card .right-side-column:hover td {
+                background: #B6D0E2;
+                transition: 0.3s;
+            }
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region added-advice (
+        name: ADDED ADVICE
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT 
+                  SEQ_ID SL,
+                  C001 ADV_NO,
+                  C001 ADV_NAME,
+                
+                
+                  'del' del
+                FROM APEX_COLLECTIONS
+                WHERE COLLECTION_NAME = 'ADVICE' 
+                ORDER BY SEQ_ID;
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @advices
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column ADV_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Adv Name
+            }
+            lov {
+                type: sharedComponent
+                lov: @advices
+            }
+            layout {
+                sequence: 30
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column ADV_NO (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 20
+            }
+        )
+
+        column DEL (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Del
+            }
+            layout {
+                sequence: 40
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s("P32_DEL_ADV", "#SL#");
+                }
+                linkText: <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column SL (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Sl
+                alignment: end
+            }
+            layout {
+                sequence: 10
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    region added-inv (
+        name: ADDED INV
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT 
+                  SEQ_ID SL,
+                  C001 INV_NO,
+                  C001 INV_NAME,
+                
+                  'del' del
+                FROM APEX_COLLECTIONS
+                WHERE COLLECTION_NAME = 'INVESTIGATION' 
+                ORDER BY SEQ_ID;
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @investigations
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--stretch
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column DEL (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Del
+            }
+            layout {
+                sequence: 40
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s("P32_DEL_INV", "#SL#");
+                }
+                linkText: <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INV_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Inv Name
+            }
+            lov {
+                type: sharedComponent
+                lov: @investigations
+            }
+            layout {
+                sequence: 30
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column INV_NO (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 20
+            }
+        )
+
+        column SL (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Sl
+                alignment: end
+            }
+            layout {
+                sequence: 10
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    region added-medicine (
+        name: Added medicine
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                SELECT 
+                  SEQ_ID SL,
+                  C001 med_no,
+                  C001 MED_NAME,
+                  C002 FREQ,
+                  C003 TIME,
+                  C004 DAYS,
+                
+                  'del' del
+                FROM APEX_COLLECTIONS
+                WHERE COLLECTION_NAME = 'MEDICINE'
+                ORDER BY SEQ_ID;
+                
+                
+                ```
+        }
+        layout {
+            sequence: 10
+            parentRegion: @medicines
+            slot: subRegions
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+
+        column DAYS (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Days
+            }
+            layout {
+                sequence: 130
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column DEL (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: link
+            heading {
+                heading: Del
+            }
+            layout {
+                sequence: 140
+            }
+            link {
+                target: {
+                    type: url
+                    url: javascript:$s("P32_DEL_SEQ_NO", "#SL#");
+                }
+                linkText: <span class="fa fa-trash-o" aria-hidden="true" title="Delete"></span>
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column FREQ (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Freq
+            }
+            layout {
+                sequence: 110
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column MED_NAME (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            type: plainTextBasedOnLov
+            heading {
+                heading: Med Name
+            }
+            lov {
+                type: sharedComponent
+                lov: @medicines
+            }
+            layout {
+                sequence: 100
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column MED_NO (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 90
+            }
+        )
+
+        column SL (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: Sl
+                alignment: end
+            }
+            layout {
+                sequence: 10
+                columnAlignment: end
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column TIME (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Time
+            }
+            layout {
+                sequence: 120
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    region advices (
+        name: Advices
+        type: staticContent
+        layout {
+            sequence: 40
+            slot: body
+            columnSpan: 4
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region bmi-calculator (
+        name: BMI Calculator
+        type: staticContent
+        layout {
+            sequence: 50
+            slot: body
+            startNewRow: false
+            column: 8
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region consult-master (
+        name: Consult master
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region doctor-info (
+        name: DOCTOR_info
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE
+                    V_CLOB CLOB;
+                
+                
+                BEGIN
+                    -- Construct the HTML-formatted content with advanced styling and a specific APP_ID
+                    SELECT 
+                        '<div style="font-family: Arial, sans-serif; font-size: 14px; background-color: #f9f9f9; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">' ||
+                       -- '<b style="color: #003366;">Patient Registration ID:</b> <span style="color: #555;">' || P_REG_ID || '</span><br>' ||
+                       
+                        '<b style="color: #003366;">Doctor:</b> <span style="color: BLACK; FONT-WEIGHT: BOLD; font-size: 16px;">' || DOC_NAME ||'</span><span style="color: #555;;"> ('||DETAILS||')</span>' 
+                        
+                    INTO  V_CLOB
+                    FROM PRE_CONSULT_INFO
+                    WHERE APP_ID= :P32_APPID;
+                
+                
+                
+                    -- Output the result as HTML
+                RETURN  V_CLOB ;
+                END;
+                
+                ```
+            pageItemsToSubmit: P32_APPID
+        }
+        layout {
+            sequence: 70
+            slot: fullWidthContent
+        }
+        appearance {
+            template: @/cards-container
+            templateOptions: [
+                #DEFAULT#
+                t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+                t-CardsRegion--styleA
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region investigations (
+        name: Investigations
+        type: staticContent
+        layout {
+            sequence: 20
+            slot: body
+            columnSpan: 4
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region medicines (
+        name: Medicines
+        type: staticContent
+        layout {
+            sequence: 30
+            slot: body
+            startNewRow: false
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--scrollBody
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region more-master-info (
+        name: MORE MASTER INFO
+        type: staticContent
+        layout {
+            sequence: 60
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--hideHeader js-addHiddenHeadingRoleDesc
+                t-Region--scrollBody
+            ]
+        }
+    )
+
+    region patients-info (
+        name: patients_info
+        type: dynamicContent
+        source {
+            plsqlFunctionBody:
+                ```plsql
+                DECLARE
+                    V_CLOB CLOB;
+                
+                
+                BEGIN
+                    -- Construct the HTML-formatted content with advanced styling and a specific APP_ID
+                    SELECT 
+                        '<div style="font-family: Arial, sans-serif;width:250px; font-size: 14px; background-color: #f9f9f9; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">' ||
+                       -- '<b style="color: #003366;">Patient Registration ID:</b> <span style="color: #555;">' || P_REG_ID || '</span><br>' ||
+                       '<b><span style= "color: #003366; font-size: 20px;">Patient Information</span></b><br>' ||
+                        '<b style="color: #003366;">Patient Name:</b> <span style="color: #555;">' || P_NAME || '</span><br><br>' ||
+                        '<b style="color: #003366;">Gender:</b> <span style="color: ' || 
+                            CASE 
+                                WHEN GENDER = 'F' THEN 'red'
+                                ELSE 'blue'
+                            END || ';">' || 
+                            CASE 
+                                WHEN GENDER = 'F' THEN '♀️ Female'
+                                ELSE '♂️ Male'
+                            END || '</span><br><br>' ||
+                        '<b style="color: #003366;">Age:</b> <span style="color: #555;">' || AGE || '</span><br><br>' ||
+                        '<b style="color: #003366;">Blood Group:</b> <span style="color: #555;">' || BLOOD_GROUP || '</span><br><br>' ||
+                        -- Conditional formatting for Blood Pressure (e.g., high BP in red)
+                        '<b style="color: #003366;">Blood Pressure:</b> <span style="color: ' ||
+                        CASE 
+                            WHEN BP >= '140/90' THEN 'red' 
+                            ELSE '#555' 
+                        END || ';">' || BP || '</span><br><br>' ||
+                        '<b style="color: #003366;">Respiratory Rate:</b> <span style="color: #555;">' || RR || ' Br/min</span><br><br>' ||
+                        '<b style="color: #003366;">Heart Rate:</b> <span style="color: #555;">' || H_RATE || ' BPM</span><br><br>' ||
+                        '<b style="color: #003366;">Temperature:</b> <span style="color: #555;">' || TEMP || ' °F</span><br><br>' ||
+                        '<b style="color: #003366;">Height:</b> <span style="color: #555;">' || HEIGHT || ' CM</span><br><br>' ||
+                        '<b style="color: #003366;">Weight:</b> <span style="color: #555;">' || WEIGHT || ' KG</span><br><br>' ||
+                        '<b style="color: #003366;">Chief Complaints:</b><br> <span style="color: #555;">' || CHIEF_COMPLAINS || '</span>' ||
+                        ' <a href="#" onclick="$(''#prassessment'').dialog(''open''); return false;"><span style="font-size:30px;">✎</span></a><BR></div>'
+                    INTO  V_CLOB
+                    FROM PRE_CONSULT_INFO
+                    WHERE APP_ID=:P32_APPID;
+                
+                
+                
+                    -- Output the result as HTML
+                RETURN  V_CLOB ;
+                END;
+                
+                ```
+            pageItemsToSubmit: P32_APPID
+        }
+        layout {
+            sequence: 60
+            slot: rightColumn
+        }
+        appearance {
+            template: @/cards-container
+            templateOptions: [
+                #DEFAULT#
+                t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+                t-Form--slimPadding
+            ]
+        }
+    )
+
+    region primary-assessment (
+        name: Primary Assessment
+        type: form
+        source {
+            location: localDatabase
+            tableName: PRIMARY_ASSESSMENT
+        }
+        layout {
+            sequence: 70
+            slot: dialogsDrawersAndPopups
+        }
+        appearance {
+            template: @/inline-dialog
+            templateOptions: [
+                #DEFAULT#
+                js-dialog-size600x400
+            ]
+        }
+        advanced {
+            htmlDomId: prassessment
+        }
+    )
+
+    pageItem P32_ADVICE_NAME (
+        type: popupLov
+        label {
+            label: Advice
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @advices
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 20
+            region: @advices
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_APPID (
+        type: hidden
+        layout {
+            sequence: 10
+            region: @breadcrumb
+            slot: regionBody
+        }
+    )
+
+    pageItem P32_ASSESSMENT_ID (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 10
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: ASSESSMENT_ID
+            dataType: number
+            primaryKey: true
+        }
+    )
+
+    pageItem P32_BMI (
+        type: textField
+        label {
+            label: <span style="color: blue; font-weight:bold;">BMI</span>
+            alignment: left
+        }
+        layout {
+            sequence: 40
+            region: @bmi-calculator
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_BMI_1 (
+        type: textField
+        label {
+            label: <span style="color: blue; font-weight:bold;">BMI Category</span>
+            alignment: left
+        }
+        layout {
+            sequence: 50
+            region: @bmi-calculator
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_BP (
+        type: textField
+        label {
+            label: Bp
+            alignment: left
+        }
+        layout {
+            sequence: 30
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: BP
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_CHIEF_COMPLAINS (
+        type: textField
+        label {
+            label: Chief Complains
+            alignment: left
+        }
+        layout {
+            sequence: 90
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 200
+        }
+        source {
+            formRegion: @primary-assessment
+            column: CHIEF_COMPLAINS
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_DAYS (
+        type: textField
+        label {
+            label: Days
+            alignment: left
+        }
+        layout {
+            sequence: 70
+            region: @medicines
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+            columnSpan: 2
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_DEL_ADV (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 10
+            region: @advices
+            slot: regionBody
+        }
+    )
+
+    pageItem P32_DEL_INV (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 10
+            region: @investigations
+            slot: regionBody
+        }
+    )
+
+    pageItem P32_DEL_SEQ_NO (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 10
+            region: @medicines
+            slot: regionBody
+        }
+    )
+
+    pageItem P32_FOLLOW_UP_DAYS (
+        type: textField
+        label {
+            label: Next visit after
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @more-master-info
+            slot: regionBody
+            alignment: left
+            columnSpan: 2
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_FREQ (
+        type: textFieldWithAutocomplete
+        label {
+            label: Frequency
+            alignment: left
+        }
+        settings {
+            infiniteScroll: false
+            maxValuesInList: 7
+        }
+        search {
+            minChars: 1
+        }
+        lov {
+            type: sharedComponent
+            lov: @med-frequency
+            displayExtraValues: false
+        }
+        layout {
+            sequence: 50
+            region: @medicines
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_HEIGHT (
+        type: numberField
+        label {
+            label: Height(cm)
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @bmi-calculator
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_HEIGHT_1 (
+        type: textField
+        label {
+            label: Height(cm)
+            alignment: left
+        }
+        layout {
+            sequence: 70
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: HEIGHT
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_H_RATE (
+        type: textField
+        label {
+            label: Heart Rate(BPM)
+            alignment: left
+        }
+        layout {
+            sequence: 50
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: H_RATE
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_INSERT_BY (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 130
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: INSERT_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_INSERT_DATE (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 140
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: INSERT_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P32_INVESTIGATION (
+        type: popupLov
+        label {
+            label: Investigation
+            alignment: left
+        }
+        lov {
+            type: sharedComponent
+            lov: @investigations
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 20
+            region: @investigations
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_MED_NO_1 (
+        type: popupLov
+        label {
+            label: Medicine
+            alignment: left
+        }
+        lov {
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select med_name D, med_id R
+                from medicine_info 
+                order by 1 asc;
+                ```
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 40
+            region: @medicines
+            slot: regionBody
+            alignment: left
+            columnSpan: 4
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_NOTE (
+        type: textarea
+        label {
+            label: Note
+            alignment: left
+        }
+        layout {
+            sequence: 20
+            region: @more-master-info
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+            height: 5
+        }
+    )
+
+    pageItem P32_NURSE_ST_ID (
+        type: hidden
+        layout {
+            sequence: 30
+            region: @consult-master
+            slot: regionBody
+        }
+    )
+
+    pageItem P32_NURSE_ST_ID_1 (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 110
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: NURSE_ST_ID
+            dataType: number
+        }
+    )
+
+    pageItem P32_RR (
+        type: textField
+        label {
+            label: Resp.Rate(Br/min)
+            alignment: left
+        }
+        layout {
+            sequence: 40
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: RR
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_STATUS (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 120
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: STATUS
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_TEMP (
+        type: textField
+        label {
+            label: Temp(°F)
+            alignment: left
+        }
+        layout {
+            sequence: 60
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: TEMP
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_TIME (
+        type: radioGroup
+        label {
+            alignment: left
+        }
+        settings {
+            noOfCols: 2
+        }
+        lov {
+            type: staticValues
+            staticValues: STATIC:Before meal;Before meal,After meal;After meal
+            displayExtraValues: false
+            displayNullValue: false
+        }
+        layout {
+            sequence: 60
+            region: @medicines
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    pageItem P32_UPDATE_BY (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 150
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: UPDATE_BY
+            dataType: varchar2
+        }
+    )
+
+    pageItem P32_UPDATE_DATE (
+        type: hidden
+        settings {
+            valueProtected: false
+        }
+        layout {
+            sequence: 160
+            region: @primary-assessment
+            slot: regionBody
+        }
+        source {
+            formRegion: @primary-assessment
+            column: UPDATE_DATE
+            dataType: date
+        }
+    )
+
+    pageItem P32_WEIGHT (
+        type: numberField
+        label {
+            label: Weight(kg)
+            alignment: left
+        }
+        layout {
+            sequence: 10
+            region: @bmi-calculator
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+    )
+
+    pageItem P32_WEIGHT_1 (
+        type: textField
+        label {
+            label: Weight(Kg)
+            alignment: left
+        }
+        layout {
+            sequence: 80
+            region: @primary-assessment
+            slot: regionBody
+            alignment: left
+            startNewRow: false
+        }
+        appearance {
+            template: @/optional-floating
+            templateOptions: #DEFAULT#
+            width: 30
+        }
+        validation {
+            maxLength: 50
+        }
+        source {
+            formRegion: @primary-assessment
+            column: WEIGHT
+            dataType: varchar2
+        }
+    )
+
+    button add-advice (
+        buttonName: add_advice
+        label: Add Advice
+        layout {
+            sequence: 40
+            region: @advices
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/icon
+            hot: true
+            templateOptions: #DEFAULT#
+            icon: fa-plus
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button add-inv (
+        buttonName: ADD_INV
+        label: Add Inv
+        layout {
+            sequence: 30
+            region: @investigations
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/icon
+            hot: true
+            templateOptions: #DEFAULT#
+            icon: fa-plus
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button add-med (
+        buttonName: ADD_MED
+        label: Add Med
+        layout {
+            sequence: 80
+            region: @medicines
+            slot: regionBody
+        }
+        appearance {
+            buttonTemplate: @/icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--padLeft
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    button submit (
+        buttonName: Submit
+        label: Submit
+        layout {
+            sequence: 30
+            region: @more-master-info
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--success
+            ]
+        }
+        behavior {
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button submit-2 (
+        buttonName: Submit1
+        label: Submit
+        layout {
+            sequence: 170
+            region: @primary-assessment
+            slot: create
+        }
+        appearance {
+            buttonTemplate: @/text
+            hot: true
+            templateOptions: #DEFAULT#
+        }
+        behavior {
+            action: definedByDynamicAction
+        }
+    )
+
+    dynamicAction add-advice (
+        name: ADD ADVICE
+        execution {
+            sequence: 40
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @add-advice
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: P32_ADVICE_NAME
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE 
+                     V_CHECK NUMBER := 0;
+                     V_SEQ_ID NUMBER := 0;
+                    BEGIN 
+                     
+                    BEGIN
+                     SELECT COUNT(*),SEQ_ID INTO V_CHECK,V_SEQ_ID
+                     FROM APEX_COLLECTIONS
+                     WHERE COLLECTION_NAME = 'ADVICE'
+                     AND C001 = :P32_ADVICE_NAME
+                     GROUP BY SEQ_ID;
+                    EXCEPTION
+                     WHEN OTHERS THEN 
+                     NULL;
+                    END;
+                    
+                    
+                    
+                    IF V_CHECK = 0 THEN
+                    
+                     APEX_COLLECTION.ADD_MEMBER (P_COLLECTION_NAME      => 'ADVICE'                                             
+                                                ,P_C001                => :P32_ADVICE_NAME
+                                             
+                                               );
+                    ELSIF V_CHECK = 1 THEN 
+                    
+                      APEX_COLLECTION.UPDATE_MEMBER (P_COLLECTION_NAME      =>'ADVICE'       
+                                                    ,P_SEQ                => V_SEQ_ID                                        
+                                                ,P_C001                => :P32_ADVICE_NAME
+                                              
+                                               );
+                    
+                    
+                    END IF;
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: P32_ADVICE_NAME
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-advice
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction add-to-collection (
+        name: ADD TO COLLECTION
+        execution {
+            sequence: 20
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @add-med
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_FREQ
+                    P32_TIME
+                    P32_DAYS
+                    P32_MED_NO_1
+                ]
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE 
+                     V_CHECK NUMBER := 0;
+                     V_SEQ_ID NUMBER := 0;
+                    BEGIN 
+                     
+                    BEGIN
+                     SELECT COUNT(*),SEQ_ID INTO V_CHECK,V_SEQ_ID
+                     FROM APEX_COLLECTIONS
+                     WHERE COLLECTION_NAME = 'MEDICINE'
+                     AND C001 = :P32_MED_NO_1
+                     GROUP BY SEQ_ID;
+                    EXCEPTION
+                     WHEN OTHERS THEN 
+                     NULL;
+                    END;
+                    
+                    
+                    
+                    IF V_CHECK = 0 THEN
+                    
+                     APEX_COLLECTION.ADD_MEMBER (P_COLLECTION_NAME      => 'MEDICINE'                                             
+                                                ,P_C001                => :P32_MED_NO_1
+                                                ,P_C002                => :P32_FREQ
+                                                ,P_C003                => :P32_TIME
+                                                ,P_C004                => :P32_DAYS
+                                               );
+                    ELSIF V_CHECK = 1 THEN 
+                    
+                      APEX_COLLECTION.UPDATE_MEMBER (P_COLLECTION_NAME      => 'MEDICINE'     
+                                                    ,P_SEQ                => V_SEQ_ID                                        
+                                                ,P_C001                => :P32_MED_NO_1
+                                                ,P_C002                => :P32_FREQ
+                                                ,P_C003                => :P32_TIME
+                                                ,P_C004                => :P32_DAYS
+                                               );
+                    
+                    
+                    END IF;
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: [
+                    P32_FREQ
+                    P32_TIME
+                    P32_DAYS
+                    P32_MED_NO_1
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-medicine
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction add-to-inv-collection (
+        name: ADD TO INV COLLECTION
+        execution {
+            sequence: 60
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @add-inv
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: P32_INVESTIGATION
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    DECLARE 
+                     V_CHECK NUMBER := 0;
+                     V_SEQ_ID NUMBER := 0;
+                    BEGIN 
+                     
+                    BEGIN
+                     SELECT COUNT(*),SEQ_ID INTO V_CHECK,V_SEQ_ID
+                     FROM APEX_COLLECTIONS
+                     WHERE COLLECTION_NAME = 'INVESTIGATION'
+                     AND C001 = :P32_INVESTIGATION
+                     GROUP BY SEQ_ID;
+                    EXCEPTION
+                     WHEN OTHERS THEN 
+                     NULL;
+                    END;
+                    
+                    
+                    
+                    IF V_CHECK = 0 THEN
+                    
+                     APEX_COLLECTION.ADD_MEMBER (P_COLLECTION_NAME      => 'INVESTIGATION'                                             
+                                                ,P_C001                => :P32_INVESTIGATION
+                                             
+                                               );
+                    ELSIF V_CHECK = 1 THEN 
+                    
+                      APEX_COLLECTION.UPDATE_MEMBER (P_COLLECTION_NAME      =>'INVESTIGATION'       
+                                                    ,P_SEQ                => V_SEQ_ID                                        
+                                                ,P_C001                => :P32_INVESTIGATION
+                                              
+                                               );
+                    
+                    
+                    END IF;
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: P32_INVESTIGATION
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-inv
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction button-position (
+        name: button position
+        execution {
+            sequence: 10
+        }
+        when {
+            event: ready
+        }
+
+        action native-clear (
+            action: clear
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_FREQ
+                    P32_TIME
+                    P32_DAYS
+                    P32_ADVICE_NAME
+                    P32_INVESTIGATION
+                    P32_FOLLOW_UP_DAYS
+                    P32_NOTE
+                    P32_MED_NO_1
+                ]
+            }
+            execution {
+                sequence: 40
+            }
+        )
+
+        action plugin-apex-items-with-buttons (
+            action: plugin/apexItemsWithApexButton
+            settings {
+                itemWhereTheButtonIsAdded: P32_DAYS
+            }
+            affectedElements {
+                selectionType: button
+                button: @add-med
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+        action plugin-apex-items-with-buttons-2 (
+            action: plugin/apexItemsWithApexButton
+            settings {
+                itemWhereTheButtonIsAdded: P32_INVESTIGATION
+            }
+            affectedElements {
+                selectionType: button
+                button: @add-inv
+            }
+            execution {
+                sequence: 30
+            }
+        )
+
+        action plugin-apex-items-with-buttons-3 (
+            action: plugin/apexItemsWithApexButton
+            settings {
+                itemWhereTheButtonIsAdded: P32_ADVICE_NAME
+            }
+            affectedElements {
+                selectionType: button
+                button: @add-advice
+            }
+            execution {
+                sequence: 20
+            }
+        )
+
+    )
+
+    dynamicAction calculate-bmi (
+        name: Calculate BMI
+        execution {
+            sequence: 90
+        }
+        when {
+            event: keyup
+            selectionType: items
+            items: [
+                P32_HEIGHT
+                P32_WEIGHT
+            ]
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    var weight = parseFloat($v("P32_WEIGHT"));
+                    var height = parseFloat($v("P32_HEIGHT"))/100;
+                    
+                    if (weight > 0 && height > 0) {
+                        var bmi = weight / (height * height);
+                        $s("P32_BMI", bmi.toFixed(2)); // Set the value of P1_BMI
+                    }
+                    
+                    if (bmi < 18.5) category = "Underweight";
+                    else if (bmi < 24.9) category = "Normal";
+                    else if (bmi < 29.9) category = "Overweight";
+                    else category = "Obese";
+                    
+                    $s("P32_BMI_1", category);
+                    ```
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_BMI
+                    P32_BMI_1
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction calculate-bmi-2 (
+        name: Calculate BMI_1
+        execution {
+            sequence: 100
+        }
+        when {
+            selectionType: items
+            items: [
+                P32_HEIGHT
+                P32_WEIGHT
+            ]
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode:
+                    ```javascript-browser
+                    var weight = parseFloat($v("P32_WEIGHT"));
+                    var height = parseFloat($v("P32_HEIGHT"))/100;
+                    
+                    if (weight > 0 && height > 0) {
+                        var bmi = weight / (height * height);
+                        $s("P32_BMI", bmi.toFixed(2)); // Set the value of P1_BMI
+                    }
+                    if (bmi < 18.5) category = "Underweight";
+                    else if (bmi < 24.9) category = "Normal";
+                    else if (bmi < 29.9) category = "Overweight";
+                    else category = "Obese";
+                    
+                    $s("P32_BMI_1", category);
+                    ```
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_BMI
+                    P32_BMI_1
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction del-inv-coll (
+        name: DEL INV COLL
+        execution {
+            sequence: 70
+        }
+        when {
+            selectionType: items
+            items: P32_DEL_INV
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                        APEX_COLLECTION.DELETE_MEMBER (P_COLLECTION_NAME   => 'INVESTIGATION',
+                                                       P_SEQ               => :P32_DEL_INV);
+                        apex_collection.resequence_collection( p_collection_name => 'INVESTIGATION');
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: P32_DEL_INV
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-inv
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction delete-adv-coll (
+        name: DELETE ADV COLL
+        execution {
+            sequence: 50
+        }
+        when {
+            selectionType: items
+            items: P32_DEL_ADV
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                        APEX_COLLECTION.DELETE_MEMBER (P_COLLECTION_NAME   => 'ADVICE',
+                                                       P_SEQ               => :P32_DEL_ADV);
+                        apex_collection.resequence_collection( p_collection_name => 'ADVICE');
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: P32_DEL_ADV
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-advice
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction delete-from-med-coll (
+        name: delete from med coll
+        execution {
+            sequence: 30
+        }
+        when {
+            selectionType: items
+            items: P32_DEL_SEQ_NO
+        }
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    BEGIN
+                        APEX_COLLECTION.DELETE_MEMBER (P_COLLECTION_NAME   => 'MEDICINE',
+                                                       P_SEQ               => :P32_DEL_SEQ_NO);
+                        apex_collection.resequence_collection( p_collection_name => 'MEDICINE');
+                    
+                    
+                    END;
+                    ```
+                itemsToSubmit: P32_DEL_SEQ_NO
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @added-medicine
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction dml-pr (
+        name: DML_PR
+        execution {
+            sequence: 120
+        }
+        when {
+            event: click
+            selectionType: button
+            button: @submit-2
+        }
+
+        action native-close-region (
+            action: closeRegion
+            affectedElements {
+                selectionType: region
+                region: @primary-assessment
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-execute-plsql-code (
+            action: executeServerSideCode
+            settings {
+                plsqlCode:
+                    ```plsql
+                    IF :P32_ASSESSMENT_ID IS NOT NULL THEN
+                    UPDATE PRIMARY_ASSESSMENT
+                    SET    BP= :P32_BP,
+                           RR= :P32_RR,
+                           H_RATE= :P32_H_RATE,
+                           TEMP= :P32_TEMP,
+                           HEIGHT=:P32_HEIGHT_1,
+                           WEIGHT=:P32_WEIGHT_1,
+                           CHIEF_COMPLAINS= :P32_CHIEF_COMPLAINS,
+                           UPDATE_BY=  V('APP_USER'),
+                           UPDATE_DATE=  SYSDATE
+                    WHERE ASSESSMENT_ID= :P32_ASSESSMENT_ID;
+                    END IF;
+                    ```
+                itemsToSubmit: [
+                    P32_BP
+                    P32_RR
+                    P32_H_RATE
+                    P32_TEMP
+                    P32_HEIGHT_1
+                    P32_WEIGHT_1
+                    P32_CHIEF_COMPLAINS
+                    P32_ASSESSMENT_ID
+                ]
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @patients-info
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-2 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @bmi-calculator
+            }
+            execution {
+                sequence: 40
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction new (
+        name: New
+        execution {
+            sequence: 80
+        }
+        when {
+            selectionType: items
+            items: P32_APPID
+        }
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @doctor-info
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh-2 (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @patients-info
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction set-height-weight (
+        name: set height weight
+        execution {
+            sequence: 110
+        }
+        when {
+            event: ready
+        }
+
+        action native-set-value (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select height, WEIGHT
+                    from pre_consult_info
+                    where app_id=:P32_APPID
+                    ```
+                itemsToSubmit: P32_NURSE_ST_ID
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_HEIGHT
+                    P32_WEIGHT
+                ]
+            }
+            execution {
+                sequence: 10
+            }
+        )
+
+        action native-set-value-2 (
+            action: setValue
+            settings {
+                type: sqlQuery
+                sqlQuery:
+                    ```sql
+                    select ASSESSMENT_ID,
+                           BP,
+                           RR,
+                           H_RATE,
+                           TEMP,
+                           HEIGHT,
+                           WEIGHT,
+                           CHIEF_COMPLAINS
+                         
+                       
+                    from PRE_consult_info
+                    WHERE app_ID= :P32_APPID
+                    ```
+                itemsToSubmit: P32_APPID
+                escapeSpecialChars: false
+            }
+            affectedElements {
+                selectionType: items
+                items: [
+                    P32_ASSESSMENT_ID
+                    P32_BP
+                    P32_RR
+                    P32_H_RATE
+                    P32_TEMP
+                    P32_HEIGHT_1
+                    P32_WEIGHT_1
+                    P32_CHIEF_COMPLAINS
+                ]
+            }
+            execution {
+                sequence: 20
+            }
+        )
+
+    )
+
+    process declare-collection (
+        name: declare collection
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                IF APEX_COLLECTION.COLLECTION_EXISTS ('MEDICINE') THEN
+                    APEX_COLLECTION.TRUNCATE_COLLECTION ('MEDICINE');     
+                ELSE
+                    APEX_COLLECTION.CREATE_COLLECTION ('MEDICINE');  
+                END IF;
+                
+                
+                IF APEX_COLLECTION.COLLECTION_EXISTS ('ADVICE') THEN
+                    APEX_COLLECTION.TRUNCATE_COLLECTION ('ADVICE');     
+                ELSE
+                    APEX_COLLECTION.CREATE_COLLECTION ('ADVICE');  
+                END IF;
+                
+                IF APEX_COLLECTION.COLLECTION_EXISTS ('INVESTIGATION') THEN
+                    APEX_COLLECTION.TRUNCATE_COLLECTION ('INVESTIGATION');     
+                ELSE
+                    APEX_COLLECTION.CREATE_COLLECTION ('INVESTIGATION');  
+                END IF;
+                
+                ```
+        }
+        execution {
+            sequence: 10
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 15201480646839365424
+        }
+    )
+
+    process dml (
+        name: dml
+        type: executeCode
+        source {
+            plsqlCode:
+                ```plsql
+                DECLARE 
+                    V_CONS_NO NUMBER;
+                     V_DOC_ID NUMBER;
+                      V_P_ID NUMBER;
+                     V_N_ST_ID NUMBER;
+                    
+                    -- Cursor for added medicines
+                    CURSOR ADDED_MEDICINE IS 
+                        SELECT 
+                            SEQ_ID SL,
+                            C001 MED_ID,
+                            C002 FREQ,
+                            C003 TIME,
+                            C004 DAYS
+                        FROM APEX_COLLECTIONS
+                        WHERE COLLECTION_NAME = 'MEDICINE'
+                        ORDER BY SEQ_ID;
+                
+                    -- Cursor for investigations
+                    CURSOR ADDED_INVESTIGATION IS 
+                        SELECT 
+                            SEQ_ID SL,
+                            C001 INV_ID
+                        FROM APEX_COLLECTIONS
+                        WHERE COLLECTION_NAME = 'INVESTIGATION'
+                        ORDER BY SEQ_ID;
+                
+                    -- Cursor for advice
+                    CURSOR ADDED_ADVICE IS 
+                        SELECT 
+                            SEQ_ID SL,
+                            C001 ADV_ID
+                        FROM APEX_COLLECTIONS
+                        WHERE COLLECTION_NAME = 'ADVICE'
+                        ORDER BY SEQ_ID;
+                
+                BEGIN
+                    -- Generate the next consultation ID
+                    SELECT NVL(MAX(CONSULTATION_ID), 99999) + 1 
+                    INTO V_CONS_NO
+                    FROM CONSULTATION;
+                :G_PRSC := V_CONS_NO;
+                    ----get patient, doc and nurse station
+                SELECT DOC_ID, P_REG_ID, NURSE_ST_ID
+                INTO  V_DOC_ID,   V_P_ID, V_N_ST_ID
+                FROM PRE_CONSULT_INFO
+                WHERE APP_ID = :P32_APPID;
+                
+                    -- Insert into CONSULTATION if V_CONS_NO is valid
+                    IF V_CONS_NO IS NOT NULL THEN
+                        INSERT INTO CONSULTATION (
+                            CONSULTATION_ID,
+                            FOLLOW_UP_DAYS,
+                            NOTE,
+                            APP_ID,
+                         P_REG_ID,
+                          NURSE_ST_ID,
+                          DOC_ID,
+                            INSERT_BY,
+                            INSERT_DATE
+                        )
+                        VALUES (
+                            V_CONS_NO,
+                            :P32_FOLLOW_UP_DAYS,-------NEED TO ADD TEXT ITEM
+                            :P32_NOTE,
+                            :P32_APPID,
+                             V_P_ID,
+                             V_N_ST_ID,
+                            V_DOC_ID,
+                            v('APP_USER'),
+                            SYSDATE  -- Ensure correct syntax
+                        );
+                    END IF;
+                
+                    ----------------- END OF MASTER INSERT --------------------
+                
+                    -- Loop through added medicines
+                    FOR i IN ADDED_MEDICINE LOOP
+                        INSERT INTO CONSULT_MEDICINE_DETAILS (
+                            MED_DETAIL_ID,
+                            CONSULTATION_ID,
+                            MED_ID,
+                          
+                            FREQUENCY,
+                            TIME,
+                            INTAKE_DAYS,
+                            SL_NO
+                        ) 
+                        VALUES (
+                            CONS_MED_DTL_SEQ.NEXTVAL,
+                            V_CONS_NO,    -- Assign consultation ID
+                            i.MED_ID,    -- Assign medicine ID
+                            i.FREQ, -- Ensure this value is properly referenced
+                            i.TIME,   -- Ensure frequency value is referenced
+                            i.DAYS,
+                            i.SL   
+                                  -- Sequence number
+                        );
+                    END LOOP;
+                
+                    -- Loop through added investigations
+                    FOR i IN ADDED_INVESTIGATION LOOP
+                        INSERT INTO CONSULT_INV_DETAILS (  -- Correct table name
+                            CONSULT_INV_DTL_ID,
+                            INV_ID,
+                            CONSULTATION_ID,
+                            SL_NO
+                        ) 
+                        VALUES (
+                            CONS_INV_DTL_SEQ.NEXTVAL,
+                         -- Ensure remarks are referenced
+                            i.INV_ID, 
+                            V_CONS_NO,
+                            i.SL
+                        );
+                    END LOOP;
+                
+                    -- Loop through added advice
+                    FOR i IN ADDED_ADVICE LOOP
+                        INSERT INTO CONS_ADVICE_DETAILS (
+                            CONSULT_ADV_DTL_ID,
+                            ADV_ID,
+                            CONSULTATION_ID,
+                            SL_NO
+                        ) 
+                        VALUES (
+                            CONS_MED_DTL_SEQ.NEXTVAL, -- Correct sequence usage
+                        -- Ensure remarks are referenced
+                            i.ADV_ID, 
+                            V_CONS_NO,
+                            i.SL
+                        );
+                    END LOOP;
+                
+                
+                    update NURSE_STATION
+                    SET OUT_FLAG='Y'
+                    WHERE APP_ID= :P32_APPID;
+                
+                    -- Commit the transaction
+                    COMMIT;
+                
+                EXCEPTION 
+                    WHEN OTHERS THEN 
+                        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM); -- Debugging
+                        ROLLBACK;
+                        RAISE;
+                END;
+                
+                ```
+        }
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 15965049551898965701
+        }
+    )
+
+    process initialize-form-consultation-test (
+        name: Initialize form Consultation-test
+        type: formInitialization
+        formRegion: @primary-assessment
+        execution {
+            sequence: 20
+            point: beforeHeader
+        }
+        advanced {
+            executionMappingIdentifier: 19259896173733845532
+        }
+    )
+
+    branch (
+        name: Go To Page 58
+        execution {
+            sequence: 10
+        }
+        behavior {
+            target: {
+                page: 58
+                clearCache: 32
+            }
+        }
+    )
+
+)
+

@@ -1,0 +1,1105 @@
+page 51 (
+    name: "Master details user group "
+    alias: USER-GROUP1
+    title: user group
+    appearance {
+        pageTemplate: @/left-side-column
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+        warnOnUnsavedChanges: false
+    }
+    css {
+        inline:
+            ```css
+            /* Scroll Results Only in Side Column */
+            .t-Body-side {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .search-results {
+                flex: 1;
+                overflow: auto;
+            }
+            /* Format Search Region */
+            .search-region {
+                border-bottom: 1px solid rgba(0,0,0,.1);
+                flex-shrink: 0;
+            }
+            ```
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+    }
+    advanced {
+        enableDuplicatePageSubmissions: false
+        reloadOnSubmit: always
+    }
+
+    region group-menu (
+        name: Group Menu
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select ROWID,
+                       GROUP_ID,
+                       GROUP_MENU_ID,
+                       (select MENU_NAME from MENU
+                       where MENU_CODE = c.MENU_CODE)
+                       MENU_CODE,
+                       MENU_NAME,
+                       APEX_PAGE_NO,
+                       IS_STATUS,
+                       IS_SELECT,
+                       IS_UPDATE,
+                       IS_DELETE,
+                       COMPANY_ID,
+                       CREATE_BY,
+                       CREATE_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE
+                  from GROUP_MENU c
+                 where "GROUP_ID" = :P51_USER_GROUP_ID
+                ```
+        }
+        layout {
+            sequence: 30
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--scrollBody
+            ]
+            cssClasses: js-detail-region
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P51_USER_GROUP_ID
+        }
+        reportLayout {
+            numberOfRows: 100
+        }
+        componentAppearance {
+            template: @/standard
+            templateOptions: [
+                t-Report--stretch
+                #DEFAULT#
+                t-Report--altRowsDefault
+                t-Report--rowHighlight
+                t-Report--inline
+            ]
+        }
+        pagination {
+            type: nextAndPreviousLinks
+        }
+        performance {
+            maxRowsToProcess: 5000
+        }
+        messages {
+            whenNoDataFound: No data found.
+        }
+        componentAdvanced {
+            stripHtml: true
+        }
+
+        column APEX_PAGE_NO (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 6
+            }
+        )
+
+        column COMPANY_ID (
+            reportColumnQueryId: 11
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 11
+            }
+        )
+
+        column CREATE_BY (
+            reportColumnQueryId: 12
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 12
+            }
+        )
+
+        column CREATE_DATE (
+            reportColumnQueryId: 13
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 13
+            }
+        )
+
+        column GROUP_ID (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 2
+            }
+        )
+
+        column GROUP_MENU_ID (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Group Menu Id
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column IS_DELETE (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 10
+            }
+        )
+
+        column IS_SELECT (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 8
+            }
+        )
+
+        column IS_STATUS (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 7
+            }
+        )
+
+        column IS_UPDATE (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 9
+            }
+        )
+
+        column MENU_CODE (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Menu Code
+            }
+            layout {
+                sequence: 4
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column MENU_NAME (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 5
+            }
+        )
+
+        column ROWID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: link
+            heading {
+                heading: <span class="u-VisuallyHidden">Edit</span>
+            }
+            layout {
+                sequence: 1
+            }
+            link {
+                target: {
+                    page: 53
+                    items: {
+                        P53_ROWID: #ROWID#
+                    }
+                    action: resetPagination
+                }
+                linkText: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+            }
+            sorting {
+                sortable: false
+            }
+            advanced {
+                cellWidth: 32
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 14
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 14
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 15
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 15
+            }
+        )
+
+    )
+
+    region master-records (
+        name: Master Records
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select "USER_GROUP_ID",
+                    null LINK_CLASS,
+                    apex_page.get_url(p_items => 'P51_USER_GROUP_ID', p_values => "USER_GROUP_ID") LINK,
+                    null ICON_CLASS,
+                    null LINK_ATTR,
+                    null ICON_COLOR_CLASS,
+                    case when coalesce(:P51_USER_GROUP_ID,'0') = "USER_GROUP_ID"
+                      then 'is-active' 
+                      else ' '
+                    end LIST_CLASS,
+                    (substr("USER_ID", 1, 50)||( case when length("USER_ID") > 50 then '...' else '' end )) LIST_TITLE,
+                    (substr("ACTIVE_FLAG", 1, 50)||( case when length("ACTIVE_FLAG") > 50 then '...' else '' end )) LIST_TEXT,
+                    null LIST_BADGE
+                from "USER_GROUP" x
+                where (:P51_SEARCH is null
+                        or upper(x."USER_ID") like '%'||upper(:P51_SEARCH)||'%'
+                        or upper(x."ACTIVE_FLAG") like '%'||upper(:P51_SEARCH)||'%'
+                    )
+                order by "USER_ID"
+                ```
+            pageItemsToSubmit: P51_SEARCH
+        }
+        layout {
+            sequence: 20
+            slot: leftColumn
+        }
+        appearance {
+            template: @/blank-with-attributes-no-grid
+            templateOptions: #DEFAULT#
+            cssClasses: search-results
+        }
+        reportLayout {
+            numberOfRows: 1000
+        }
+        componentAppearance {
+            template: @/media-list
+            templateOptions: [
+                t-MediaList--showDesc
+                t-MediaList--stack
+            ]
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: <div class="u-tC">No data found.</div>
+        }
+
+        column ICON_CLASS (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: ICON_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 4
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column ICON_COLOR_CLASS (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: ICON_COLOR_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 6
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: LINK
+                alignment: center
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK_ATTR (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: LINK_ATTR
+                alignment: center
+            }
+            layout {
+                sequence: 5
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LINK_CLASS (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: LINK_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_BADGE (
+            reportColumnQueryId: 10
+            derivedColumn: N
+            heading {
+                heading: LIST_BADGE
+                alignment: center
+            }
+            layout {
+                sequence: 10
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_CLASS (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: LIST_CLASS
+                alignment: center
+            }
+            layout {
+                sequence: 7
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_TEXT (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            heading {
+                heading: LIST_TEXT
+                alignment: center
+            }
+            layout {
+                sequence: 9
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column LIST_TITLE (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            heading {
+                heading: LIST_TITLE
+                alignment: center
+            }
+            layout {
+                sequence: 8
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+        column USER_GROUP_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            heading {
+                heading: USER_GROUP_ID
+                alignment: center
+            }
+            layout {
+                sequence: 1
+            }
+            sorting {
+                sortable: false
+            }
+        )
+
+    )
+
+    region no-record-selected (
+        name: No Record Selected
+        type: staticContent
+        source {
+            htmlCode: No Record Selected
+        }
+        layout {
+            sequence: 70
+            slot: body
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: #DEFAULT#
+        }
+        serverSideCondition {
+            type: itemIsNull
+            item: P51_USER_GROUP_ID
+        }
+    )
+
+    region region-display-selector (
+        name: Region Display Selector
+        type: regionDisplaySelector
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                margin-bottom-md
+            ]
+            cssClasses: js-detail-rds
+        }
+        advanced {
+            regionDisplaySelector: true
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P51_USER_GROUP_ID
+        }
+        settings {
+            rememberSelection: N
+        }
+    )
+
+    region search (
+        name: Search
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: leftColumn
+        }
+        appearance {
+            template: @/blank-with-attributes
+            templateOptions: [
+                #DEFAULT#
+                t-Form--stretchInputs
+            ]
+            cssClasses: [
+                search-region
+                padding-md
+            ]
+        }
+    )
+
+    region user-group (
+        name: user group
+        type: staticContent
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/hero
+            templateOptions: [
+                #DEFAULT#
+                t-HeroRegion--hideIcon
+            ]
+        }
+    )
+
+    region user-group-2 (
+        name: User Group
+        type: classicReport
+        source {
+            location: localDatabase
+            type: sqlQuery
+            sqlQuery:
+                ```sql
+                select USER_GROUP_ID,
+                (select USER_NAME from guser
+                where user_id = c.user_id)
+                       USER_ID,
+                       (select GROUP_NAME from GROUPS
+                       where group_id = c.group_id)
+                       GROUP_ID,
+                       ACTIVE_FLAG,
+                       COMPANY_ID,
+                       CREATE_BY,
+                       CREATE_DATE,
+                       UPDATE_BY,
+                       UPDATE_DATE
+                  from USER_GROUP c 
+                 where "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                ```
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: [
+                #DEFAULT#
+                t-Region--noPadding
+                t-Region--scrollBody
+            ]
+            cssClasses: js-master-region
+        }
+        serverSideCondition {
+            type: itemIsNotNull
+            item: P51_USER_GROUP_ID
+        }
+        componentAppearance {
+            template: @/value-attribute-pairs-column
+            templateOptions: [
+                #DEFAULT#
+                t-AVPList--leftAligned
+            ]
+        }
+        performance {
+            maxRowsToProcess: 500
+        }
+        messages {
+            whenNoDataFound: No Record Selected
+        }
+        componentAdvanced {
+            stripHtml: true
+        }
+
+        column ACTIVE_FLAG (
+            reportColumnQueryId: 4
+            derivedColumn: N
+            heading {
+                heading: Active Flag
+            }
+            layout {
+                sequence: 4
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "ACTIVE_FLAG" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column COMPANY_ID (
+            reportColumnQueryId: 5
+            derivedColumn: N
+            heading {
+                heading: Company Id
+            }
+            layout {
+                sequence: 5
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "COMPANY_ID" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column CREATE_BY (
+            reportColumnQueryId: 6
+            derivedColumn: N
+            heading {
+                heading: Create By
+            }
+            layout {
+                sequence: 6
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "CREATE_BY" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column CREATE_DATE (
+            reportColumnQueryId: 7
+            derivedColumn: N
+            heading {
+                heading: Create Date
+            }
+            layout {
+                sequence: 7
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "CREATE_DATE" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column GROUP_ID (
+            reportColumnQueryId: 3
+            derivedColumn: N
+            heading {
+                heading: Group Id
+            }
+            layout {
+                sequence: 3
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "GROUP_ID" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column UPDATE_BY (
+            reportColumnQueryId: 8
+            derivedColumn: N
+            heading {
+                heading: Update By
+            }
+            layout {
+                sequence: 8
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "UPDATE_BY" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column UPDATE_DATE (
+            reportColumnQueryId: 9
+            derivedColumn: N
+            heading {
+                heading: Update Date
+            }
+            layout {
+                sequence: 9
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "UPDATE_DATE" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column USER_GROUP_ID (
+            reportColumnQueryId: 1
+            derivedColumn: N
+            type: hidden
+            layout {
+                sequence: 1
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "USER_GROUP_ID" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+        column USER_ID (
+            reportColumnQueryId: 2
+            derivedColumn: N
+            heading {
+                heading: User Id
+            }
+            layout {
+                sequence: 2
+            }
+            sorting {
+                sortable: false
+            }
+            serverSideCondition {
+                type: rowsReturned
+                sqlQuery:
+                    ```sql
+                    select 1 from "USER_GROUP"
+                    where "USER_ID" is not null
+                    and "USER_GROUP_ID" = :P51_USER_GROUP_ID
+                    ```
+            }
+        )
+
+    )
+
+    pageItem P51_SEARCH (
+        type: textField
+        label {
+            label: Search
+            alignment: right
+        }
+        layout {
+            sequence: 10
+            region: @search
+            slot: regionBody
+            alignment: left
+        }
+        appearance {
+            template: @/hidden
+            templateOptions: [
+                #DEFAULT#
+                t-Form-fieldContainer--large
+                t-Form-fieldContainer--postTextBlock
+            ]
+            icon: fa-search
+            width: 30
+            valuePlaceholder: Search...
+        }
+    )
+
+    pageItem P51_USER_GROUP_ID (
+        type: hidden
+        layout {
+            sequence: 40
+            region: @user-group-2
+            slot: regionBody
+        }
+        security {
+            sessionStateProtection: checksumRequiredSessionLevel
+        }
+    )
+
+    button create (
+        buttonName: CREATE
+        label: Create
+        layout {
+            sequence: 20
+            region: @user-group
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            hot: true
+            templateOptions: [
+                #DEFAULT#
+                t-Button--iconLeft
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 52
+                clearCache: 52
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button edit (
+        buttonName: EDIT
+        label: Edit
+        layout {
+            sequence: 20
+            region: @user-group-2
+            slot: edit
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+            ]
+            icon: fa-pencil-square-o
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 52
+                items: {
+                    P52_USER_GROUP_ID: &P51_USER_GROUP_ID.
+                }
+                clearCache: 52
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+        advanced {
+            htmlDomId: edit_master_btn
+        }
+    )
+
+    button pop-group-menu (
+        buttonName: POP_GROUP_MENU
+        label: Add Group Menu
+        layout {
+            sequence: 10
+            region: @group-menu
+            slot: edit
+        }
+        appearance {
+            buttonTemplate: @/icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+            ]
+            icon: fa-plus
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 53
+                items: {
+                    P53_GROUP_ID: &P51_USER_GROUP_ID.
+                }
+                clearCache: 53
+                action: resetPagination
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    button reset (
+        buttonName: RESET
+        label: Reset
+        layout {
+            sequence: 10
+            region: @user-group
+            slot: next
+        }
+        appearance {
+            buttonTemplate: @/text-with-icon
+            templateOptions: [
+                #DEFAULT#
+                t-Button--noUI
+                t-Button--iconLeft
+                t-Button--gapRight
+            ]
+            icon: fa-undo-alt
+        }
+        behavior {
+            action: redirectThisApp
+            target: {
+                page: 51
+                clearCache: 51
+                action: resetPagination
+                request: RESET
+            }
+            warnOnUnsavedChanges: doNotCheck
+        }
+    )
+
+    dynamicAction dialog-closed (
+        name: Dialog Closed
+        execution {
+            sequence: 40
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: region
+            region: @group-menu
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode: apex.message.showPageSuccess('Group Menu row(s) updated.');
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @group-menu
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction dialog-closed-2 (
+        name: Dialog Closed
+        execution {
+            sequence: 10
+        }
+        when {
+            event: apexafterclosedialog
+            selectionType: region
+            region: @user-group-2
+        }
+
+        action native-javascript-code (
+            action: executeJsCode
+            settings {
+                jsCode: apex.message.showPageSuccess('User Group row(s) updated.');
+            }
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @user-group-2
+            }
+            execution {
+                sequence: 20
+                fireOnInit: false
+            }
+        )
+
+    )
+
+    dynamicAction perform-search (
+        name: Perform Search
+        execution {
+            sequence: 150
+        }
+        when {
+            event: keypress
+            selectionType: items
+            items: P51_SEARCH
+        }
+        clientSideCondition {
+            type: jsExpression
+            javaScriptExpression: this.browserEvent.which === apex.jQuery.ui.keyCode.ENTER
+        }
+
+        action native-cancel-event (
+            action: cancelEvent
+            execution {
+                sequence: 30
+                fireOnInit: false
+            }
+        )
+
+        action native-refresh (
+            action: refresh
+            affectedElements {
+                selectionType: region
+                region: @master-records
+            }
+            execution {
+                sequence: 10
+                fireOnInit: false
+            }
+        )
+
+    )
+
+)
+

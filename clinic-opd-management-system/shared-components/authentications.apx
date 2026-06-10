@@ -1,0 +1,54 @@
+authentication application-express-accounts (
+    name: Application Express Accounts
+    type: oracleApexAccounts
+)
+
+authentication cust-auth (
+    name: CUST_AUTH
+    type: custom
+    settings {
+        authFunctionName: CUSTOM_LOGIN
+    }
+    source {
+        plsqlCode:
+            ```plsql
+            FUNCTION CUSTOM_LOGIN(
+            P_USERNAME VARCHAR2,
+            P_PASSWORD VARCHAR2)
+            RETURN BOOLEAN 
+            IS L_COUNT NUMBER;
+            BEGIN
+            SELECT COUNT(*)
+            INTO L_COUNT
+            FROM GUSER
+            WHERE UPPER(USER_NAME)  = UPPER(P_USERNAME)
+            AND USER_PASS  = P_PASSWORD ;
+            
+            IF L_COUNT >0 THEN RETURN TRUE;
+            ELSE RETURN FALSE;
+            END IF;
+            END;
+            ```
+    }
+    loginProcessing {
+        postAuthenticationProcedureName: post_auth_context
+        switchInSession: true
+    }
+)
+
+authentication google (
+    name: Google
+    type: socialSignIn
+    settings {
+        credentialStore: @google_authentication
+        authProvider: google
+        scope: profile,openid,email
+        authUriParams: prompt=consent
+        username: (#email#)
+        convertUsernameToUpperCase: true
+    }
+    loginProcessing {
+        switchInSession: true
+    }
+)
+
